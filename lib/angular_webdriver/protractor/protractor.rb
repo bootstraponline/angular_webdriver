@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'json'
 require 'ostruct'
+require 'selenium-webdriver'
+require 'selenium/webdriver/common/error'
 
 class Protractor
   # code/comments from protractor/lib/protractor.js
@@ -47,11 +49,14 @@ class Protractor
     return if ignore_sync
 
     begin
-      executeAsyncScript_(client_side_scripts.waitForAngular,
+      # the client side script will return a string on error
+      # the string won't be raised as an error unless we explicitly do so here
+      error = executeAsyncScript_(client_side_scripts.waitForAngular,
                           "Protractor.waitForAngular() #{opt_description}",
                           root_element)
+        raise Selenium::WebDriver::Error::JavascriptError, error if error
     rescue Exception => e
-      raise "Error while waiting for Protractor to sync with the page: #{e}"
+      raise e.class, "Error while waiting for Protractor to sync with the page: #{e}"
     end
   end
 
