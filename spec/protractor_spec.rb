@@ -18,7 +18,7 @@ describe 'client side scripts' do
   end
 
   it 'waitForAngular should succeed on angular pages' do
-    @driver.get 'https://angularjs.org/'
+    @driver.get 'http://localhost:8081/' # use protractor's testapp
     @protractor.waitForAngular
   end
 end
