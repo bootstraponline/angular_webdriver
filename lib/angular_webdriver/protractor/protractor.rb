@@ -1,6 +1,6 @@
 class Protractor
   # code/comments from protractor/lib/protractor.js
-  attr_accessor :rootEl, :ignoreSynchronization
+  attr_accessor :root_element, :ignore_sync
 
   def initialize opts={}
     # The css selector for an element on which to find Angular. This is usually
@@ -8,7 +8,7 @@ class Protractor
     # a subelement.
     #
     # @return [String]
-    rootElement           = opts.fetch(:rootElement, 'body')
+    root_element = opts.fetch(:root_element, 'body')
 
     # If true, Protractor will not attempt to synchronize with the page before
     # performing actions. This can be harmful because Protractor will not wait
@@ -17,30 +17,38 @@ class Protractor
     # when a page continuously polls an API using $timeout.
     #
     # @return [Boolean]
-    ignoreSynchronization = !!opts.fetch(:ignoreSynchronization, false)
+    ignore_sync  = !!opts.fetch(:ignore_sync, false)
   end
 
+  # Instruct webdriver to wait until Angular has finished rendering and has
+  # no outstanding $http or $timeout calls before continuing.
+  # Note that Protractor automatically applies this command before every
+  # WebDriver action.
+  #
+  # @param [String] opt_description An optional description to be added
+  #     to webdriver logs.
+  # @return [WebDriver::Element, Integer, Float, Boolean, NilClass, String, Array]
 
- # Instruct webdriver to wait until Angular has finished rendering and has
- # no outstanding $http or $timeout calls before continuing.
- # Note that Protractor automatically applies this command before every
- # WebDriver action.
- #
- # @param [String] opt_description An optional description to be added
- #     to webdriver logs.
- # @return [WebDriver::Element, Integer, Float, Boolean, NilClass, String, Array]
+  def waitForAngular opt_description='' # Protractor.prototype.waitForAngular
+    return if ignore_sync
 
-  def waitForAngular opt_description # Protractor.prototype.waitForAngular
-    # ensure description is one line
-    description = opt_description ? opt_description.split.join(' ') : ''
-    return if ignoreSynchronization
-    executeAsyncScript_ clientSideScripts.waitForAngular,
-      'Protractor.waitForAngular()' + description,
-      this.rootEl
+    begin
+      executeAsyncScript_(clientSideScripts.waitForAngular,
+                          'Protractor.waitForAngular()' + (opt_description || ''),
+                          root_element)
+    rescue Exception => e
+      raise 'Error while waiting for Protractor to sync with the page: #{e}'
+    end
   end
 
   def executeAsyncScript_ script, description, args
+    # ensure description is one line
+    description = description ? '// ' + description.split.join(' ') : ''
 
+    # add description as comment to script so it shows up in server logs
+    script      = description + script
+
+    execute_async_script script, args
   end
 
 =begin
