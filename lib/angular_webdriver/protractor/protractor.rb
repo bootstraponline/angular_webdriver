@@ -2,6 +2,9 @@ class Protractor
   # code/comments from protractor/lib/protractor.js
   attr_accessor :root_element, :ignore_sync
 
+  # @param [Hash] opts the options to initialize with
+  # @option opts [String]  :root_element the root element on which to find Angular
+  # @option opts [Boolean] :ignore_sync if true, Protractor won't auto sync the page
   def initialize opts={}
     # The css selector for an element on which to find Angular. This is usually
     # 'body' but if your ng-app is on a subsection of the page it may be
