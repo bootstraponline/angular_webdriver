@@ -1,17 +1,26 @@
+require 'rubygems'
+require 'json'
+require 'ostruct'
+
 class Protractor
   # code/comments from protractor/lib/protractor.js
   attr_accessor :root_element, :ignore_sync
+
+  attr_reader :client_side_scripts, :driver
 
   # @param [Hash] opts the options to initialize with
   # @option opts [String]  :root_element the root element on which to find Angular
   # @option opts [Boolean] :ignore_sync if true, Protractor won't auto sync the page
   def initialize opts={}
+    @driver = opts[:driver]
+    raise 'Must supply Selenium::WebDriver' unless @driver
+
     # The css selector for an element on which to find Angular. This is usually
     # 'body' but if your ng-app is on a subsection of the page it may be
     # a subelement.
     #
     # @return [String]
-    root_element = opts.fetch(:root_element, 'body')
+    @root_element = opts.fetch :root_element, 'body'
 
     # If true, Protractor will not attempt to synchronize with the page before
     # performing actions. This can be harmful because Protractor will not wait
@@ -20,7 +29,10 @@ class Protractor
     # when a page continuously polls an API using $timeout.
     #
     # @return [Boolean]
-    ignore_sync  = !!opts.fetch(:ignore_sync, false)
+    @ignore_sync  = !!opts.fetch(:ignore_sync, false)
+
+    scripts_file = File.expand_path '../clientSideScripts.json', __FILE__
+    @client_side_scripts = OpenStruct.new JSON.parse File.read scripts_file
   end
 
   # Instruct webdriver to wait until Angular has finished rendering and has
@@ -31,27 +43,29 @@ class Protractor
   # @param [String] opt_description An optional description to be added
   #     to webdriver logs.
   # @return [WebDriver::Element, Integer, Float, Boolean, NilClass, String, Array]
-
   def waitForAngular opt_description='' # Protractor.prototype.waitForAngular
     return if ignore_sync
 
     begin
-      executeAsyncScript_(clientSideScripts.waitForAngular,
-                          'Protractor.waitForAngular()' + (opt_description || ''),
+      executeAsyncScript_(client_side_scripts.waitForAngular,
+                          "Protractor.waitForAngular() #{opt_description}",
                           root_element)
     rescue Exception => e
-      raise 'Error while waiting for Protractor to sync with the page: #{e}'
+      raise "Error while waiting for Protractor to sync with the page: #{e}"
     end
   end
 
   def executeAsyncScript_ script, description, args
-    # ensure description is one line
+    # ensure description is exactly one line that ends in a newline
     description = description ? '// ' + description.split.join(' ') : ''
+    description = description.strip + "\n"
 
     # add description as comment to script so it shows up in server logs
     script      = description + script
 
-    execute_async_script script, args
+    # puts "Evaluating:\n#{script}"
+
+    driver.execute_async_script script, args
   end
 
 =begin
