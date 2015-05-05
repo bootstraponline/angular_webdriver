@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
 
-  s.add_runtime_dependency 'rspec', '~> 3.0.0'
+  s.add_runtime_dependency 'rspec', '>= 3'
   s.add_runtime_dependency 'selenium-webdriver', '~> 2.45.0'
 
   s.add_development_dependency 'appium_thor', '~> 0.0', '>= 0.0.7'
