@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   # 1.8.x is not supported
   s.required_ruby_version = '>= 1.9.3'
 
-  s.name          = 'AngularWebdriver'
+  s.name          = 'angular_webdriver'
   s.version       = AngularWebdriver::VERSION
   s.date          = AngularWebdriver::DATE
   s.license       = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
