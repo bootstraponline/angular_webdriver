@@ -1,3 +1,8 @@
+#### v0.0.4 2015-05-04
+
+- [b8ecfca](https://github.com/bootstraponline/angular_webdriver/commit/b8ecfcadc704e7e6decc5a3ef44e286987b189c3) Release 0.0.4
+
+
 #### v0.0.3 2015-05-04
 
 - [abcf2d4](https://github.com/bootstraponline/angular_webdriver/commit/abcf2d44dad8285d66154799a3f9ce9b764cb022) Release 0.0.3
