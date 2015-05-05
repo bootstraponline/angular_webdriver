@@ -1,3 +1,9 @@
+#### v0.0.5 2015-05-04
+
+- [b724c90](https://github.com/bootstraponline/angular_webdriver/commit/b724c90e35af636e41e73c1b8561c07a8aace2ac) Release 0.0.5
+- [da5276e](https://github.com/bootstraponline/angular_webdriver/commit/da5276e9f0b7d8d990db8a6bc6dc50c521bf5488) Add Watir support
+
+
 #### v0.0.4 2015-05-04
 
 - [b8ecfca](https://github.com/bootstraponline/angular_webdriver/commit/b8ecfcadc704e7e6decc5a3ef44e286987b189c3) Release 0.0.4
