@@ -1,0 +1,1 @@
+require_relative 'angular_webdriver/protractor/protractor'
