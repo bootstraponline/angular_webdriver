@@ -1,4 +1,4 @@
-# angular_webdriver
+# angular_webdriver [![Gem Version](https://badge.fury.io/rb/angular_webdriver.svg)](https://rubygems.org/gems/angular_webdriver)
 
 Angular enhancements to the Ruby webdriver bindings based on [protractor](https://github.com/angular/protractor).
 
