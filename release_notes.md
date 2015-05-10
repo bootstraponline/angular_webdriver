@@ -1,3 +1,9 @@
+#### v0.0.6 2015-05-09
+
+- [4f306b4](https://github.com/bootstraponline/angular_webdriver/commit/4f306b436bf9c80c3c676a67da2a650cfb870d7f) Release 0.0.6
+- [b079ee0](https://github.com/bootstraponline/angular_webdriver/commit/b079ee024f8c5455a9ab5a05fad09c890d989ea6) Update gemspec
+
+
 #### v0.0.5 2015-05-04
 
 - [b724c90](https://github.com/bootstraponline/angular_webdriver/commit/b724c90e35af636e41e73c1b8561c07a8aace2ac) Release 0.0.5
