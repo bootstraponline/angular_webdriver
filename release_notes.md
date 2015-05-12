@@ -1,3 +1,12 @@
+#### v0.0.7 2015-05-12
+
+- [8ad96c7](https://github.com/bootstraponline/angular_webdriver/commit/8ad96c7c6895502fb41f8e8930a5cd010f51dfef) Release 0.0.7
+- [f8f0279](https://github.com/bootstraponline/angular_webdriver/commit/f8f027956054416abad89a07f8ba16a2b7af7bd9) Fix specs
+- [5ed3211](https://github.com/bootstraponline/angular_webdriver/commit/5ed32110770e369edcb5d8b7a56a8db859c18c86) Make tests less flaky
+- [598947f](https://github.com/bootstraponline/angular_webdriver/commit/598947f55203bd52b05439f7f217286d155a7c98) Fix rspec tests
+- [ba47705](https://github.com/bootstraponline/angular_webdriver/commit/ba4770541139869ead91d318b8d22f36e75376b2) Add gem badge
+
+
 #### v0.0.6 2015-05-09
 
 - [4f306b4](https://github.com/bootstraponline/angular_webdriver/commit/4f306b436bf9c80c3c676a67da2a650cfb870d7f) Release 0.0.6
