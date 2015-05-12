@@ -36,11 +36,6 @@ describe 'client side scripts' do
   it 'waitForAngular should succeed on angular pages with wait' do
     @driver.get angular_website
 
-    wait(timeout: 5) { @protractor.waitForAngular }
+    wait(timeout: 15) { @protractor.waitForAngular }
   end
-
-  it 'should fail travis ci' do
-    raise 'fail test'
-  end
-
 end
