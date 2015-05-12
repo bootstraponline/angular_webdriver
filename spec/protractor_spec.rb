@@ -3,7 +3,8 @@ require_relative 'spec_helper'
 describe 'client side scripts' do
 
   before do
-    @driver                                = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for :firefox
+    raise 'Driver is nil!' unless @driver
 
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
