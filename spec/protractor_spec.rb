@@ -13,6 +13,7 @@ describe 'client side scripts' do
     @protractor = Protractor.new driver: @driver
   end
 
+  # todo: use protractor's test app because angularjs.org often throws 500 errors
   def angular_website
     'https://angularjs.org/' # 'http://localhost:8081/' # use protractor's testapp
   end
@@ -25,12 +26,6 @@ describe 'client side scripts' do
     error_class   = Selenium::WebDriver::Error::JavascriptError
     error_message = /angular could not be found on the window/
     expect { @protractor.waitForAngular }.to raise_error(error_class, error_message)
-  end
-
-  it 'waitForAngular should succeed on angular pages without wait' do
-    @driver.get angular_website
-
-    @protractor.waitForAngular
   end
 
   it 'waitForAngular should succeed on angular pages with wait' do
