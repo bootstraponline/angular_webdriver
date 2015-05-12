@@ -17,7 +17,7 @@ describe 'client side scripts' do
   end
 
   after do
-    @driver.quit
+    @driver.quit rescue nil
   end
 
   it 'waitForAngular should error on non-angular pages' do
