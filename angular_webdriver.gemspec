@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec', '>= 3.2.0'
   s.add_development_dependency 'appium_thor', '>= 0.0.7'
+  s.add_development_dependency 'pry', '>= 0.10.1'
 
   s.files = `git ls-files`.split "\n"
 end
