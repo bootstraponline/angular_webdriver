@@ -2,14 +2,19 @@ require_relative 'spec_helper'
 
 describe 'client side scripts' do
 
-  before {
+  before do
     @driver     = Selenium::WebDriver.for :firefox
-    @protractor = Protractor.new driver: @driver
-  }
 
-  after {
+    # set script timeout for protractor client side javascript
+    # https://github.com/angular/protractor/issues/117
+    @driver.manage.timeouts.script_timeout = 60 # seconds
+
+    @protractor = Protractor.new driver: @driver
+  end
+
+  after do
     @driver.quit
-  }
+  end
 
   it 'waitForAngular should error on non-angular pages' do
     error_class   = Selenium::WebDriver::Error::JavascriptError
