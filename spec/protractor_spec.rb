@@ -3,13 +3,17 @@ require_relative 'spec_helper'
 describe 'client side scripts' do
 
   before do
-    @driver     = Selenium::WebDriver.for :firefox
+    @driver                                = Selenium::WebDriver.for :firefox
 
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
     @driver.manage.timeouts.script_timeout = 60 # seconds
 
     @protractor = Protractor.new driver: @driver
+  end
+
+  def angular_website
+    'https://angularjs.org/' # 'http://localhost:8081/' # use protractor's testapp
   end
 
   after do
@@ -22,8 +26,15 @@ describe 'client side scripts' do
     expect { @protractor.waitForAngular }.to raise_error(error_class, error_message)
   end
 
-  it 'waitForAngular should succeed on angular pages' do
-    @driver.get 'https://angularjs.org/' # 'http://localhost:8081/' # use protractor's testapp
+  it 'waitForAngular should succeed on angular pages without wait' do
+    @driver.get angular_website
+
     @protractor.waitForAngular
+  end
+
+  it 'waitForAngular should succeed on angular pages with wait' do
+    @driver.get angular_website
+
+    wait(timeout: 5) { @protractor.waitForAngular }
   end
 end
