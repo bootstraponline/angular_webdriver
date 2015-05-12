@@ -38,4 +38,9 @@ describe 'client side scripts' do
 
     wait(timeout: 5) { @protractor.waitForAngular }
   end
+
+  it 'should fail travis ci' do
+    raise 'fail test'
+  end
+
 end
