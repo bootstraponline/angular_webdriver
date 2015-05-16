@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'selenium-webdriver'
 require 'selenium/webdriver/common/error'
+require_relative 'webdriver_patch'
 
 require_relative 'client_side_scripts'
 
@@ -9,6 +10,14 @@ class Protractor
   attr_accessor :root_element, :ignore_sync
 
   attr_reader :client_side_scripts, :driver
+
+  def self.root_element
+    @@root_element
+  end
+
+  def root_element
+    @@root_element
+  end
 
   # @param [Hash] opts the options to initialize with
   # @option opts [String]  :root_element the root element on which to find Angular
@@ -25,7 +34,7 @@ class Protractor
     # a subelement.
     #
     # @return [String]
-    @root_element = opts.fetch :root_element, 'body'
+    @@root_element = opts.fetch :root_element, 'body'
 
     # If true, Protractor will not attempt to synchronize with the page before
     # performing actions. This can be harmful because Protractor will not wait

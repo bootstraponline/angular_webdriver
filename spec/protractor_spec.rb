@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe 'client side scripts' do
 
   before do
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
     raise 'Driver is nil!' unless @driver
 
     # set script timeout for protractor client side javascript
@@ -13,13 +13,33 @@ describe 'client side scripts' do
     @protractor = Protractor.new driver: @driver
   end
 
-  # todo: use protractor's test app because angularjs.org often throws 500 errors
+  # requires angular's test app to be running
   def angular_website
-    'https://angularjs.org/' # 'http://localhost:8081/' # use protractor's testapp
+    'http://localhost:8081/#/'
+  end
+
+  def visit page
+    @driver.get angular_website + page
+    @protractor.waitForAngular
   end
 
   after do
     @driver.quit rescue nil
+  end
+
+  it 'finds by bindings' do
+    visit 'async'
+
+    eles   = @driver.find_elements(:binding, 'slowHttpStatus')
+    result = eles.first.is_a? Selenium::WebDriver::Element
+    expect(result).to eq(true)
+
+
+    ele    = @driver.find_element(:binding, 'slowHttpStatus')
+    result = ele.is_a? Selenium::WebDriver::Element
+    expect(result).to eq(true)
+
+    expect { @driver.find_element(:binding, "doesn't exist") }.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 
   it 'waitForAngular should error on non-angular pages' do
