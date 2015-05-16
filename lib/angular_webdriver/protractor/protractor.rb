@@ -66,7 +66,7 @@ class Protractor
     # ensure description is exactly one line that ends in a newline
     # must use /* */ not // due to some browsers having problems
     # with // comments when used with execute script
-    description = description ? '/* ' + description.split.join(' ') + ' */' : ''
+    description = description ? '/* ' + description.gsub(/\W+/, ' ') + ' */' : ''
     description = description.strip + "\n"
 
     # add description as comment to script so it shows up in server logs
