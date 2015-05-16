@@ -64,7 +64,9 @@ class Protractor
 
   def executeAsyncScript_ script, description, args
     # ensure description is exactly one line that ends in a newline
-    description = description ? '// ' + description.split.join(' ') : ''
+    # must use /* */ not // due to some browsers having problems
+    # with // comments when used with execute script
+    description = description ? '/* ' + description.split.join(' ') + ' */' : ''
     description = description.strip + "\n"
 
     # add description as comment to script so it shows up in server logs
