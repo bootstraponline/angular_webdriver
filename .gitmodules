@@ -1,0 +1,3 @@
+[submodule "protractor"]
+	path = protractor
+	url = https://github.com/angular/protractor.git
