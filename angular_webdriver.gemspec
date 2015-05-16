@@ -21,5 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry', '>= 0.10.1'
   s.add_development_dependency 'webdriver_utils', '>= 0.0.3'
 
-  s.files = `git ls-files`.split "\n"
+  s.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(test|spec|features|protractor)/})
+  end
 end
