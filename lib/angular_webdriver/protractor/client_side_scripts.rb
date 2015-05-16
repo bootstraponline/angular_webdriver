@@ -1,78 +1,4 @@
-class Protractor
-
-  # instance methods
-
-  def client_side_scripts
-    @@client_side_scripts
-  end
-
-  def wait_for_angular
-    @@client_side_scripts[:waitForAngular]
-  end
-
-  def find_bindings
-    @@client_side_scripts[:findBindings]
-  end
-
-  def find_repeater_rows
-    @@client_side_scripts[:findRepeaterRows]
-  end
-
-  def find_all_repeater_rows
-    @@client_side_scripts[:findAllRepeaterRows]
-  end
-
-  def find_repeater_element
-    @@client_side_scripts[:findRepeaterElement]
-  end
-
-  def find_repeater_column
-    @@client_side_scripts[:findRepeaterColumn]
-  end
-
-  def find_by_model
-    @@client_side_scripts[:findByModel]
-  end
-
-  def find_by_options
-    @@client_side_scripts[:findByOptions]
-  end
-
-  def find_by_button_text
-    @@client_side_scripts[:findByButtonText]
-  end
-
-  def find_by_partial_button_text
-    @@client_side_scripts[:findByPartialButtonText]
-  end
-
-  def find_by_css_containing_text
-    @@client_side_scripts[:findByCssContainingText]
-  end
-
-  def test_for_angular
-    @@client_side_scripts[:testForAngular]
-  end
-
-  def evaluate
-    @@client_side_scripts[:evaluate]
-  end
-
-  def allow_animations
-    @@client_side_scripts[:allowAnimations]
-  end
-
-  def get_location_abs_url
-    @@client_side_scripts[:getLocationAbsUrl]
-  end
-
-  def set_location
-    @@client_side_scripts[:setLocation]
-  end
-
-  def install_in_browser
-    @@client_side_scripts[:installInBrowser]
-  end
+module ClientSideScripts
 
   # class methods
 
@@ -185,7 +111,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
     if (dataBinding) {
       var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
       if (exactMatch) {
-        var matcher = new RegExp('({|\\s|^|\\|)' + binding + '(}|\\s|$|\\|)');
+        var matcher = new RegExp('({|\\\\s|^|\\\\|)' + binding + '(}|\\\\s|$|\\\\|)');
         if (matcher.test(bindingName)) {
           matches.push(bindings[i]);
         }
@@ -212,12 +138,12 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
 
   using = using || document;
 
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   var rows = [];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -230,7 +156,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -263,11 +189,11 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   using = using || document;
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -277,7 +203,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -309,11 +235,11 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   using = using || document;
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -326,7 +252,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -405,11 +331,11 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   using = using || document;
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -422,7 +348,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -492,7 +418,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
     return angular.getTestability(root).
         findModels(using, model, true);
   }
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var selector = '[' + prefixes[p] + 'model="' + model + '"]';
     var elements = using.querySelectorAll(selector);
@@ -505,7 +431,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
  findByOptions: %q(try { return (function (optionsDescriptor, using) {
   using = using || document;
 
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var selector = '[' + prefixes[p] + 'options="' + optionsDescriptor + '"] option';
     var elements = using.querySelectorAll(selector);
@@ -673,7 +599,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
     if (dataBinding) {
       var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
       if (exactMatch) {
-        var matcher = new RegExp('({|\\s|^|\\|)' + binding + '(}|\\s|$|\\|)');
+        var matcher = new RegExp('({|\\\\s|^|\\\\|)' + binding + '(}|\\\\s|$|\\\\|)');
         if (matcher.test(bindingName)) {
           matches.push(bindings[i]);
         }
@@ -698,12 +624,12 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
 
   using = using || document;
 
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   var rows = [];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -716,7 +642,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -747,11 +673,11 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   using = using || document;
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -761,7 +687,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -791,11 +717,11 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   using = using || document;
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -808,7 +734,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -885,11 +811,11 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   using = using || document;
 
   var rows = [];
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         rows.push(repeatElems[i]);
@@ -902,7 +828,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
   for (var p = 0; p < prefixes.length; ++p) {
     var attr = prefixes[p] + 'repeat-start';
     var repeatElems = using.querySelectorAll('[' + attr + ']');
-    attr = attr.replace(/\\/g, '');
+    attr = attr.replace(/\\\\/g, '');
     for (var i = 0; i < repeatElems.length; ++i) {
       if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
         var elem = repeatElems[i];
@@ -970,7 +896,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
     return angular.getTestability(root).
         findModels(using, model, true);
   }
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var selector = '[' + prefixes[p] + 'model="' + model + '"]';
     var elements = using.querySelectorAll(selector);
@@ -981,7 +907,7 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
 }, findByOptions: function (optionsDescriptor, using) {
   using = using || document;
 
-  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\\\:'];
   for (var p = 0; p < prefixes.length; ++p) {
     var selector = '[' + prefixes[p] + 'options="' + optionsDescriptor + '"] option';
     var elements = using.querySelectorAll(selector);

@@ -1,8 +1,8 @@
 require 'rubygems'
-require 'json'
-require 'ostruct'
 require 'selenium-webdriver'
 require 'selenium/webdriver/common/error'
+
+require_relative 'client_side_scripts'
 
 class Protractor
   # code/comments from protractor/lib/protractor.js
@@ -36,8 +36,7 @@ class Protractor
     # @return [Boolean]
     @ignore_sync  = !!opts.fetch(:ignore_sync, false)
 
-    scripts_file = File.expand_path '../clientSideScripts.json', __FILE__
-    @client_side_scripts = OpenStruct.new JSON.parse File.read scripts_file
+    @client_side_scripts = ClientSideScripts
   end
 
   # Instruct webdriver to wait until Angular has finished rendering and has
@@ -54,7 +53,7 @@ class Protractor
     begin
       # the client side script will return a string on error
       # the string won't be raised as an error unless we explicitly do so here
-      error = executeAsyncScript_(client_side_scripts.waitForAngular,
+      error = executeAsyncScript_(client_side_scripts.wait_for_angular,
                           "Protractor.waitForAngular() #{opt_description}",
                           root_element)
         raise Selenium::WebDriver::Error::JavascriptError, error if error

@@ -16,4 +16,11 @@ class ::Default < Thor
   def spec
     exec 'rspec spec'
   end
+
+  # todo: generate clientSideScripts.json before we use the json for
+  # generating the rb file
+  desc 'gen', 'Generate client_side_scripts.rb'
+  def gen
+    exec 'ruby ./lib/angular_webdriver/protractor/json_to_rb.rb'
+  end
 end

@@ -7,13 +7,7 @@ parsed       = JSON.parse(File.read(scripts_file))
 # all expect methods exist in source.rb as in the json and the string values
 # are identical
 source       = <<'S'
-class Protractor
-
-  # instance methods
-
-  def client_side_scripts
-    @@client_side_scripts
-  end
+module ClientSideScripts
 
 S
 
@@ -27,11 +21,6 @@ def method_for_key key, prefix=''
   end
 
   S
-end
-
-# instance methods
-parsed.keys.each do |key|
-  source += method_for_key key
 end
 
 source += <<'S'
@@ -53,7 +42,8 @@ source += <<'S'
 S
 
 parsed.each do |key, value|
-  source += %Q( #{key}: %q(#{value}).freeze, \n)
+  # must escape \ so that it matches the json exactly
+  source += %Q( #{key}: %q(#{value.gsub('\\', '\\\\\\')}).freeze, \n)
 end
 
 source += <<'S'
