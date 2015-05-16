@@ -1,13 +1,155 @@
 class Protractor
-  def self.client_side_scripts
-    @@client_side_scripts
-  end
+
+  # instance methods
 
   def client_side_scripts
     @@client_side_scripts
   end
 
-  @@client_side_scripts = { waitForAngular: %q(try { return (function (rootSelector, callback) {
+  def wait_for_angular
+    @@client_side_scripts[:waitForAngular]
+  end
+
+  def find_bindings
+    @@client_side_scripts[:findBindings]
+  end
+
+  def find_repeater_rows
+    @@client_side_scripts[:findRepeaterRows]
+  end
+
+  def find_all_repeater_rows
+    @@client_side_scripts[:findAllRepeaterRows]
+  end
+
+  def find_repeater_element
+    @@client_side_scripts[:findRepeaterElement]
+  end
+
+  def find_repeater_column
+    @@client_side_scripts[:findRepeaterColumn]
+  end
+
+  def find_by_model
+    @@client_side_scripts[:findByModel]
+  end
+
+  def find_by_options
+    @@client_side_scripts[:findByOptions]
+  end
+
+  def find_by_button_text
+    @@client_side_scripts[:findByButtonText]
+  end
+
+  def find_by_partial_button_text
+    @@client_side_scripts[:findByPartialButtonText]
+  end
+
+  def find_by_css_containing_text
+    @@client_side_scripts[:findByCssContainingText]
+  end
+
+  def test_for_angular
+    @@client_side_scripts[:testForAngular]
+  end
+
+  def evaluate
+    @@client_side_scripts[:evaluate]
+  end
+
+  def allow_animations
+    @@client_side_scripts[:allowAnimations]
+  end
+
+  def get_location_abs_url
+    @@client_side_scripts[:getLocationAbsUrl]
+  end
+
+  def set_location
+    @@client_side_scripts[:setLocation]
+  end
+
+  def install_in_browser
+    @@client_side_scripts[:installInBrowser]
+  end
+
+  # class methods
+
+  def self.client_side_scripts
+    @@client_side_scripts
+  end
+
+  def self.wait_for_angular
+    @@client_side_scripts[:waitForAngular]
+  end
+
+  def self.find_bindings
+    @@client_side_scripts[:findBindings]
+  end
+
+  def self.find_repeater_rows
+    @@client_side_scripts[:findRepeaterRows]
+  end
+
+  def self.find_all_repeater_rows
+    @@client_side_scripts[:findAllRepeaterRows]
+  end
+
+  def self.find_repeater_element
+    @@client_side_scripts[:findRepeaterElement]
+  end
+
+  def self.find_repeater_column
+    @@client_side_scripts[:findRepeaterColumn]
+  end
+
+  def self.find_by_model
+    @@client_side_scripts[:findByModel]
+  end
+
+  def self.find_by_options
+    @@client_side_scripts[:findByOptions]
+  end
+
+  def self.find_by_button_text
+    @@client_side_scripts[:findByButtonText]
+  end
+
+  def self.find_by_partial_button_text
+    @@client_side_scripts[:findByPartialButtonText]
+  end
+
+  def self.find_by_css_containing_text
+    @@client_side_scripts[:findByCssContainingText]
+  end
+
+  def self.test_for_angular
+    @@client_side_scripts[:testForAngular]
+  end
+
+  def self.evaluate
+    @@client_side_scripts[:evaluate]
+  end
+
+  def self.allow_animations
+    @@client_side_scripts[:allowAnimations]
+  end
+
+  def self.get_location_abs_url
+    @@client_side_scripts[:getLocationAbsUrl]
+  end
+
+  def self.set_location
+    @@client_side_scripts[:setLocation]
+  end
+
+  def self.install_in_browser
+    @@client_side_scripts[:installInBrowser]
+  end
+
+  @@client_side_scripts = {
+ waitForAngular: %q(try { return (function (rootSelector, callback) {
   var el = document.querySelector(rootSelector);
 
   try {
