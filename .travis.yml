@@ -18,7 +18,8 @@ before_script:
   - ruby -v
   - node -v
   - cd protractor
-  - npm install
+  - npm --global install
+  - webdriver-manager update --standalone
   - cd testapp
   - npm start & # must background the webserver
   - cd ..; cd .. # return to project root
