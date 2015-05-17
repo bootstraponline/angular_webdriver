@@ -1,14 +1,15 @@
+language: node_js
+node_js:
+  - stable
 sudo: false
 cache: 
   bundler: true
   directories:
     - protractor/node_modules
-language: node_js
-rvm:
-  - 2.2.2
-node_js:
-  - stable
-before_install: gem update --remote bundler
+before_install: 
+  - rvm install 2.2.2
+  - rvm --default use 2.2.2
+  - gem update --remote bundler
 install:
   - bundle install --retry=3
 before_script:
