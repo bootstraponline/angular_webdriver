@@ -1,6 +1,6 @@
 sudo: false
 cache: 
-  - bundler
+  bundler: true
   directories:
     - protractor/node_modules
 language: ruby
