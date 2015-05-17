@@ -23,6 +23,7 @@ before_script:
   - cd ..; cd .. # return to project root
   - sleep 5 # wait for servers to start
 script:
+  - bundle exec thor gen # regenerate every time before testing
   - bundle exec thor spec
 notifications:
   email:
