@@ -22,6 +22,7 @@ before_script:
   - cd testapp
   - npm start & # must background the webserver
   - cd ..; cd .. # return to project root
+  - webdriver-manager start # start webdriver standalone jar
   - sleep 5 # wait for angular test server to start
 script:
   - bundle exec thor spec
