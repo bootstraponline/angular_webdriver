@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'json'
 scripts_file = File.join __dir__, 'clientSideScripts.json'
+raise "json file doesn't exist" unless File.exist?(scripts_file)
 parsed       = JSON.parse(File.read(scripts_file))
 
 # todo: automatically generate rspec tests based on json parsing to verify:
@@ -52,8 +53,15 @@ source += <<'S'
 end
 S
 
-target = File.join __dir__, 'client_side_scripts.rb'
+target = File.join __dir__, '../lib/angular_webdriver/protractor/client_side_scripts.rb'
+target = File.expand_path target
+File.delete(target) if File.exist?(target)
 
 File.open(target, 'w') do |file|
   file.write source
 end
+
+raise "#{target} doesn't exist" unless File.exist?(target)
+
+dir = File.expand_path File.dirname __dir__ # angular_webdriver root
+puts "Created #{target.gsub(dir, '.')}"
