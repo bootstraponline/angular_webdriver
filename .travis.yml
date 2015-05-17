@@ -21,6 +21,7 @@ before_script:
   - npm install
   - cd testapp
   - npm start & # must background the webserver
+  - cd ..; cd .. # return to project root
   - sleep 5 # wait for angular test server to start
 script:
   - bundle exec thor spec
