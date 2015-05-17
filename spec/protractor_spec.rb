@@ -3,7 +3,9 @@ require_relative 'spec_helper'
 describe 'client side scripts' do
 
   before do
-    @driver = Selenium::WebDriver.for :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
+    # remote driver is useful for debugging
+    # @driver = Selenium::WebDriver.for :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
+    @driver = Selenium::WebDriver.for :firefox
     raise 'Driver is nil!' unless @driver
 
     # set script timeout for protractor client side javascript

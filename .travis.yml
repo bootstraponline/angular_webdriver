@@ -16,14 +16,9 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - ruby -v
-  - node -v
-  - cd protractor
-  - npm --global install
-  - webdriver-manager update --standalone
-  - cd testapp
+  - cd protractor/testapp
   - npm start & # must background the webserver
   - cd ..; cd .. # return to project root
-  - webdriver-manager start & # start webdriver standalone server in background
   - sleep 5 # wait for servers to start
 script:
   - bundle exec thor spec
