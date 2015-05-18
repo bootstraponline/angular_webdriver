@@ -21,7 +21,7 @@ Notes about protractor / angular testing.
 - `protractor --elementExplorer` Start protractor repl
 - `.exit` Exit REPL session
 
-View server logs
+#### View server logs
 
 Startup selenium server using the jar or webdriver manager.
 
@@ -31,6 +31,17 @@ Startup selenium server using the jar or webdriver manager.
 Start element explorer using the standalone server to see the logs.
 
 > protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub 
+
+Note that on node 0.12 or newer, protractor must be run from source for elementExplorer.
+
+```javascript
+node ./protractor/bin/webdriver-manager update
+node ./protractor/bin/protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub
+
+browser.get('https://angularjs.org/')
+```
+
+#### Installing node
 
 Use [nvm](https://github.com/creationix/nvm) to manage node versions
 
