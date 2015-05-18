@@ -25,6 +25,8 @@ before_script:
 script:
   - bundle exec thor gen # regenerate every time before testing
   - bundle exec thor spec
+after_script
+  - killall -9 node # fix Killed npm start message on Travis
 notifications:
   email:
     on_success: never
