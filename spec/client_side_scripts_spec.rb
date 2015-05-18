@@ -7,7 +7,7 @@ describe 'client side scripts' do
     actual   = ClientSideScripts.client_side_scripts
 
     # actual must be identical to expected.
-    # make sure to regenerate both json and the ruby code before testing
+    # make sure to regenerate both json and the ruby code (thor gen) before testing
     expect(actual).to eq(expected)
   end
 end
