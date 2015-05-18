@@ -111,7 +111,10 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
     if (dataBinding) {
       var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
       if (exactMatch) {
-        var matcher = new RegExp('({|\\\\s|^|\\\\|)' + binding + '(}|\\\\s|$|\\\\|)');
+        var matcher = new RegExp('({|\\\\s|^|\\\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]/g, "\\\\$&") +
+            '(}|\\\\s|$|\\\\|)');
         if (matcher.test(bindingName)) {
           matches.push(bindings[i]);
         }
@@ -599,7 +602,10 @@ catch(e) { throw (e instanceof Error) ? e : new Error(e); }).freeze,
     if (dataBinding) {
       var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
       if (exactMatch) {
-        var matcher = new RegExp('({|\\\\s|^|\\\\|)' + binding + '(}|\\\\s|$|\\\\|)');
+        var matcher = new RegExp('({|\\\\s|^|\\\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]/g, "\\\\$&") +
+            '(}|\\\\s|$|\\\\|)');
         if (matcher.test(bindingName)) {
           matches.push(bindings[i]);
         }
