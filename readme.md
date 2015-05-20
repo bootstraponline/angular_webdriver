@@ -32,7 +32,14 @@ Start element explorer using the standalone server to see the logs.
 
 > protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub 
 
-Note that on node 0.12 or newer, protractor must be run from source for elementExplorer.
+Use protractor v2.1.0 or newer. 
+
+```bash
+webdriver-manager update
+protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub
+```
+
+Alternatively, run from source:
 
 ```javascript
 node ./protractor/bin/webdriver-manager update
