@@ -10,8 +10,20 @@ module Selenium
   module WebDriver
     SearchContext::FINDERS[:binding] = 'binding'
 
+    class Driver
+      def protractor
+        @bridge.protractor
+      end
+
+      def protractor= protractor_object
+        @bridge.protractor = protractor_object
+      end
+    end
+
     module Remote
       class Bridge
+        attr_accessor :protractor
+
         def is_protractor? how
           %w[binding].include? how
         end
@@ -23,9 +35,10 @@ module Selenium
             when 'binding'
               binding_descriptor = what
               using              = parent ? parent : false
-              root_selector      = ::Protractor.root_element
+              root_selector      = protractor.root_element
               args               = [binding_descriptor, false, using, root_selector]
-              result             = executeScript(::ClientSideScripts.find_bindings, *args)
+              find_bindings_js   = protractor.client_side_scripts.find_bindings
+              result             = executeScript(find_bindings_js, *args)
           end
 
           if many

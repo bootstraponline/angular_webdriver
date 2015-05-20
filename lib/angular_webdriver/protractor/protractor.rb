@@ -29,6 +29,8 @@ class Protractor
     watir = defined?(Watir::Browser) && @driver.is_a?(Watir::Browser)
     @driver = watir ? @driver.driver : @driver
 
+    @driver.protractor = self
+
     # The css selector for an element on which to find Angular. This is usually
     # 'body' but if your ng-app is on a subsection of the page it may be
     # a subelement.
