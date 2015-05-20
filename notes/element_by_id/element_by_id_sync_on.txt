@@ -1,0 +1,74 @@
+browser.get('https://angularjs.org/')
+element(by.id('the-basics')).getText()
+The Basics
+
+
+the waitForAngular method is called before the get by id method.
+
+
+13:04:57.684 INFO - Executing: [execute script: , []])
+13:04:57.684 INFO - Executing: [execute script: , []])
+
+waitForAngular - clientsidescript
+
+13:04:57.684 INFO - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+13:04:57.684 INFO - Executing: [execute script: , []])
+13:04:57.685 INFO - Executing: [execute script: , []])
+13:04:58.617 INFO - Done: [execute script: , []]
+13:04:58.694 INFO - Done: [execute script: , []]
+
+waitForAngular - clientsidescript
+
+13:04:58.771 INFO - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+13:04:58.792 INFO - Executing: [find elements: By.id: the-basics])
+
+13:04:59.019 INFO - Done: [execute script: , []]
+13:04:59.085 INFO - Done: [execute script: , []]
+13:04:59.218 INFO - Done: [find elements: By.id: the-basics]
+13:04:59.240 INFO - Executing: [get text: 0 [[FirefoxDriver: firefox on MAC (6e728ccc-09cf-0b47-a80e-44bdfdbb8a1b)] -> id: the-basics]])
+13:04:59.286 INFO - Done: [get text: 0 [[FirefoxDriver: firefox on MAC (6e728ccc-09cf-0b47-a80e-44bdfdbb8a1b)] -> id: the-basics]]
+
+
+

@@ -1,0 +1,11 @@
+browser.get('https://angularjs.org/')
+browser.ignoreSynchronization = true
+browser.getTitle()
+
+13:14:47.882 INFO - Executing: [get title])
+13:14:47.886 INFO - Executing: [execute script: , []])
+13:14:47.887 INFO - Executing: [execute script: , []])
+13:14:48.330 INFO - Done: [get title]
+13:14:51.504 INFO - Done: [execute script: , []]
+13:14:51.818 INFO - Done: [execute script: , []]
+
