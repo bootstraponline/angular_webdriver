@@ -28,25 +28,17 @@ Startup selenium server using the jar or webdriver manager.
 - `java -jar selenium-server-standalone-2.45.0.jar`
 - `webdriver-manager start` 
 
-Start element explorer using the standalone server to see the logs.
+Start element explorer using the standalone server to see the logs (protractor v2.1.0 or newer).
 
 > protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub 
 
-Use protractor v2.1.0 or newer. 
-
-```bash
-webdriver-manager update
-protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub
-```
-
 Alternatively, run from source:
 
-```javascript
-node ./protractor/bin/webdriver-manager update
-node ./protractor/bin/protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub
-
-browser.get('https://angularjs.org/')
-```
+> node ./protractor/bin/webdriver-manager update
+>
+> node ./protractor/bin/protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub
+>
+> browser.get('https://angularjs.org/')
 
 #### Installing node
 
