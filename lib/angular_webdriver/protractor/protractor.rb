@@ -41,29 +41,48 @@ class Protractor
   #
   # @param destination [String] The destination URL to load, can be relative if base_url is set
   # @param opt_timeout [Integer] Number of seconds to wait for Angular to start. Default 30.
-  def get destination, opt_timeout
-    timeout = opt_timeout ? opt_timeout : 30
+  def get destination, opt_timeout=30
+    # do not use driver.get because that redirects to this method
+    # instead driver_get is provided.
 
-    destination = base_url.start_with?('file://') ?
+    timeout = opt_timeout
+
+    raise "Invalid timeout #{timeout}" unless timeout.is_a?(Numeric)
+
+    unless destination.is_a?(String) || destination.is_a?(URI)
+      raise "Invalid destination #{destination}"
+    end
+
+    destination = base_url.scheme == 'file' ?
       base_url + destination : URI.join(base_url, destination)
+
+    # destination must be string
+    # no implicit conversion of URI::HTTP into String
+    destination = destination.to_s
 
     msg = lambda { |str| 'Protractor.get(' + destination + ') - ' + str }
 
-    return driver.get(destination) if ignore_sync
+    return driver_get(destination) if ignore_sync
 
-    driver.get(reset_url)
+    driver_get(reset_url)
     executeScript_(
       'window.location.replace("' + destination + '");',
       msg.call('reset url'))
 
     wait(timeout) do
-      url = executeScript_('return window.location.href;', msg('get url'))
+      url = executeScript_('return window.location.href;', msg.call('get url'))
       raise 'still on reset url' unless url != reset_url
     end
 
     # now that the url has changed, make sure Angular has loaded
     # note that the mock module logic is omitted.
     waitForAngular
+  end
+
+  # Invokes the underlying driver.get. Does not wait for angular.
+  # Does not use base_url or reset_url logic.
+  def driver_get url
+    driver.bridge.driver_get url
   end
 
   #  @see webdriver.WebDriver.refresh
@@ -168,8 +187,10 @@ class Protractor
   def sync webdriver_command
     return unless webdriver_command
     webdriver_command = webdriver_command.intern
+    # Note get must not sync here because the get command is redirected to
+    # protractor.get which already has the sync logic built in.
     sync_whitelist    = [
-      :getCurrentUrl, :get, :refresh, :getPageSource,
+      :getCurrentUrl, :refresh, :getPageSource,
       :getTitle, :findElement, :findElements,
       :findChildElement, :findChildElements,
       :setLocation

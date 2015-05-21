@@ -18,6 +18,10 @@ module Selenium
       def protractor= protractor_object
         @bridge.protractor = protractor_object
       end
+
+      def bridge
+        @bridge
+      end
     end
 
     module Remote
@@ -78,6 +82,17 @@ module Selenium
           ids.map { |id| Element.new self, element_id_from(id) }
         end
 
+        #
+        # driver.get uses execute which invokes protractor.get
+        # protractor.get needs to call driver.get without invoking
+        # protractor.get.
+        #
+        # this is accomplished by using driver_get and raw_execute
+        #
+
+        def driver_get(url)
+          raw_execute(:get, {}, :url => url)['value']
+        end
 
         #
         # executes a command on the remote server.
@@ -87,7 +102,20 @@ module Selenium
         #
 
         def execute(*args)
-          protractor.sync(args.first) unless protractor.ignore_sync
+          raise 'Must initialize protractor' unless protractor
+          unless protractor.ignore_sync
+            # override get method which has special sync logic
+            # (not handled via sync method)
+
+            method_symbol = args.first
+
+            if method_symbol == :get
+              url = args.last[:url]
+              return protractor.get url
+            end
+
+            protractor.sync method_symbol
+          end
 
           raw_execute(*args)['value']
         end

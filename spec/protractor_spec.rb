@@ -8,21 +8,21 @@ describe 'client side scripts' do
     @driver = Selenium::WebDriver.for :firefox
     raise 'Driver is nil!' unless @driver
 
+    # Must activate protractor before any driver commands
+    @protractor = Protractor.new driver: @driver
+
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
     @driver.manage.timeouts.script_timeout = 60 # seconds
-
-    @protractor = Protractor.new driver: @driver
   end
 
   # requires angular's test app to be running
   def angular_website
-    'http://localhost:8081/#/'
+    'http://localhost:8081/#/'.freeze
   end
 
-  def visit page
+  def visit page=''
     @driver.get angular_website + page
-    @protractor.waitForAngular
   end
 
   after do
@@ -51,7 +51,7 @@ describe 'client side scripts' do
   end
 
   it 'waitForAngular should succeed on angular pages with wait' do
-    @driver.get angular_website
+    visit 'async'
 
     wait(timeout: 15) { @protractor.waitForAngular }
   end
