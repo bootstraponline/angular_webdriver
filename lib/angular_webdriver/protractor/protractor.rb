@@ -7,27 +7,24 @@ require_relative 'client_side_scripts'
 
 class Protractor
   # code/comments from protractor/lib/protractor.js
-  attr_accessor :root_element, :ignore_sync
+
+  # The css selector for an element on which to find Angular. This is usually
+  # 'body' but if your ng-app is on a subsection of the page it may be
+  # a subelement.
+  #
+  # @return [String]
+  attr_accessor :root_element
+
+  # If true, Protractor will not attempt to synchronize with the page before
+  # performing actions. This can be harmful because Protractor will not wait
+  # until $timeouts and $http calls have been processed, which can cause
+  # tests to become flaky. This should be used only when necessary, such as
+  # when a page continuously polls an API using $timeout.
+  #
+  # @return [Boolean]
+  attr_accessor :ignore_sync
 
   attr_reader :client_side_scripts, :driver, :reset_url, :base_url
-
-  # The css selector for an element on which to find Angular. This is usually
-  # 'body' but if your ng-app is on a subsection of the page it may be
-  # a subelement.
-  #
-  # @return [String]
-  def self.root_element
-    @@root_element
-  end
-
-  # The css selector for an element on which to find Angular. This is usually
-  # 'body' but if your ng-app is on a subsection of the page it may be
-  # a subelement.
-  #
-  # @return [String]
-  def root_element
-    @@root_element
-  end
 
   #  @see webdriver.WebDriver.get
   #
@@ -53,8 +50,13 @@ class Protractor
       raise "Invalid destination #{destination}"
     end
 
-    destination = base_url.scheme == 'file' ?
-      base_url + destination : URI.join(base_url, destination)
+    destination = if base_url.scheme == 'file'
+                    base_url + destination
+                  else
+                    # data urls won't parse successfully by URI
+                    # so return destination directly in that case.
+                    URI.join(base_url, destination) rescue destination
+                  end
 
     # destination must be string
     # no implicit conversion of URI::HTTP into String
@@ -71,7 +73,9 @@ class Protractor
 
     wait(timeout) do
       url = executeScript_('return window.location.href;', msg.call('get url'))
-      raise 'still on reset url' unless url != reset_url
+      not_on_reset_url = url != reset_url
+      destination_is_reset = destination == reset_url
+      raise 'still on reset url' unless not_on_reset_url || destination_is_reset
     end
 
     # now that the url has changed, make sure Angular has loaded
@@ -158,7 +162,7 @@ class Protractor
     # a subelement.
     #
     # @return [String]
-    @@root_element     = opts.fetch :root_element, 'body'
+    @root_element      = opts.fetch :root_element, 'body'
 
     # If true, Protractor will not attempt to synchronize with the page before
     # performing actions. This can be harmful because Protractor will not wait
