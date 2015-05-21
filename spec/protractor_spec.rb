@@ -65,6 +65,10 @@ describe 'client side scripts' do
     [error_class, error_message]
   end
 
+  def expect_equal actual, expected
+    expect(actual).to eq(expected)
+  end
+
   it 'root_element' do
     expect(protractor.root_element).to eq('body')
 
@@ -100,24 +104,6 @@ describe 'client side scripts' do
     protractor.ignore_sync = true
     expect { driver.navigate.refresh }.to_not raise_error
   end
-
-=begin
-todo: write tests for:
-sync
-waitForAngular
-_js_comment
-executeAsyncScript_
-executeScript_
-debugger
-driver
-driver
-root_element
-ignore_sync
-client_side_scripts
-reset_url
-reset_url
-base_url
-=end
 
   def expect_angular_not_found &block
     expect { block.call }.to raise_error(*angular_not_found_error)
@@ -210,4 +196,28 @@ base_url
 
     wait(timeout: 15) { protractor.waitForAngular }
   end
+
+  it '_js_comment' do
+    comment =  " \n\n   Hello\n\r\nThere!\n  "
+    actual = protractor._js_comment comment
+    expected = "/* Hello There! */\n"
+
+    expect_equal actual, expected
+  end
 end
+
+
+=begin
+todo: write tests for:
+executeAsyncScript_
+executeScript_
+debugger
+driver
+driver
+root_element
+ignore_sync
+client_side_scripts
+reset_url
+reset_url
+base_url
+=end

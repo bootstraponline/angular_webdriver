@@ -235,7 +235,7 @@ class Protractor
   # must use /* */ not // due to some browsers having problems
   # with // comments when used with execute script
   def _js_comment description
-    description = description ? '/* ' + description.gsub(/\W+/, ' ') + ' */' : ''
+    description = description ? '/* ' + description.gsub(/\s+/, ' ').strip + ' */' : ''
     description.strip + "\n"
   end
 
