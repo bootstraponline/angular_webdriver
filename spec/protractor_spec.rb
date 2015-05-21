@@ -22,6 +22,9 @@ describe 'client side scripts' do
     @driver = Selenium::WebDriver.for :firefox
     raise 'Driver is nil!' unless driver
 
+    @driver.extend Selenium::WebDriver::DriverExtensions::HasTouchScreen
+    @driver.extend Selenium::WebDriver::DriverExtensions::HasLocation
+
     # Must activate protractor before any driver commands
     @protractor                           = Protractor.new driver: driver
 
@@ -100,8 +103,6 @@ describe 'client side scripts' do
 
 =begin
 todo: write tests for:
-
-initialize
 sync
 waitForAngular
 _js_comment
@@ -117,6 +118,52 @@ reset_url
 reset_url
 base_url
 =end
+
+  def expect_angular_not_found &block
+    expect { block.call }.to raise_error(*angular_not_found_error)
+  end
+
+  def expect_no_error &block
+    expect { block.call }.to_not raise_error
+  end
+
+  it 'sync' do
+    # :getCurrentUrl
+    expect_angular_not_found { driver.current_url }
+    # :refresh
+    expect_angular_not_found { driver.navigate.refresh }
+    # :getPageSource
+    expect_angular_not_found { driver.page_source }
+    # :getTitle
+    expect_angular_not_found { driver.title }
+    # :findElement
+    expect_angular_not_found { driver.find_element(:tag_name, 'html') }
+    # :findElements
+    expect_angular_not_found { driver.find_elements(:tag_name, 'html') }
+    # :findChildElement
+    expect_angular_not_found { driver.find_element(:tag_name, 'html').find_element(:xpath, '//html') }
+    # :findChildElements
+    expect_angular_not_found { driver.find_element(:tag_name, 'html').find_elements(:xpath, '//html') }
+
+    # doesn't raise error when sync is ignored
+    protractor.ignore_sync = true
+    # :getCurrentUrl
+    expect_no_error { driver.current_url }
+    # :refresh
+    expect_no_error { driver.navigate.refresh }
+    # :getPageSource
+    expect_no_error { driver.page_source }
+    # :getTitle
+    expect_no_error { driver.title }
+    # :findElement
+    expect_no_error { driver.find_element(:tag_name, 'html') }
+    # :findElements
+    expect_no_error { driver.find_elements(:tag_name, 'html') }
+    # :findChildElement
+    expect_no_error { driver.find_element(:tag_name, 'html').find_element(:xpath, '//html') }
+    # :findChildElements
+    expect_no_error { driver.find_element(:tag_name, 'html').find_elements(:xpath, '//html') }
+  end
 
   it 'setLocation' do
     visit 'async'

@@ -102,7 +102,7 @@ Selenium::WebDriver::Remote::COMMANDS.keys
  :sendKeysToActiveElement,
  :executeSql,
  :getLocation,
- :setLocation, -- must sync
+ :setLocation, -- must sync (custom protractor method only, not the selenium setLocation)
  :getAppCache,
  :getAppCacheStatus,
  :clearAppCache,

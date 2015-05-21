@@ -193,11 +193,14 @@ class Protractor
     webdriver_command = webdriver_command.intern
     # Note get must not sync here because the get command is redirected to
     # protractor.get which already has the sync logic built in.
+    #
+    # also don't sync set location (protractor custom command already waits
+    # for angular). the selenium set location is for latitude/longitude/altitude
+    # and that doesn't require syncing
     sync_whitelist    = [
       :getCurrentUrl, :refresh, :getPageSource,
       :getTitle, :findElement, :findElements,
-      :findChildElement, :findChildElements,
-      :setLocation
+      :findChildElement, :findChildElements
     ]
     must_sync         = sync_whitelist.include? webdriver_command
 
