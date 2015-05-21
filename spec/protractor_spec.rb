@@ -40,6 +40,7 @@ describe 'Protractor' do
   before do
     protractor.ignore_sync = false
     protractor.driver_get protractor.reset_url
+    protractor.base_url = ''
   end
 
   # requires angular's test app to be running
@@ -111,6 +112,16 @@ describe 'Protractor' do
 
   def expect_no_error &block
     expect { block.call }.to_not raise_error
+  end
+
+  it 'ignore_sync' do
+    protractor.ignore_sync = false
+    expect(protractor.ignore_sync).to eq(false)
+    expect_angular_not_found { driver.current_url }
+
+    protractor.ignore_sync = true
+    expect(protractor.ignore_sync).to eq(true)
+    expect_no_error { driver.current_url }
   end
 
   it 'sync' do
@@ -282,8 +293,8 @@ return (function (one, two, callback) {
     protractor.ignore_sync = true
 
     # verify protractor driver method matches regular driver method
-    actual   = protractor.driver.current_url
-    expected = driver.current_url
+    actual                 = protractor.driver.current_url
+    expected               = driver.current_url
     expect_equal actual, expected
 
     # verify we're on the correct url
@@ -310,12 +321,28 @@ return (function (one, two, callback) {
       expect_equal actual, expected
     end
   end
-end
 
-=begin
-todo: write tests for:
-root_element
-ignore_sync
-client_side_scripts
-base_url
-=end
+  it 'client_side_scripts' do
+    actual   = protractor.client_side_scripts
+    expected = ClientSideScripts.client_side_scripts
+    expect_equal actual, expected
+  end
+
+  it 'base_url' do
+    expect(protractor.base_url).to eq('')
+
+    protractor.base_url = angular_website
+    expect(protractor.base_url).to eq(angular_website)
+
+    # base url is automatically added to urls without a scheme
+    protractor.get 'async'
+    expect(driver.current_url).to eq('http://localhost:8081/#/async')
+
+    # base url is not added to urls with a scheme
+    protractor.get 'http://localhost:8081/#/polling'
+    expect(driver.current_url).to eq('http://localhost:8081/#/polling')
+
+    protractor.base_url = ''
+    expect(protractor.base_url).to eq('')
+  end
+end

@@ -24,7 +24,12 @@ class Protractor
   # @return [Boolean]
   attr_accessor :ignore_sync
 
-  attr_reader :client_side_scripts, :driver, :reset_url, :base_url
+  # File.join(base_url, destination) when using driver.get and
+  # protractor.get (if sync is on, base_url is set, and destination
+  # is not absolute).
+  attr_accessor :base_url
+
+  attr_reader :client_side_scripts, :driver, :reset_url
 
   #  @see webdriver.WebDriver.get
   #
@@ -50,17 +55,19 @@ class Protractor
       raise "Invalid destination #{destination}"
     end
 
-    destination = if base_url.scheme == 'file'
-                    base_url + destination
-                  else
-                    # data urls won't parse successfully by URI
-                    # so return destination directly in that case.
-                    URI.join(base_url, destination) rescue destination
-                  end
+    # URI.join doesn't allow for http://localhost:8081/#/ as a base_url
+    # so this departs from the Protractor behavior and favors File.join instead.
+    #
+    # In protractor: url.resolve('http://localhost:8081/#/', 'async')
+    #                => http://localhost:8081/async
+    # In Ruby:       File.join('http://localhost:8081/#/', 'async')
+    #                => http://localhost:8081/#/async
+    base_url_exists = base_url && !base_url.empty?
+    no_scheme = !URI.parse(destination).scheme rescue true
 
-    # destination must be string
-    # no implicit conversion of URI::HTTP into String
-    destination = destination.to_s
+    if base_url_exists && no_scheme
+     destination = File.join(base_url, destination.to_s)
+    end
 
     msg = lambda { |str| 'Protractor.get(' + destination + ') - ' + str }
 
@@ -178,7 +185,7 @@ class Protractor
     browser_name = driver.capabilities[:browser_name].to_s.strip
     @reset_url   = reset_url_for_browser browser_name
 
-    @base_url = URI.parse opts.fetch(:base_url, '')
+    @base_url = opts.fetch(:base_url, '')
   end
 
   ABOUT_BLANK       = 'about:blank'.freeze

@@ -22,3 +22,16 @@ doesn't sync on goForward or goBackward ?
 docs for getLocationAbsUrl are wrong. it returns
 '/api' not 'http://angular.github.io/protractor/#/api' when on
 'http://angular.github.io/protractor/#/api'
+
+
+Protractor.get doesn't work with file:/// base url
+[1] pry(#<RSpec::ExampleGroups::Protractor>)> protractor.base_url = file_tmp
+=> "file:///a/"
+[2] pry(#<RSpec::ExampleGroups::Protractor>)> protractor.get 'a'
+Selenium::WebDriver::Error::JavascriptError: Access to 'file:///a/a' from script denied
+
+
+base_url of 'http://localhost:8081/#/' doesn't work as expected because
+
+url.resolve(''http://localhost:8081/#/', 'async') becomes 'http://localhost:8081/async' instead of
+''http://localhost:8081/#/async' when using the angular test app.
