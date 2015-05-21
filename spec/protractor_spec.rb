@@ -14,7 +14,7 @@ browser.setLocation('async')
 .exit
 =end
 
-describe 'client side scripts' do
+describe 'Protractor' do
 
   before(:all) do
     # remote driver is useful for debugging
