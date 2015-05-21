@@ -252,12 +252,29 @@ return (function (one, two, callback) {
     expected = 3
     expect_equal actual, expected
   end
+
+  it 'executeScript_' do
+    no_arg  = 'return "hello";'
+    one_arg = 'return arguments[0];'
+    two_arg = 'return arguments[0] + arguments[1];'
+
+    actual   = protractor.executeScript_ no_arg, 'comment'
+    expected = 'hello'
+    expect_equal actual, expected
+
+    actual   = protractor.executeScript_ one_arg, 'comment', 1
+    expected = 1
+    expect_equal actual, expected
+
+    actual   = protractor.executeScript_ two_arg, 'comment', 1, 2
+    expected = 3
+    expect_equal actual, expected
+  end
 end
 
 
 =begin
 todo: write tests for:
-executeScript_
 debugger
 driver
 driver
