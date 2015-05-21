@@ -198,10 +198,58 @@ describe 'client side scripts' do
   end
 
   it '_js_comment' do
-    comment =  " \n\n   Hello\n\r\nThere!\n  "
-    actual = protractor._js_comment comment
+    comment  = " \n\n   Hello\n\r\nThere!\n  "
+    actual   = protractor._js_comment comment
     expected = "/* Hello There! */\n"
 
+    expect_equal actual, expected
+  end
+
+  def async_no_arg
+    (<<-'JS').freeze
+return (function (callback) {
+  callback("hello");
+})(arguments[0]);
+    JS
+  end
+
+  def async_one_arg
+    (<<-'JS').freeze
+return (function (one, callback) {
+  callback(one);
+}).apply(this, arguments);;
+    JS
+  end
+
+  def async_two_arg
+    (<<-'JS').freeze
+return (function (one, two, callback) {
+  callback(one + two);
+}).apply(this, arguments);;
+    JS
+  end
+
+  it 'executeAsyncScript_' do
+    actual   = protractor.executeAsyncScript_ async_no_arg, 'comment'
+    expected = 'hello'
+    expect_equal actual, expected
+
+    actual   = protractor.executeAsyncScript_ async_one_arg, 'comment', 1
+    expected = 1
+    expect_equal actual, expected
+
+    actual   = protractor.executeAsyncScript_ async_two_arg, 'comment', 1, 2
+    expected = 3
+    expect_equal actual, expected
+
+    # the following two tests are copied from selenium ruby
+    # https://github.com/SeleniumHQ/selenium/blob/ac2a47eb03e32e81c61db641e9a0ae3c4ebcc0fd/rb/spec/integration/selenium/webdriver/driver_spec.rb#L264
+    actual   = protractor.executeAsyncScript_ "arguments[arguments.length - 1]([null, 123, 'abc', true, false]);", 'comment'
+    expected = [nil, 123, 'abc', true, false]
+    expect_equal actual, expected
+
+    actual   = protractor.executeAsyncScript_ 'arguments[arguments.length - 1](arguments[0] + arguments[1]);', 'comment', 1, 2
+    expected = 3
     expect_equal actual, expected
   end
 end
@@ -209,7 +257,6 @@ end
 
 =begin
 todo: write tests for:
-executeAsyncScript_
 executeScript_
 debugger
 driver
