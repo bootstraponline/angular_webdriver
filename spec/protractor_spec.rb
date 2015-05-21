@@ -5,13 +5,18 @@ Each test runs in the same browser instance.
 The test must initialize any required state at the start (it block)
 
 After each test the page is reset and ignore_sync is set to false. (rspec before)
+
+
+browser.get('http://localhost:8081/#/')
+browser.setLocation('async')
+.exit
 =end
 
 describe 'client side scripts' do
 
   before(:all) do
     # remote driver is useful for debugging
-    # driver = Selenium::WebDriver.for :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
+    # @driver = Selenium::WebDriver.for :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
     @driver = Selenium::WebDriver.for :firefox
     raise 'Driver is nil!' unless driver
 
@@ -94,7 +99,6 @@ describe 'client side scripts' do
 =begin
 todo: write tests for:
 
-setLocation
 getLocationAbsUrl
 initialize
 sync
@@ -112,6 +116,17 @@ reset_url
 reset_url
 base_url
 =end
+
+  it 'setLocation' do
+    visit 'async'
+
+    protractor.setLocation 'polling'
+
+    actual = driver.current_url
+    expected = 'http://localhost:8081/#/polling'
+
+    expect(actual).to eq(expected)
+  end
 
   it 'finds by bindings' do
     visit 'async'

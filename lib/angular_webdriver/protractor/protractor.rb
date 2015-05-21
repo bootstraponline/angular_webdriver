@@ -123,7 +123,7 @@ class Protractor
 
     begin
       executeScript_(client_side_scripts.set_location,
-                     'Protractor.setLocation()', [root_element, url])
+                     'Protractor.setLocation()', root_element, url)
     rescue Exception => e
       raise e.class, "Error while navigating to '#{url}' : #{e}"
     end
@@ -248,7 +248,7 @@ class Protractor
     # add description as comment to script so it shows up in server logs
     script = _js_comment(description) + script
 
-    driver.execute_async_script script, args
+    driver.execute_async_script script, *args
   end
 
   #  The same as {@code webdriver.WebDriver.prototype.executeScript},
@@ -263,7 +263,7 @@ class Protractor
     # add description as comment to script so it shows up in server logs
     script = _js_comment(description) + script
 
-    driver.execute_script script, args
+    driver.execute_script script, *args
   end
 
   #  Adds a task to the control flow to pause the test and inject helper functions
