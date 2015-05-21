@@ -17,6 +17,7 @@ Notes about protractor / angular testing.
 
 [Protractor's Element Explorer](https://github.com/angular/protractor/blob/master/docs/debugging.md)
 
+- `npm install -g protractor` Install protractor
 - `webdriver-manager update` Install webdriver jar
 - `protractor --elementExplorer` Start protractor repl
 - `.exit` Exit REPL session

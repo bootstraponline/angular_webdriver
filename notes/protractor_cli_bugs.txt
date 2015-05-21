@@ -1,0 +1,19 @@
+CLI randomly flakes out. press enter a bunch of times.
+
+
+(node) warning: possible EventEmitter memory leak detected. 11 break listeners added. Use emitter.setMaxListeners() to increase limit.
+Trace
+    at Client.addListener (events.js:179:15)
+    at Client.Readable.on (_stream_readable.js:671:33)
+    at CommandRepl.evaluate_ (/usr/local/lib/node_modules/protractor/lib/debugger/modes/commandRepl.js:106:15)
+    at CommandRepl.stepEval (/usr/local/lib/node_modules/protractor/lib/debugger/modes/commandRepl.js:34:8)
+    at REPLServer.stepEval (/usr/local/lib/node_modules/protractor/lib/debugger/clients/explorer.js:95:13)
+    at bound (domain.js:254:14)
+    at REPLServer.runBound [as eval] (domain.js:267:12)
+    at REPLServer.<anonymous> (repl.js:279:12)
+    at REPLServer.emit (events.js:107:17)
+    at REPLServer.Interface._onLine (readline.js:214:10)
+
+
+
+doesn't sync on goForward or goBackward ?

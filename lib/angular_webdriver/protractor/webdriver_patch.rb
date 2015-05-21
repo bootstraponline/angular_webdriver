@@ -77,6 +77,21 @@ module Selenium
 
           ids.map { |id| Element.new self, element_id_from(id) }
         end
+
+
+        #
+        # executes a command on the remote server.
+        #
+        #
+        # Returns the 'value' of the returned payload
+        #
+
+        def execute(*args)
+          protractor.sync(args.first) unless protractor.ignore_sync
+
+          raw_execute(*args)['value']
+        end
+
       end # class Bridge
     end # module Remote
   end # module WebDriver
