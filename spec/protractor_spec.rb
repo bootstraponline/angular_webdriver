@@ -270,6 +270,13 @@ return (function (one, two, callback) {
     expected = 3
     expect_equal actual, expected
   end
+
+  it 'debugger' do
+    protractor.debugger
+    actual = driver.execute_script "return typeof window.clientSideScripts === 'object'"
+    expected = true
+    expect_equal actual, expected
+  end
 end
 
 

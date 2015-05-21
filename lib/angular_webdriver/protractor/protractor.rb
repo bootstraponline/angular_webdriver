@@ -269,10 +269,19 @@ class Protractor
     driver.execute_script script, *args
   end
 
-  #  Adds a task to the control flow to pause the test and inject helper functions
-  #  into the browser, so that debugging may be done in the browser console.
+  # Injects window.clientSideScripts object with all the Protractor client
+  # side scripts. Example:
   #
-  #  This should be used under Pry
+  # ```ruby
+  # # inject the scripts
+  # protractor.debugger
+  #
+  # # now that the scripts are injected, they can be used via execute_script
+  # driver.execute_script "window.clientSideScripts.getLocationAbsUrl('body')"
+  # ```
+  #
+  # This should be used under Pry. The window client side scripts can be
+  # invoked using chrome dev tools after calling debugger.
   def debugger
     executeScript_ client_side_scripts.install_in_browser, 'Protractor.debugger()'
   end
