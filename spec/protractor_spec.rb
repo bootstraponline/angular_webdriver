@@ -273,22 +273,49 @@ return (function (one, two, callback) {
 
   it 'debugger' do
     protractor.debugger
-    actual = driver.execute_script "return typeof window.clientSideScripts === 'object'"
+    actual   = driver.execute_script "return typeof window.clientSideScripts === 'object'"
     expected = true
     expect_equal actual, expected
   end
-end
 
+  it 'driver' do
+    protractor.ignore_sync = true
+
+    # verify protractor driver method matches regular driver method
+    actual   = protractor.driver.current_url
+    expected = driver.current_url
+    expect_equal actual, expected
+
+    # verify we're on the correct url
+    expected = protractor.reset_url
+    expect_equal actual, expected
+  end
+
+  it 'reset_url' do
+    actual   = protractor.reset_url
+    expected = protractor.reset_url_for_browser driver.capabilities[:browser_name]
+    expect_equal actual, expected
+  end
+
+  it 'reset_url_for_browser' do
+    ['safari', 'internet explorer'].each do |browser|
+      actual   = protractor.reset_url_for_browser browser
+      expected = Protractor::ABOUT_BLANK
+      expect_equal actual, expected
+    end
+
+    %w(firefox chrome).each do |browser|
+      actual   = protractor.reset_url_for_browser browser
+      expected = Protractor::DEFAULT_RESET_URL
+      expect_equal actual, expected
+    end
+  end
+end
 
 =begin
 todo: write tests for:
-debugger
-driver
-driver
 root_element
 ignore_sync
 client_side_scripts
-reset_url
-reset_url
 base_url
 =end

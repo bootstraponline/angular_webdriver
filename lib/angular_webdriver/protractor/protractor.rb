@@ -72,8 +72,8 @@ class Protractor
       msg.call('reset url'))
 
     wait(timeout) do
-      url = executeScript_('return window.location.href;', msg.call('get url'))
-      not_on_reset_url = url != reset_url
+      url                  = executeScript_('return window.location.href;', msg.call('get url'))
+      not_on_reset_url     = url != reset_url
       destination_is_reset = destination == reset_url
       raise 'still on reset url' unless not_on_reset_url || destination_is_reset
     end
@@ -175,14 +175,27 @@ class Protractor
 
     @client_side_scripts = ClientSideScripts
 
-    browser_name = driver.capabilities[:browser_name].strip
-    if ['internet explorer', 'safari'].include?(browser_name)
-      @reset_url = 'about:blank'.freeze
-    else
-      @reset_url = 'data:text/html,<html></html>'.freeze
-    end
+    browser_name = driver.capabilities[:browser_name].to_s.strip
+    @reset_url   = reset_url_for_browser browser_name
 
     @base_url = URI.parse opts.fetch(:base_url, '')
+  end
+
+  ABOUT_BLANK       = 'about:blank'.freeze
+  DEFAULT_RESET_URL = 'data:text/html,<html></html>'.freeze
+
+  # IE and Safari require about:blank because they don't work well with
+  # data urls (flaky). For other browsers, data urls are stable.
+  #
+  # browser_name [String] the browser name from driver caps. Must be 'safari'
+  #                       or 'internet explorer'
+  # @return reset_url [String] the reset URL
+  def reset_url_for_browser browser_name
+    if ['internet explorer', 'safari'].include?(browser_name)
+      ABOUT_BLANK
+    else
+      DEFAULT_RESET_URL
+    end
   end
 
   # Syncs the webdriver command if it's whitelisted
