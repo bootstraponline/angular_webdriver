@@ -27,6 +27,8 @@ class Protractor
   # File.join(base_url, destination) when using driver.get and
   # protractor.get (if sync is on, base_url is set, and destination
   # is not absolute).
+  #
+  # @return [String] Default nil.
   attr_accessor :base_url
 
   attr_reader :client_side_scripts, :driver, :reset_url
@@ -185,7 +187,7 @@ class Protractor
     browser_name = driver.capabilities[:browser_name].to_s.strip
     @reset_url   = reset_url_for_browser browser_name
 
-    @base_url = opts.fetch(:base_url, '')
+    @base_url = opts.fetch(:base_url, nil)
   end
 
   ABOUT_BLANK       = 'about:blank'.freeze

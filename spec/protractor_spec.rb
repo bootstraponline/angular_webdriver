@@ -40,7 +40,7 @@ describe 'Protractor' do
   before do
     protractor.ignore_sync = false
     protractor.driver_get protractor.reset_url
-    protractor.base_url = ''
+    protractor.base_url = nil
   end
 
   # requires angular's test app to be running
@@ -324,12 +324,12 @@ return (function (one, two, callback) {
 
   it 'client_side_scripts' do
     actual   = protractor.client_side_scripts
-    expected = ClientSideScripts.client_side_scripts
+    expected = ::ClientSideScripts
     expect_equal actual, expected
   end
 
   it 'base_url' do
-    expect(protractor.base_url).to eq('')
+    expect(protractor.base_url).to eq(nil)
 
     protractor.base_url = angular_website
     expect(protractor.base_url).to eq(angular_website)
@@ -342,7 +342,7 @@ return (function (one, two, callback) {
     protractor.get 'http://localhost:8081/#/polling'
     expect(driver.current_url).to eq('http://localhost:8081/#/polling')
 
-    protractor.base_url = ''
-    expect(protractor.base_url).to eq('')
+    protractor.base_url = nil
+    expect(protractor.base_url).to eq(nil)
   end
 end
