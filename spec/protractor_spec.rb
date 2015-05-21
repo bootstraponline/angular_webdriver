@@ -7,6 +7,8 @@ The test must initialize any required state at the start (it block)
 After each test the page is reset and ignore_sync is set to false. (rspec before)
 
 
+Protractor CLI
+
 browser.get('http://localhost:8081/#/')
 browser.setLocation('async')
 .exit
@@ -99,7 +101,6 @@ describe 'client side scripts' do
 =begin
 todo: write tests for:
 
-getLocationAbsUrl
 initialize
 sync
 waitForAngular
@@ -122,8 +123,17 @@ base_url
 
     protractor.setLocation 'polling'
 
-    actual = driver.current_url
+    actual   = driver.current_url
     expected = 'http://localhost:8081/#/polling'
+
+    expect(actual).to eq(expected)
+  end
+
+  it 'getLocationAbsUrl' do
+    visit 'async'
+
+    actual   = protractor.getLocationAbsUrl
+    expected = '/async'
 
     expect(actual).to eq(expected)
   end

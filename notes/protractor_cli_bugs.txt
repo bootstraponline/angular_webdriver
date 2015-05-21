@@ -17,3 +17,8 @@ Trace
 
 
 doesn't sync on goForward or goBackward ?
+
+
+docs for getLocationAbsUrl are wrong. it returns
+'/api' not 'http://angular.github.io/protractor/#/api' when on
+'http://angular.github.io/protractor/#/api'

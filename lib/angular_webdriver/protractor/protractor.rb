@@ -134,7 +134,7 @@ class Protractor
   #  @example
   #  browser.get('http://angular.github.io/protractor/#/api');
   #  expect(browser.getLocationAbsUrl())
-  #      .toBe('http://angular.github.io/protractor/#/api');
+  #      .toBe('/api');
   #
   def getLocationAbsUrl
     waitForAngular
