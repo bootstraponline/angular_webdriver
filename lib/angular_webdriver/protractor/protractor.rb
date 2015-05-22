@@ -240,6 +240,8 @@ class Protractor
     end
   end
 
+  # @private
+  #
   # Syncs the webdriver command if it's whitelisted
   #
   # @param webdriver_command [Symbol] the webdriver command to check for syncing

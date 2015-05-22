@@ -83,27 +83,26 @@ describe 'Protractor' do
 
   it 'get' do
     # should raise error when loading blank page and ignore sync is false
-    expect { driver.get protractor.reset_url }.to raise_error(*angular_not_found_error)
+    expect_angular_not_found { driver.get protractor.reset_url }
 
     # should not raise error when loading blank page and ignore sync is true
     protractor.ignore_sync = true
-    expect { driver.get protractor.reset_url }.to_not raise_error
-
+    expect_no_error { driver.get protractor.reset_url }
   end
 
   it 'driver_get' do
     # should never raise error since driver_get will never sync
     # (even when ignore sync is false)
-    expect { protractor.driver_get protractor.reset_url }.to_not raise_error
+    expect_no_error { protractor.driver_get protractor.reset_url }
   end
 
   it 'refresh' do
     # should raise error when loading blank page and ignore sync is false
-    expect { driver.navigate.refresh }.to raise_error(*angular_not_found_error)
+    expect_angular_not_found { driver.navigate.refresh }
 
     # should not raise error when loading blank page and ignore sync is true
     protractor.ignore_sync = true
-    expect { driver.navigate.refresh }.to_not raise_error
+    expect_no_error { driver.navigate.refresh }
   end
 
   def expect_angular_not_found &block
@@ -199,7 +198,7 @@ describe 'Protractor' do
 
   it 'waitForAngular should error on non-angular pages' do
     # ignore sync is false and we're on the reset page
-    expect { protractor.waitForAngular }.to raise_error(*angular_not_found_error)
+    expect_angular_not_found { protractor.waitForAngular }
   end
 
   it 'waitForAngular should succeed on angular pages with wait' do
