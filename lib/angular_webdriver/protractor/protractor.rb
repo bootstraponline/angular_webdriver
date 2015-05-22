@@ -57,8 +57,8 @@ class Protractor
   #  @see webdriver.WebDriver.get
   #
   #  Navigate to the given destination. Assumes that the page being loaded uses Angular.
-  #  If you need to access a page which does not have Angular on load, set
-  #  ignore_sync to true before invoking get
+  #  If you need to access a page which does not have Angular on load,
+  #  use driver_get.
   #
   #  @example
   #  browser.get('https://angularjs.org/');
@@ -125,10 +125,9 @@ class Protractor
 
   #  @see webdriver.WebDriver.refresh
   #
-  #  Makes a full reload of the current page and loads mock modules before
-  #  Angular. Assumes that the page being loaded uses Angular.
+  #  Makes a full reload of the current page. Assumes that the page being loaded uses Angular.
   #  If you need to access a page which does not have Angular on load, use
-  #  the wrapped webdriver directly.
+  #  driver_get.
   #
   #  @param opt_timeout [Integer] Number of seconds to wait for Angular to start.
   #
@@ -144,6 +143,7 @@ class Protractor
   end
 
   #  Browse to another page using in-page navigation.
+  #  Assumes that the page being loaded uses Angular.
   #
   #  @example
   #  browser.get('http://angular.github.io/protractor/#/tutorial');
@@ -165,6 +165,7 @@ class Protractor
   end
 
   #  Returns the current absolute url from AngularJS.
+  #  Waits for Angular.
   #
   #  @example
   #  browser.get('http://angular.github.io/protractor/#/api');
@@ -242,7 +243,7 @@ class Protractor
 
   # @private
   #
-  # Syncs the webdriver command if it's whitelisted
+  # Syncs the webdriver command if it's white listed
   #
   # @param webdriver_command [Symbol] the webdriver command to check for syncing
   #
@@ -332,8 +333,9 @@ class Protractor
     driver.execute_script script, *args
   end
 
-  # Injects window.clientSideScripts object with all the Protractor client
-  # side scripts. Example:
+  # Injects client side scripts into window.clientSideScripts for debugging.
+  #
+  # Example:
   #
   # ```ruby
   # # inject the scripts
