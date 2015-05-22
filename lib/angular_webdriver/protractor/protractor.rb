@@ -13,6 +13,7 @@ class Protractor
   # a subelement.
   #
   # @return [String]
+  #
   attr_accessor :root_element
 
   # If true, Protractor will not attempt to synchronize with the page before
@@ -22,6 +23,7 @@ class Protractor
   # when a page continuously polls an API using $timeout.
   #
   # @return [Boolean]
+  #
   attr_accessor :ignore_sync
 
   # File.join(base_url, destination) when using driver.get and
@@ -29,9 +31,28 @@ class Protractor
   # is not absolute).
   #
   # @return [String] Default nil.
+  #
   attr_accessor :base_url
 
-  attr_reader :client_side_scripts, :driver, :reset_url
+  #  All scripts to be run on the client via executeAsyncScript or
+  #  executeScript should be put here.
+  #
+  #  NOTE: These scripts are transmitted over the wire as JavaScript text
+  #  constructed using their toString representation, and# cannot*
+  #  reference external variables.
+  #
+  #  Some implementations seem to have issues with // comments, so use star-style
+  #  inside scripts. that caused the switch to avoid the // comments.)
+  #
+  attr_reader :client_side_scripts
+
+  # The Selenium::WebDriver driver object
+  attr_reader :driver
+
+  # URL to a blank page. Differs depending on the browser.
+  # @see reset_url_for_browser
+  #
+  attr_reader :reset_url
 
   #  @see webdriver.WebDriver.get
   #
@@ -45,6 +66,7 @@ class Protractor
   #
   # @param destination [String] The destination URL to load, can be relative if base_url is set
   # @param opt_timeout [Integer] Number of seconds to wait for Angular to start. Default 30.
+  #
   def get destination, opt_timeout=30
     # do not use driver.get because that redirects to this method
     # instead driver_get is provided.
@@ -64,11 +86,12 @@ class Protractor
     #                => http://localhost:8081/async
     # In Ruby:       File.join('http://localhost:8081/#/', 'async')
     #                => http://localhost:8081/#/async
+    #
     base_url_exists = base_url && !base_url.empty?
     no_scheme = !URI.parse(destination).scheme rescue true
 
     if base_url_exists && no_scheme
-     destination = File.join(base_url, destination.to_s)
+      destination = File.join(base_url, destination.to_s)
     end
 
     msg = lambda { |str| 'Protractor.get(' + destination + ') - ' + str }
@@ -89,11 +112,13 @@ class Protractor
 
     # now that the url has changed, make sure Angular has loaded
     # note that the mock module logic is omitted.
+    #
     waitForAngular
   end
 
   # Invokes the underlying driver.get. Does not wait for angular.
   # Does not use base_url or reset_url logic.
+  #
   def driver_get url
     driver.bridge.driver_get url
   end
@@ -106,6 +131,7 @@ class Protractor
   #  the wrapped webdriver directly.
   #
   #  @param opt_timeout [Integer] Number of seconds to wait for Angular to start.
+  #
   def refresh opt_timeout
     timeout = opt_timeout || 10
 
@@ -157,6 +183,7 @@ class Protractor
   # @param [Hash] opts the options to initialize with
   # @option opts [String]  :root_element the root element on which to find Angular
   # @option opts [Boolean] :ignore_sync if true, Protractor won't auto sync the page
+  #
   def initialize opts={}
     @driver = opts[:driver]
     raise 'Must supply Selenium::WebDriver' unless @driver
@@ -171,6 +198,7 @@ class Protractor
     # a subelement.
     #
     # @return [String]
+    #
     @root_element      = opts.fetch :root_element, 'body'
 
     # If true, Protractor will not attempt to synchronize with the page before
@@ -180,6 +208,7 @@ class Protractor
     # when a page continuously polls an API using $timeout.
     #
     # @return [Boolean]
+    #
     @ignore_sync       = !!opts.fetch(:ignore_sync, false)
 
     @client_side_scripts = ClientSideScripts
@@ -190,7 +219,10 @@ class Protractor
     @base_url = opts.fetch(:base_url, nil)
   end
 
+  # Reset URL used on IE & Safari since they don't work well with data URLs
   ABOUT_BLANK       = 'about:blank'.freeze
+
+  # Reset URL used by non-IE/Safari browsers
   DEFAULT_RESET_URL = 'data:text/html,<html></html>'.freeze
 
   # IE and Safari require about:blank because they don't work well with
@@ -199,6 +231,7 @@ class Protractor
   # browser_name [String] the browser name from driver caps. Must be 'safari'
   #                       or 'internet explorer'
   # @return reset_url [String] the reset URL
+  #
   def reset_url_for_browser browser_name
     if ['internet explorer', 'safari'].include?(browser_name)
       ABOUT_BLANK
@@ -210,6 +243,7 @@ class Protractor
   # Syncs the webdriver command if it's whitelisted
   #
   # @param webdriver_command [Symbol] the webdriver command to check for syncing
+  #
   def sync webdriver_command
     return unless webdriver_command
     webdriver_command = webdriver_command.intern
@@ -219,6 +253,7 @@ class Protractor
     # also don't sync set location (protractor custom command already waits
     # for angular). the selenium set location is for latitude/longitude/altitude
     # and that doesn't require syncing
+    #
     sync_whitelist    = [
       :getCurrentUrl, :refresh, :getPageSource,
       :getTitle, :findElement, :findElements,
@@ -237,6 +272,7 @@ class Protractor
   # @param [String] opt_description An optional description to be added
   #     to webdriver logs.
   # @return [WebDriver::Element, Integer, Float, Boolean, NilClass, String, Array]
+  #
   def waitForAngular opt_description='' # Protractor.prototype.waitForAngular
     return if ignore_sync
 
@@ -256,6 +292,7 @@ class Protractor
   # Ensure description is exactly one line that ends in a newline
   # must use /* */ not // due to some browsers having problems
   # with // comments when used with execute script
+  #
   def _js_comment description
     description = description ? '/* ' + description.gsub(/\s+/, ' ').strip + ' */' : ''
     description.strip + "\n"
@@ -269,6 +306,7 @@ class Protractor
   #  @param description [String]  A description of the command for debugging.
   #  @param args [var_args] The arguments to pass to the script.
   #  @return The scripts return value.
+  #
   def executeAsyncScript_ script, description, *args
     # add description as comment to script so it shows up in server logs
     script = _js_comment(description) + script
@@ -284,6 +322,7 @@ class Protractor
   #  @param description [String]  A description of the command for debugging.
   #  @param args [var_args] The arguments to pass to the script.
   #  @return The scripts return value.
+  #
   def executeScript_ script, description, *args
     # add description as comment to script so it shows up in server logs
     script = _js_comment(description) + script
@@ -304,6 +343,7 @@ class Protractor
   #
   # This should be used under Pry. The window client side scripts can be
   # invoked using chrome dev tools after calling debugger.
+  #
   def debugger
     executeScript_ client_side_scripts.install_in_browser, 'Protractor.debugger()'
   end
