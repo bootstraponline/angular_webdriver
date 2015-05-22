@@ -39,8 +39,6 @@ Protractor Command             | Note
 `Protractor.get 'url'`         | driver.get redirects to protractor.get  
 `Protractor.setLocation 'url'` | Note this is unrelated to the selenium setLocation for geographic position
 `Protractor.getLocationAbsUrl` |
-`Protractor.sync`              | Internal method used to sync webdriver commands. Not for end users.
-
 
 Sync can be toggled by running:
 

@@ -33,15 +33,17 @@ Features supported:
 - **Protractor.debugger** - Injects client side scripts into 
   window.clientSideScripts for debugging.
   
-## Protractor Locators
-
-Supported Protractor Locators. Note these work just like the standard locators.
+## Supported Protractor Locators
+ 
+Note these work the same as standard locators.
 You can find a single element (find_element), multiple elements (find_elements),
 and the finders are chainable (finding elements from a parent element).
 
 - **binding** - `driver.find_element(:binding, 'slowHttpStatus')`
-  
-Not yet supported locators:
+
+## Unsupported Protractor Locators
+
+These locators are on the roadmap for implementation.
 
 - **findRepeaterRows**
 - **findAllRepeaterRows**
