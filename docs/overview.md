@@ -30,7 +30,7 @@ Features supported:
   but with comment for debugging.
 - **Protractor.executeScript_** - Same as driver.execute_script but with
   comment for debugging.
-- **Protractor.debugger - Injects client side scripts into 
+- **Protractor.debugger** - Injects client side scripts into 
   window.clientSideScripts for debugging.
   
 ## Protractor Locators
