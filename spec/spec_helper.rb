@@ -57,11 +57,19 @@ RSpec.configure do |config|
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
     driver.manage.timeouts.script_timeout = 60 # seconds
+
+    # sometimes elements just don't exist even though the page has loaded
+    # and wait for angular has succeeded. in these situations, use implicit wait.
+    driver.manage.timeouts.implicit_wait = implicit_wait_default # seconds
   end
 
   config.after(:all) do
     driver.quit rescue nil
   end
+end
+
+def implicit_wait_default
+  10
 end
 
 def browser
@@ -108,5 +116,7 @@ def no_such_element_error
 end
 
 def expect_no_element_error &block
+  driver.manage.timeouts.implicit_wait = 0
   expect { block.call }.to raise_error no_such_element_error
+  driver.manage.timeouts.implicit_wait = implicit_wait_default
 end
