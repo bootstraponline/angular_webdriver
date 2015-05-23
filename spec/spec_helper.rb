@@ -120,3 +120,7 @@ def expect_no_element_error &block
   expect { block.call }.to raise_error no_such_element_error
   driver.manage.timeouts.implicit_wait = implicit_wait_default
 end
+
+def expect_error &block
+  expect { block.call }.to raise_error
+end

@@ -17,6 +17,15 @@ require 'watir-webdriver/elements/element'
 #
 
 module Watir
+  module Container
+    #
+    # Alias of elements for Protractor
+    #
+
+    def all(*args)
+      elements(*args)
+    end
+  end # module Container
 
   #
   # Base class for HTML elements.
