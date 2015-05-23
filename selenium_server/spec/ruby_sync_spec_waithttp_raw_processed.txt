@@ -1,0 +1,39 @@
+Launching a standalone server
+Writing debug logs to b.txt
+Java: Oracle Corporation 25.25-b02
+OS: Mac OS X 10.10.3 x86_64
+v2.45.0, with Core v2.45.0. Built from revision 5017cb8
+Default driver org.openqa.selenium.ie.InternetExplorerDriver registration is skipped: registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match with current platform: MAC
+RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+Version Jetty/5.1.x
+Started HttpContext[/selenium-server,/selenium-server]
+Started org.openqa.jetty.jetty.servlet.ServletHandler@5ba23b66
+Started HttpContext[/wd,/wd]
+Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+Started HttpContext[/,/]
+Started SocketListener on 0.0.0.0:4444
+Started org.openqa.jetty.jetty.Server@7e6cbb7a
+Executing: [new session: Capabilities [{rotatable=false, nativeEvents=false, browserName=firefox, takesScreenshot=true, javascriptEnabled=true, version=, platform=ANY, cssSelectorsEnabled=true}]])
+Creating a new session for Capabilities [{rotatable=false, nativeEvents=false, browserName=firefox, takesScreenshot=true, javascriptEnabled=true, version=, platform=ANY, cssSelectorsEnabled=true}]
+Executing: [set script timeoutt: 60000])
+Executing: [get: data:text/html,<html></html>])
+Executing: [get: data:text/html,<html></html>])
+Executing: [execute script: /* Protractor.get(http://localhost:8081/#/async) - reset url */
+window.location.replace("http://localhost:8081/#/async");, []])
+Executing: [execute script: /* Protractor.get(http://localhost:8081/#/async) - get url */
+return window.location.href;, []])
+Executing: [execute async script: /* Protractor.waitForAngular() */
+Protractor.waitForAngular, [body]])
+Executing: [execute script: /* Protractor find by.binding() */
+Protractor by.binding, [slowHttpStatus, false, false, body]])
+Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@7f3fb971 -> unknown locator]])
+Executing: [execute async script: /* Protractor.waitForAngular() */
+Protractor.waitForAngular, [body]])
+Executing: [find element: By.cssSelector: [ng-click="slowHttp()"]])
+Executing: [click: 1 [[FirefoxDriver: firefox on MAC (1bf5ce03-36b6-cd48-9de5-69cef3636974)] -> css selector: [ng-click="slowHttp()"]]])
+Executing: [execute script: /* Protractor find by.binding() */
+Protractor by.binding, [slowHttpStatus, false, false, body]])
+Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@7f3fb971 -> unknown locator]])
+Executing: [delete session: a8d1d244-507b-43e3-baf5-52b9938c9063])
+Done: [delete session: a8d1d244-507b-43e3-baf5-52b9938c9063]
+Shutting down...

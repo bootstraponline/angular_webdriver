@@ -1,0 +1,73 @@
+ele =  browser.element(css: '[ng-click="slowHttp()"]')
+ele.text
+
+11:59:21.947 INFO - Executing: [get current window handle])
+11:59:28.786 INFO - Done: [get current window handle]
+11:59:28.790 INFO - Executing: [get window handles])
+11:59:28.878 INFO - Done: [get window handles]
+11:59:28.883 INFO - Executing: [switch to frame: null])
+11:59:28.974 INFO - Done: [switch to frame: null]
+11:59:28.979 INFO - Executing: [is enabled: 0 [[FirefoxDriver: firefox on MAC (9b9be3e9-bff2-2d4e-a479-b85a9ee556c2)] -> css selector: [ng-click="slowHttp()"]]])
+11:59:39.046 INFO - Done: [is enabled: 0 [[FirefoxDriver: firefox on MAC (9b9be3e9-bff2-2d4e-a479-b85a9ee556c2)] -> css selector: [ng-click="slowHttp()"]]]
+11:59:39.049 INFO - Executing: [get text: 0 [[FirefoxDriver: firefox on MAC (9b9be3e9-bff2-2d4e-a479-b85a9ee556c2)] -> css selector: [ng-click="slowHttp()"]]])
+11:59:39.151 INFO - Done: [get text: 0 [[FirefoxDriver: firefox on MAC (9b9be3e9-bff2-2d4e-a479-b85a9ee556c2)] -> css selector: [ng-click="slowHttp()"]]]
+
+
+enable always locate:
+Watir.always_locate = true
+
+default is true... setting this doesn't always locate.
+
+
+with always locate patch:
+
+12:40:11.029 INFO - Executing: [execute async script: /* Protractor.waitForAngular() */
+try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+12:40:11.042 INFO - Done: [execute async script: /* Protractor.waitForAngular() */
+try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+12:40:11.054 INFO - Executing: [find element: By.cssSelector: [ng-click="slowHttp()"]])
+12:40:11.147 INFO - Done: [find element: By.cssSelector: [ng-click="slowHttp()"]]
+12:40:11.163 INFO - Executing: [get text: 0 [[FirefoxDriver: firefox on MAC (b7da1100-8e8a-6044-8abf-317acfeb389e)] -> css selector: [ng-click="slowHttp()"]]])
+12:40:11.209 INFO - Done: [get text: 0 [[FirefoxDriver: firefox on MAC (b7da1100-8e8a-6044-8abf-317acfeb389e)] -> css selector: [ng-click="slowHttp()"]]]

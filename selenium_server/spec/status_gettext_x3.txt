@@ -1,0 +1,429 @@
+15:51:00.940 INFO [1] org.openqa.grid.selenium.GridLauncher - Launching a standalone server
+15:51:01.018 INFO [1] org.openqa.selenium.server.SeleniumServer - Writing debug logs to angular_sync.txt
+15:51:01.018 INFO [1] org.openqa.selenium.server.SeleniumServer - Java: Oracle Corporation 25.25-b02
+15:51:01.018 INFO [1] org.openqa.selenium.server.SeleniumServer - OS: Mac OS X 10.10.3 x86_64
+15:51:01.047 INFO [1] org.openqa.selenium.server.SeleniumServer - v2.45.0, with Core v2.45.0. Built from revision 5017cb8
+15:51:01.179 INFO [1] org.openqa.selenium.remote.server.DefaultDriverSessions - Default driver org.openqa.selenium.ie.InternetExplorerDriver registration is skipped: registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match with current platform: MAC
+15:51:01.283 INFO [1] org.openqa.selenium.server.SeleniumServer - RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+15:51:01.284 INFO [1] org.openqa.jetty.http.HttpServer - Version Jetty/5.1.x
+15:51:01.286 INFO [1] org.openqa.jetty.util.Container - Started HttpContext[/selenium-server,/selenium-server]
+15:51:01.329 INFO [1] org.openqa.jetty.util.Container - Started org.openqa.jetty.jetty.servlet.ServletHandler@5ba23b66
+15:51:01.329 INFO [1] org.openqa.jetty.util.Container - Started HttpContext[/wd,/wd]
+15:51:01.329 INFO [1] org.openqa.jetty.util.Container - Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+15:51:01.329 INFO [1] org.openqa.jetty.util.Container - Started HttpContext[/,/]
+15:51:01.340 INFO [1] org.openqa.jetty.http.SocketListener - Started SocketListener on 0.0.0.0:4444
+15:51:01.340 INFO [1] org.openqa.jetty.util.Container - Started org.openqa.jetty.jetty.Server@7e6cbb7a
+15:51:34.766 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [new session: Capabilities [{count=1, browserName=firefox, version=ANY}]])
+15:51:34.787 INFO [21] org.openqa.selenium.remote.server.DefaultDriverProvider - Creating a new session for Capabilities [{count=1, browserName=firefox, version=ANY}]
+15:51:42.070 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [new session: Capabilities [{count=1, browserName=firefox, version=ANY}]]
+15:51:42.116 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [set script timeoutt: 11000])
+15:51:42.143 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [set script timeoutt: 11000]
+15:51:42.312 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [get: data:text/html,<html></html>])
+15:51:42.388 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [get: data:text/html,<html></html>]
+15:51:42.401 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute script: window.name = "NG_DEFER_BOOTSTRAP!" + window.name;window.location.replace("http://localhost:8081/index.html#/async");, []])
+15:51:42.464 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute script: window.name = "NG_DEFER_BOOTSTRAP!" + window.name;window.location.replace("http://localhost:8081/index.html#/async");, []]
+15:51:42.486 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute script: return window.location.href;, []])
+15:51:42.685 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute script: return window.location.href;, []]
+15:51:42.720 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute async script: try { return (function (attempts, asyncCallback) {
+  var callback = function(args) {
+    setTimeout(function() {
+      asyncCallback(args);
+    }, 0);
+  };
+  var check = function(n) {
+    try {
+      if (window.angular && window.angular.resumeBootstrap) {
+        callback([true, null]);
+      } else if (n < 1) {
+        if (window.angular) {
+          callback([false, 'angular never provided resumeBootstrap']);
+        } else {
+          callback([false, 'retries looking for angular exceeded']);
+        }
+      } else {
+        window.setTimeout(function() {check(n - 1);}, 1000);
+      }
+    } catch (e) {
+      callback([false, e]);
+    }
+  };
+  check(attempts);
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [10]])
+15:51:42.812 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute async script: try { return (function (attempts, asyncCallback) {
+  var callback = function(args) {
+    setTimeout(function() {
+      asyncCallback(args);
+    }, 0);
+  };
+  var check = function(n) {
+    try {
+      if (window.angular && window.angular.resumeBootstrap) {
+        callback([true, null]);
+      } else if (n < 1) {
+        if (window.angular) {
+          callback([false, 'angular never provided resumeBootstrap']);
+        } else {
+          callback([false, 'retries looking for angular exceeded']);
+        }
+      } else {
+        window.setTimeout(function() {check(n - 1);}, 1000);
+      }
+    } catch (e) {
+      callback([false, e]);
+    }
+  };
+  check(attempts);
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [10]]
+15:51:42.823 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute script: return (function () {
+    angular.module('protractorBaseModule_', []).
+        config(['$compileProvider', function($compileProvider) {
+          if ($compileProvider.debugInfoEnabled) {
+            $compileProvider.debugInfoEnabled(true);
+          }
+        }]);
+  }).apply(null, arguments);, []])
+15:51:42.872 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute script: return (function () {
+    angular.module('protractorBaseModule_', []).
+        config(['$compileProvider', function($compileProvider) {
+          if ($compileProvider.debugInfoEnabled) {
+            $compileProvider.debugInfoEnabled(true);
+          }
+        }]);
+  }).apply(null, arguments);, []]
+15:51:42.883 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute script: angular.resumeBootstrap(arguments[0]);, [[protractorBaseModule_]]])
+15:51:42.977 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute script: angular.resumeBootstrap(arguments[0]);, [[protractorBaseModule_]]]
+15:51:43.066 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+15:51:43.121 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+15:51:43.135 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute script: try { return (function (binding, exactMatch, using, rootSelector) {
+  var root = document.querySelector(rootSelector || 'body');
+  using = using || document;
+  if (angular.getTestability) {
+    return angular.getTestability(root).
+        findBindings(using, binding, exactMatch);
+  }
+  var bindings = using.getElementsByClassName('ng-binding');
+  var matches = [];
+  for (var i = 0; i < bindings.length; ++i) {
+    var dataBinding = angular.element(bindings[i]).data('$binding');
+    if (dataBinding) {
+      var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
+      if (exactMatch) {
+        var matcher = new RegExp('({|\\s|^|\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') +
+            '(}|\\s|$|\\|)');
+        if (matcher.test(bindingName)) {
+          matches.push(bindings[i]);
+        }
+      } else {
+        if (bindingName.indexOf(binding) != -1) {
+          matches.push(bindings[i]);
+        }
+      }
+
+    }
+  }
+  return matches; /* Return the whole array for webdriver.findElements. */
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [slowHttpStatus, false, null, body]])
+15:51:43.241 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute script: try { return (function (binding, exactMatch, using, rootSelector) {
+  var root = document.querySelector(rootSelector || 'body');
+  using = using || document;
+  if (angular.getTestability) {
+    return angular.getTestability(root).
+        findBindings(using, binding, exactMatch);
+  }
+  var bindings = using.getElementsByClassName('ng-binding');
+  var matches = [];
+  for (var i = 0; i < bindings.length; ++i) {
+    var dataBinding = angular.element(bindings[i]).data('$binding');
+    if (dataBinding) {
+      var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
+      if (exactMatch) {
+        var matcher = new RegExp('({|\\s|^|\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') +
+            '(}|\\s|$|\\|)');
+        if (matcher.test(bindingName)) {
+          matches.push(bindings[i]);
+        }
+      } else {
+        if (bindingName.indexOf(binding) != -1) {
+          matches.push(bindings[i]);
+        }
+      }
+
+    }
+  }
+  return matches; /* Return the whole array for webdriver.findElements. */
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [slowHttpStatus, false, null, body]]
+15:51:43.255 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]])
+15:51:43.302 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]]
+15:51:43.317 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+15:51:43.369 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+15:51:43.386 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute script: try { return (function (binding, exactMatch, using, rootSelector) {
+  var root = document.querySelector(rootSelector || 'body');
+  using = using || document;
+  if (angular.getTestability) {
+    return angular.getTestability(root).
+        findBindings(using, binding, exactMatch);
+  }
+  var bindings = using.getElementsByClassName('ng-binding');
+  var matches = [];
+  for (var i = 0; i < bindings.length; ++i) {
+    var dataBinding = angular.element(bindings[i]).data('$binding');
+    if (dataBinding) {
+      var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
+      if (exactMatch) {
+        var matcher = new RegExp('({|\\s|^|\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') +
+            '(}|\\s|$|\\|)');
+        if (matcher.test(bindingName)) {
+          matches.push(bindings[i]);
+        }
+      } else {
+        if (bindingName.indexOf(binding) != -1) {
+          matches.push(bindings[i]);
+        }
+      }
+
+    }
+  }
+  return matches; /* Return the whole array for webdriver.findElements. */
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [slowHttpStatus, false, null, body]])
+15:51:43.430 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute script: try { return (function (binding, exactMatch, using, rootSelector) {
+  var root = document.querySelector(rootSelector || 'body');
+  using = using || document;
+  if (angular.getTestability) {
+    return angular.getTestability(root).
+        findBindings(using, binding, exactMatch);
+  }
+  var bindings = using.getElementsByClassName('ng-binding');
+  var matches = [];
+  for (var i = 0; i < bindings.length; ++i) {
+    var dataBinding = angular.element(bindings[i]).data('$binding');
+    if (dataBinding) {
+      var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
+      if (exactMatch) {
+        var matcher = new RegExp('({|\\s|^|\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') +
+            '(}|\\s|$|\\|)');
+        if (matcher.test(bindingName)) {
+          matches.push(bindings[i]);
+        }
+      } else {
+        if (bindingName.indexOf(binding) != -1) {
+          matches.push(bindings[i]);
+        }
+      }
+
+    }
+  }
+  return matches; /* Return the whole array for webdriver.findElements. */
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [slowHttpStatus, false, null, body]]
+15:51:43.452 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]])
+15:51:43.493 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]]
+15:51:43.508 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+15:51:43.552 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+15:51:43.573 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [execute script: try { return (function (binding, exactMatch, using, rootSelector) {
+  var root = document.querySelector(rootSelector || 'body');
+  using = using || document;
+  if (angular.getTestability) {
+    return angular.getTestability(root).
+        findBindings(using, binding, exactMatch);
+  }
+  var bindings = using.getElementsByClassName('ng-binding');
+  var matches = [];
+  for (var i = 0; i < bindings.length; ++i) {
+    var dataBinding = angular.element(bindings[i]).data('$binding');
+    if (dataBinding) {
+      var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
+      if (exactMatch) {
+        var matcher = new RegExp('({|\\s|^|\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') +
+            '(}|\\s|$|\\|)');
+        if (matcher.test(bindingName)) {
+          matches.push(bindings[i]);
+        }
+      } else {
+        if (bindingName.indexOf(binding) != -1) {
+          matches.push(bindings[i]);
+        }
+      }
+
+    }
+  }
+  return matches; /* Return the whole array for webdriver.findElements. */
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [slowHttpStatus, false, null, body]])
+15:51:43.619 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [execute script: try { return (function (binding, exactMatch, using, rootSelector) {
+  var root = document.querySelector(rootSelector || 'body');
+  using = using || document;
+  if (angular.getTestability) {
+    return angular.getTestability(root).
+        findBindings(using, binding, exactMatch);
+  }
+  var bindings = using.getElementsByClassName('ng-binding');
+  var matches = [];
+  for (var i = 0; i < bindings.length; ++i) {
+    var dataBinding = angular.element(bindings[i]).data('$binding');
+    if (dataBinding) {
+      var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
+      if (exactMatch) {
+        var matcher = new RegExp('({|\\s|^|\\|)' +
+            /* See http://stackoverflow.com/q/3561711 */
+            binding.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') +
+            '(}|\\s|$|\\|)');
+        if (matcher.test(bindingName)) {
+          matches.push(bindings[i]);
+        }
+      } else {
+        if (bindingName.indexOf(binding) != -1) {
+          matches.push(bindings[i]);
+        }
+      }
+
+    }
+  }
+  return matches; /* Return the whole array for webdriver.findElements. */
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [slowHttpStatus, false, null, body]]
+15:51:43.635 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]])
+15:51:43.700 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]]
+15:51:43.730 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Executing: [delete session: 90d3b5c4-6af6-4c14-8660-aa60fe91dd1f])
+15:51:43.839 INFO [15] org.openqa.selenium.remote.server.DriverServlet - Done: [delete session: 90d3b5c4-6af6-4c14-8660-aa60fe91dd1f]
+15:51:57.102 INFO [16] org.openqa.selenium.server.SeleniumServer - Shutting down...

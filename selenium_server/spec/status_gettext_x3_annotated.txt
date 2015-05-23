@@ -1,0 +1,86 @@
+var util = require('util');
+
+describe('synchronizing with slow pages', function() {
+  beforeEach(function() {
+    browser.get('index.html#/async');
+  });
+
+  it('waits for http calls', function() {
+    var status = element(by.binding('slowHttpStatus'));
+
+    expect(status.getText()).toEqual('not started');
+    expect(status.getText()).toEqual('not started');
+    expect(status.getText()).toEqual('not started');
+  });
+});
+
+In protractor, element() is lazily evaluated.
+
+element(by.binding('...')) doesn't make a server call until an action
+is performed on the element.
+
+every action always re-finds the element. synchronization is done before
+the element find method. if we didn't refind the element then sync wouldn't trigger
+when interacting with elements.
+
+-----
+
+Launching a standalone server
+Writing debug logs to angular_sync.txt
+Java: Oracle Corporation 25.25-b02
+OS: Mac OS X 10.10.3 x86_64
+v2.45.0, with Core v2.45.0. Built from revision 5017cb8
+Default driver org.openqa.selenium.ie.InternetExplorerDriver registration is skipped: registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match with current platform: MAC
+RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+Version Jetty/5.1.x
+Started HttpContext[/selenium-server,/selenium-server]
+Started org.openqa.jetty.jetty.servlet.ServletHandler@5ba23b66
+Started HttpContext[/wd,/wd]
+Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+Started HttpContext[/,/]
+Started SocketListener on 0.0.0.0:4444
+Started org.openqa.jetty.jetty.Server@7e6cbb7a
+Executing: [new session: Capabilities [{count=1, browserName=firefox, version=ANY}]])
+Creating a new session for Capabilities [{count=1, browserName=firefox, version=ANY}]
+Executing: [set script timeoutt: 11000])
+Executing: [get: data:text/html,<html></html>])
+
+// get localhost:8081/index.html#/async
+Executing: [execute script: window.name = "NG_DEFER_BOOTSTRAP!" + window.name;window.location.replace("http://localhost:8081/index.html#/async");, []])
+Executing: [execute script: return window.location.href;, []])
+Executing: [execute async script: Protractor.testForAngular, [10]])
+
+Executing: [execute script: return (function () {
+    angular.module('protractorBaseModule_', []).
+        config(['$compileProvider', function($compileProvider) {
+          if ($compileProvider.debugInfoEnabled) {
+            $compileProvider.debugInfoEnabled(true);
+          }
+        }]);
+  }).apply(null, arguments);, []])
+    angular.module('protractorBaseModule_', []).
+        config(['$compileProvider', function($compileProvider) {
+          if ($compileProvider.debugInfoEnabled) {
+            $compileProvider.debugInfoEnabled(true);
+          }
+        }]);
+  }).apply(null, arguments);, []]
+Executing: [execute script: angular.resumeBootstrap(arguments[0]);, [[protractorBaseModule_]]])
+
+// wait for angular, by.binding slowHttpStatus, get text
+Executing: [execute async script: Protractor.waitForAngular, [body]])
+Executing: [execute script: Protractor by.binding, [slowHttpStatus, false, null, body]])
+Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]])
+
+// wait for angular, by.binding slowHttpStatus, get text
+Executing: [execute async script: Protractor.waitForAngular, [body]])
+Executing: [execute script: Protractor by.binding, [slowHttpStatus, false, null, body]])
+Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]])
+
+// wait for angular, by.binding slowHttpStatus, get text
+Executing: [execute async script: Protractor.waitForAngular, [body]])
+Executing: [execute script: Protractor by.binding, [slowHttpStatus, false, null, body]])
+Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@58ceb9cc -> unknown locator]])
+
+Executing: [delete session: 90d3b5c4-6af6-4c14-8660-aa60fe91dd1f])
+Shutting down...

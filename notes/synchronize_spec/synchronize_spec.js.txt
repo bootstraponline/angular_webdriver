@@ -1,0 +1,74 @@
+$ java -jar selenium-server-standalone-2.45.0.jar
+11:01:47.348 INFO - Launching a standalone server
+11:01:47.400 INFO - Java: Oracle Corporation 25.25-b02
+11:01:47.401 INFO - OS: Mac OS X 10.10.3 x86_64
+11:01:47.415 INFO - v2.45.0, with Core v2.45.0. Built from revision 5017cb8
+11:01:47.536 INFO - Default driver org.openqa.selenium.ie.InternetExplorerDriver registration is skipped: registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match with current platform: MAC
+11:01:47.602 INFO - RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+11:01:47.603 INFO - Version Jetty/5.1.x
+11:01:47.606 INFO - Started HttpContext[/selenium-server,/selenium-server]
+11:01:47.632 INFO - Started org.openqa.jetty.jetty.servlet.ServletHandler@7e0babb1
+11:01:47.632 INFO - Started HttpContext[/wd,/wd]
+11:01:47.632 INFO - Started HttpContext[/selenium-server/driver,/selenium-server/driver]
+11:01:47.633 INFO - Started HttpContext[/,/]
+11:01:47.639 INFO - Started SocketListener on 0.0.0.0:4444
+11:01:47.639 INFO - Started org.openqa.jetty.jetty.Server@6e2c634b
+11:01:51.375 INFO - Executing: [new session: Capabilities [{count=1, browserName=firefox, version=ANY}]])
+11:01:51.389 INFO - Creating a new session for Capabilities [{count=1, browserName=firefox, version=ANY}]
+11:01:56.965 INFO - Done: [new session: Capabilities [{count=1, browserName=firefox, version=ANY}]]
+
+11:01:57.005 INFO - Executing: [set script timeoutt: 11000])
+11:01:57.023 INFO - Done: [set script timeoutt: 11000]
+
+// get "http://localhost:8081/index.html#/async"
+11:01:57.162 INFO - Executing: [get: data:text/html,<html></html>])
+11:01:57.243 INFO - Done: [get: data:text/html,<html></html>]
+11:01:57.255 INFO - Executing: [execute script: window.name = "NG_DEFER_BOOTSTRAP!" + window.name;window.location.replace("http://localhost:8081/index.html#/async");, []])
+11:01:57.346 INFO - Done: [execute script: window.name = "NG_DEFER_BOOTSTRAP!" + window.name;window.location.replace("http://localhost:8081/index.html#/async");, []]
+11:01:57.368 INFO - Executing: [execute script: return window.location.href;, []])
+11:01:57.457 INFO - Done: [execute script: return window.location.href;, []]
+
+// testForAngular
+11:01:57.476 INFO - Executing: [testForAngular, [10]])
+11:01:57.520 INFO - Done: [testForAngular]
+11:01:57.591 INFO - Executing: [execute script: angular.resumeBootstrap(arguments[0]);, [[protractorBaseModule_]]])
+11:01:57.681 INFO - Done: [execute script: angular.resumeBootstrap(arguments[0]);, [[protractorBaseModule_]]]
+
+// waitForAngular
+11:01:57.740 INFO - Executing: [waitForAngular])
+11:01:57.792 INFO - Done: [waitForAngular]
+
+// Find by binding
+11:01:57.807 INFO - Executing: [findByBinding, [slowHttpStatus, false, null, body]])
+11:01:57.909 INFO - Done: [find by binding]
+11:01:57.930 INFO - Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@4fa55238 -> unknown locator]])
+11:01:57.968 INFO - Done: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@4fa55238 -> unknown locator]]
+
+
+// waitForAngular
+11:01:57.982 INFO - Executing: [waitForAngular])
+11:01:58.028 INFO - Done: [waitForAngular]
+
+// Find by CSS
+11:01:58.039 INFO - Executing: [find elements: By.cssSelector: [ng-click="slowHttp()"]])
+11:01:58.093 INFO - Done: [find elements: By.cssSelector: [ng-click="slowHttp()"]]
+
+// Click
+11:01:58.109 INFO - Executing: [click: 1 [[FirefoxDriver: firefox on MAC (b2bfa3ec-6318-6646-8f91-9486d51c4400)] -> css selector: [ng-click="slowHttp()"]]])
+11:01:58.203 INFO - Done: [click: 1 [[FirefoxDriver: firefox on MAC (b2bfa3ec-6318-6646-8f91-9486d51c4400)] -> css selector: [ng-click="slowHttp()"]]]
+
+
+// waitForAngular
+11:01:58.216 INFO - Executing: [waitForAngular])
+11:02:03.211 INFO - Done: [waitForAngular]
+
+// Find by binding
+11:02:03.226 INFO - Executing: [findByBinding, [slowHttpStatus, false, null, body]]
+
+// get text
+11:02:03.291 INFO - Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@4fa55238 -> unknown locator]])
+11:02:03.339 INFO - Done: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@4fa55238 -> unknown locator]]
+
+
+11:02:03.362 INFO - Executing: [delete session: 48f4d92c-afbd-459d-bde0-7a39b56b45b6])
+11:02:03.468 INFO - Done: [delete session: 48f4d92c-afbd-459d-bde0-7a39b56b45b6]

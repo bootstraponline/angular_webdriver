@@ -1,0 +1,59 @@
+describe 'synchronizing with slow pages' do
+  before { visit 'async' }
+
+  it 'waits for http calls' do
+    status = element(by.binding('slowHttpStatus'))
+    button = element(by.css('[ng-click="slowHttp()"]'))
+
+    expect(status.text).to eq('not started')
+
+    button.click
+
+    expect(status.text).to eq('done')
+  end
+
+----
+
+Issues identified:
+ - :: waitForAngular didn't run when using finding by binding.
+
+ - :: data:text/html,<html></html> is requested twice... double check this isn't a bug
+
+Observation:
+ - :: protractor always uses find elements, the find element
+      logic is handled client side
+
+Executing: [new session: Capabilities [{rotatable=false, nativeEvents=false, browserName=firefox, takesScreenshot=true, javascriptEnabled=true, version=, platform=ANY, cssSelectorsEnabled=true}]])
+Creating a new session for Capabilities [{rotatable=false, nativeEvents=false, browserName=firefox, takesScreenshot=true, javascriptEnabled=true, version=, platform=ANY, cssSelectorsEnabled=true}]
+Executing: [set script timeoutt: 60000])
+
+// get http://localhost:8081/#/async
+Executing: [get: data:text/html,<html></html>])
+Executing: [get: data:text/html,<html></html>])
+Executing: [execute script: /* Protractor.get(http://localhost:8081/#/async) - reset url */
+window.location.replace("http://localhost:8081/#/async");, []])
+Executing: [execute script: /* Protractor.get(http://localhost:8081/#/async) - get url */
+return window.location.href;, []])
+Executing: [execute async script: /* Protractor.waitForAngular() */
+Protractor.waitForAngular, [body]])
+
+
+// by.binding slowHttpStatus, get text
+Executing: [execute script: /* Protractor find by.binding() */
+Protractor by.binding, [slowHttpStatus, false, false, body]])
+Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@7f3fb971 -> unknown locator]])
+
+// waitForAngular, by.css ng-click slowHttp, click
+Executing: [execute async script: /* Protractor.waitForAngular() */
+Protractor.waitForAngular, [body]])
+Executing: [find element: By.cssSelector: [ng-click="slowHttp()"]])
+Executing: [click: 1 [[FirefoxDriver: firefox on MAC (1bf5ce03-36b6-cd48-9de5-69cef3636974)] -> css selector: [ng-click="slowHttp()"]]])
+
+// by.binding slowHttpStatus, get text
+Executing: [execute script: /* Protractor find by.binding() */
+Protractor by.binding, [slowHttpStatus, false, false, body]])
+Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@7f3fb971 -> unknown locator]])
+
+Executing: [delete session: a8d1d244-507b-43e3-baf5-52b9938c9063])
+Done: [delete session: a8d1d244-507b-43e3-baf5-52b9938c9063]
+Shutting down...
