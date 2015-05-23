@@ -122,6 +122,12 @@ def expect_no_element_error &block
   driver.manage.timeouts.implicit_wait = implicit_wait_default
 end
 
+def no_wait &block
+  driver.manage.timeouts.implicit_wait = 0
+  block.call
+  driver.manage.timeouts.implicit_wait = implicit_wait_default
+end
+
 # Expects on no_such_element_error and does not modify implicit wait
 def expect_no_element_error_nowait &block
   expect { block.call }.to raise_error no_such_element_error

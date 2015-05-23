@@ -47,8 +47,32 @@ module Watir
       nil
     end
 
+    # avoid context lookup
     def locate
       locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
+    end
+
+    # Invoke protractor.allowAnimations with freshly located element and
+    # optional value.
+    def allowAnimations value=nil
+      assert_exists
+      driver.protractor.allowAnimations @element, value
+    end
+
+    #
+    # Returns true if the element exists and is visible on the page.
+    #
+    # @return [Boolean]
+    # @see Watir::Wait
+    #
+    #
+    # rescue element not found
+    def present?
+      exists? && visible?
+    rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError, UnknownObjectException
+      # if the element disappears between the exists? and visible? calls,
+      # consider it not present.
+      false
     end
   end
 

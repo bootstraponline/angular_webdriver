@@ -32,6 +32,8 @@ Features supported:
   comment for debugging.
 - **Protractor.debugger** - Injects client side scripts into 
   window.clientSideScripts for debugging.
+- **Protractor.allowAnimations** - Control if animation is allowed on
+  the current underlying elements.
   
 ## Supported Protractor Locators
  
@@ -59,4 +61,3 @@ Not yet supported other methods:
 
 - **testForAngular**
 - **evaluate**
-- **allowAnimations**

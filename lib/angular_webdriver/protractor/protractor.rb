@@ -351,4 +351,17 @@ class Protractor
   def debugger
     executeScript_ client_side_scripts.install_in_browser, 'Protractor.debugger()'
   end
+
+  # Determine if animation is allowed on the current underlying elements.
+  # @param <Element> web_element - the web element to act upon
+  # @param <Boolean> value - turn on/off ng-animate animations.
+  #
+  # @example
+  # // Turns off ng-animate animations for all elements in the <body>
+  # element(by.css('body')).allowAnimations(false);
+  #
+  # @return <Boolean> whether animation is allowed.
+  def allowAnimations web_element, value=nil
+    executeScript_ client_side_scripts.allow_animations, 'Protractor.allow_animations()', web_element, value
+  end
 end

@@ -10,6 +10,14 @@ describe 'protractor_compatability' do
     protractor.ignore_sync = false
   end
 
+  it 'present? works on elements that do not exist' do
+    does_not_exist = element(by.binding('does not exist'))
+
+    # save 10 seconds by setting implicit wait to 0 before searching for
+    # an element we expect to not exist. see no_wait helper.
+    no_wait { expect(does_not_exist.present?).to eq(false) }
+  end
+
   it 'implicitly waits when using custom protractor locator' do
     # expect_no_element_error_nowait is used because it doesn't modify the wait
     # don't use expect_no_element_error. that will modify the wait.
