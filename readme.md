@@ -10,6 +10,9 @@ See the [docs](docs/) folder for the documentation.
 
 Tests run against protractor's [testapp](https://github.com/angular/protractor/blob/19b4bf21525a683c8cc3ba21018c194cac9b6426/testapp/index.html).
 
+The **latest** versions of Chrome and Firefox are required. The tests will
+not run on old versions.
+
 - `cd protractor/testapp; npm install`
 - `npm start` Test app will start on `http://localhost:8081/`
 
@@ -44,6 +47,28 @@ Alternatively, run from source:
 > node ./protractor/bin/protractor --elementExplorer --browser firefox --seleniumAddress http://127.0.0.1:4444/wd/hub
 >
 > browser.get('https://angularjs.org/')
+
+
+#### Run individual protractor test
+
+ - `cd protractor/; node lib/cli.js spec/basicConf.js`
+ 
+ Modify basicConf to target only the single spec.
+ 
+```
+specs: [
+  'basic/synchronize_spec.js'
+],
+```
+
+Modify environment.js to default to firefox.
+
+```
+'browserName':
+    (process.env.TEST_BROWSER_NAME || 'firefox'),
+```
+
+Make sure the test app is running.
 
 #### Installing node
 
