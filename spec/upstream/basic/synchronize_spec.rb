@@ -1,15 +1,6 @@
 # https://github.com/angular/protractor/blob/8743d5cdf4c6b1337f5a4bd376336911cf62b856/spec/basic/synchronize_spec.js
 require_relative '../../../spec/spec_helper'
 
-=begin
-
-<button ng-click="slowHttp()">
-
-requires adding () to the matcher
-
-$('[ng-click="slowHttp()"]')
-=end
-
 describe 'synchronizing with slow pages' do
   before(:each) { visit 'async' }
 
