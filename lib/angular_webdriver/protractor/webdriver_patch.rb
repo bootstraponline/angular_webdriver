@@ -27,6 +27,7 @@ module Selenium
     module Remote
       class Bridge
         attr_accessor :protractor
+        attr_reader :implicit_wait_seconds
 
         def is_protractor? how
           %w[binding].include? how
@@ -34,12 +35,12 @@ module Selenium
 
         # todo: attach protractor instance to selenium instead of using class methods
         def protractor_find(many, how, what, parent = nil)
-          result = nil
+          timeout = implicit_wait_seconds || 0
 
           # we have to waitForAngular here. unlike selenium locators,
           # protractor locators don't go through execute. execute uses
           # protractor.sync to run waitForAngular when finding elements.
-          protractor.waitForAngular
+          wait(timeout: timeout, bubble: true) { protractor.waitForAngular }
 
           case how
             when 'binding'
@@ -49,8 +50,21 @@ module Selenium
               args               = [binding_descriptor, false, using, root_selector]
               find_bindings_js   = protractor.client_side_scripts.find_bindings
               comment            = 'Protractor find by.binding()'
-              result             = protractor.executeScript_(find_bindings_js, comment, *args)
+              finder             = lambda { protractor.executeScript_(find_bindings_js, comment, *args) }
           end
+
+          result = []
+
+          # Ignore any exceptions here because find_elements returns
+          # an empty array when there are no values found, not an error.
+          ignore do
+            wait_true(timeout) do
+              result = finder.call
+              result.length > 0
+            end
+          end
+
+          result ||= []
 
           if many
             return result
@@ -110,18 +124,20 @@ module Selenium
 
         def execute(*args)
           raise 'Must initialize protractor' unless protractor
+          method_symbol = args.first
           unless protractor.ignore_sync
             # override get method which has special sync logic
             # (not handled via sync method)
-
-            method_symbol = args.first
-
             if method_symbol == :get
               url = args.last[:url]
               return protractor.get url
             end
 
             protractor.sync method_symbol
+          end
+
+          if method_symbol == :implicitlyWait
+            @implicit_wait_seconds = args.last[:ms].to_f / 1000
           end
 
           raw_execute(*args)['value']

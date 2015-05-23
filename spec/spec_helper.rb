@@ -26,7 +26,6 @@ def symbolize_keys(hash)
 end
 
 # -- Trace
-
 trace = false
 
 if trace
@@ -115,12 +114,33 @@ def no_such_element_error
   Selenium::WebDriver::Error::NoSuchElementError
 end
 
+# Sets implicit wait to 0 then expects on no_such_element_error and
+# finally restores implicit wait to default
 def expect_no_element_error &block
   driver.manage.timeouts.implicit_wait = 0
   expect { block.call }.to raise_error no_such_element_error
   driver.manage.timeouts.implicit_wait = implicit_wait_default
 end
 
+# Expects on no_such_element_error and does not modify implicit wait
+def expect_no_element_error_nowait &block
+  expect { block.call }.to raise_error no_such_element_error
+end
+
+# Sets the driver's implicit wait
+def set_wait timeout_seconds
+  driver.manage.timeouts.implicit_wait = timeout_seconds
+end
+
+# Expects block to raise error
 def expect_error &block
   expect { block.call }.to raise_error
+end
+
+# Returns time in seconds it took for the block to execute.
+def time_seconds &block
+  start = Time.now
+  block.call
+  elapsed = Time.now - start
+  elapsed.round
 end

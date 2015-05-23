@@ -14,13 +14,16 @@ Gem::Specification.new do |s|
   s.homepage      = 'https://github.com/bootstraponline/angular_webdriver'
   s.require_paths = ['lib']
 
-  s.add_runtime_dependency 'selenium-webdriver', '>= 2.45.0'
-  s.add_runtime_dependency 'watir-webdriver', '~> 0.7.0'
+  # The selenium-webdriver and watir-webdriver patches may require updating
+  # as the gems change. To ensure angular_webdriver continues to work
+  # exact versions of both are used.
+  s.add_runtime_dependency 'selenium-webdriver', '= 2.45.0'
+  s.add_runtime_dependency 'watir-webdriver', '= 0.7.0'
 
   s.add_development_dependency 'rspec', '>= 3.2.0'
   s.add_development_dependency 'appium_thor', '>= 0.0.7'
   s.add_development_dependency 'pry', '>= 0.10.1'
-  s.add_development_dependency 'webdriver_utils', '>= 0.0.3'
+  s.add_development_dependency 'webdriver_utils', '>= 0.0.4'
   s.add_development_dependency 'trace_files', '~> 0.0.2'
 
   s.files = `git ls-files -z`.split("\x0").reject do |f|
