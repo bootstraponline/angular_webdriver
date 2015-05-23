@@ -288,4 +288,17 @@ return (function (one, two, callback) {
     protractor.base_url = nil
     expect(protractor.base_url).to eq(nil)
   end
+
+  #
+  # note: allowAnimations is tested in upstream/basic/elements_spec
+  #       'should export an allowAnimations helper'
+  #
+
+  it 'testForAngular' do
+    # note this is a private method that is not and should not be used.
+    # maybe one day it'll be useful in the custom get logic if
+    # mocking support via injection is added.
+    expected = [false, 'retries looking for angular exceeded']
+    expect(protractor.send(:testForAngular, 1)).to eq(expected)
+  end
 end

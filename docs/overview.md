@@ -59,5 +59,4 @@ These locators are on the roadmap for implementation.
 
 Not yet supported other methods:
 
-- **testForAngular**
 - **evaluate**

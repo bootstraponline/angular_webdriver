@@ -364,4 +364,17 @@ class Protractor
   def allowAnimations web_element, value=nil
     executeScript_ client_side_scripts.allow_animations, 'Protractor.allow_animations()', web_element, value
   end
+
+  private
+
+  # @private
+  # Internal function only useful as part of Protractor's custom get logic
+  # which pauses then resumes the bootstrap. Currently not used at all.
+  #
+  # Do not use!
+  def testForAngular timeout_seconds=10
+    # [false, "retries looking for angular exceeded"]
+    # [false, "angular never provided resumeBootstrap"]
+    executeAsyncScript_ client_side_scripts.test_for_angular, 'Protractor.testForAngular', timeout_seconds
+  end
 end
