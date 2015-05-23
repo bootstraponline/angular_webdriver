@@ -35,6 +35,12 @@ module Selenium
         # todo: attach protractor instance to selenium instead of using class methods
         def protractor_find(many, how, what, parent = nil)
           result = nil
+
+          # we have to waitForAngular here. unlike selenium locators,
+          # protractor locators don't go through execute. execute uses
+          # protractor.sync to run waitForAngular when finding elements.
+          protractor.waitForAngular
+
           case how
             when 'binding'
               binding_descriptor = what
@@ -42,7 +48,8 @@ module Selenium
               root_selector      = protractor.root_element
               args               = [binding_descriptor, false, using, root_selector]
               find_bindings_js   = protractor.client_side_scripts.find_bindings
-              result             = executeScript(find_bindings_js, *args)
+              comment            = 'Protractor find by.binding()'
+              result             = protractor.executeScript_(find_bindings_js, comment, *args)
           end
 
           if many
