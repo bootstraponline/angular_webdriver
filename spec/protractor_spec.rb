@@ -16,58 +16,10 @@ browser.setLocation('async')
 
 describe 'Protractor' do
 
-  before(:all) do
-    # remote driver is useful for debugging
-    # @driver = Selenium::WebDriver.for :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
-    @driver = Selenium::WebDriver.for :firefox
-    raise 'Driver is nil!' unless driver
-
-    @driver.extend Selenium::WebDriver::DriverExtensions::HasTouchScreen
-    @driver.extend Selenium::WebDriver::DriverExtensions::HasLocation
-
-    # Must activate protractor before any driver commands
-    @protractor                           = Protractor.new driver: driver
-
-    # set script timeout for protractor client side javascript
-    # https://github.com/angular/protractor/issues/117
-    driver.manage.timeouts.script_timeout = 60 # seconds
-  end
-
-  after(:all) do
-    driver.quit rescue nil
-  end
-
-  before do
+  before(:each) do
     protractor.ignore_sync = false
     protractor.driver_get protractor.reset_url
     protractor.base_url = nil
-  end
-
-  # requires angular's test app to be running
-  def angular_website
-    'http://localhost:8081/#/'.freeze
-  end
-
-  def visit page=''
-    driver.get angular_website + page
-  end
-
-  def protractor
-    @protractor
-  end
-
-  def driver
-    @driver
-  end
-
-  def angular_not_found_error
-    error_class   = Selenium::WebDriver::Error::JavascriptError
-    error_message = /angular could not be found on the window/
-    [error_class, error_message]
-  end
-
-  def expect_equal actual, expected
-    expect(actual).to eq(expected)
   end
 
   it 'root_element' do
@@ -103,14 +55,6 @@ describe 'Protractor' do
     # should not raise error when loading blank page and ignore sync is true
     protractor.ignore_sync = true
     expect_no_error { driver.navigate.refresh }
-  end
-
-  def expect_angular_not_found &block
-    expect { block.call }.to raise_error(*angular_not_found_error)
-  end
-
-  def expect_no_error &block
-    expect { block.call }.to_not raise_error
   end
 
   it 'ignore_sync' do
