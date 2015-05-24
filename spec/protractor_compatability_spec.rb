@@ -13,12 +13,12 @@ describe 'protractor_compatability' do
   it 'present? works on elements that do not exist' do
     does_not_exist = element(by.binding('does not exist'))
 
-    # save 10 seconds by setting implicit wait to 0 before searching for
+    # save 10 seconds by setting client wait to 0 before searching for
     # an element we expect to not exist. see no_wait helper.
     no_wait { expect(does_not_exist.present?).to eq(false) }
   end
 
-  it 'implicitly waits when using custom protractor locator' do
+  it 'client waits when using custom protractor locator' do
     # expect_no_element_error_nowait is used because it doesn't modify the wait
     # don't use expect_no_element_error. that will modify the wait.
     does_not_exist = by.binding('does not exist')
@@ -26,21 +26,26 @@ describe 'protractor_compatability' do
     set_wait 0
     time = time_seconds { expect_no_element_error_nowait { element(does_not_exist).visible? } }
     expect_equal time, 0
+    expect_equal driver.wait_seconds, 0
 
     # find by all returns [] when there are no matches.
     time = time_seconds { expect_no_error { element.all(does_not_exist).to_a } }
     expect_equal time, 0
+    expect_equal driver.wait_seconds, 0
 
     set_wait 3
     time = time_seconds { expect_no_element_error_nowait { element(does_not_exist).visible? } }
     expect_equal time, 3
+    expect_equal driver.wait_seconds, 3
 
     # find by all returns [] when there are no matches.
     time= time_seconds { expect_no_error { element.all(does_not_exist).to_a } }
     expect_equal time, 3
+    expect_equal driver.wait_seconds, 3
 
-    # restore default implicit wait for use by remaining tests
-    set_wait implicit_wait_default
+    # restore default client wait for use by remaining tests
+    set_wait wait_seconds_default
+    expect_equal driver.wait_seconds, wait_seconds_default
   end
 
   describe 'element' do

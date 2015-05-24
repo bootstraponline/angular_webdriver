@@ -22,20 +22,49 @@ module Selenium
       def bridge
         @bridge
       end
+
+      #
+      # Sets the wait time in seconds used when locating elements and
+      # waiting for angular to load.
+      #
+      # @param value [Numeric] the amount of time to wait in seconds
+      #
+      # @return [Numeric] the wait time in seconds
+      #
+      def set_wait value
+        @bridge.set_wait value
+      end
+
+      #
+      # Returns the wait time in seconds used when locating elements and
+      # waiting for angular to load.
+      #
+      def wait_seconds
+        @bridge.wait_seconds
+      end
     end
 
     module Remote
       class Bridge
         attr_accessor :protractor
-        attr_reader :implicit_wait_seconds
+
+        def set_wait value
+          fail 'set_wait value must be a number' unless value.is_a?(Numeric)
+          # ensure no negative values
+          @wait_seconds = value >= 0 ? value : 0
+        end
+
+        def wait_seconds
+          # default to 0
+          @wait_seconds ||= 0
+        end
 
         def is_protractor? how
           %w[binding].include? how
         end
 
-        # todo: attach protractor instance to selenium instead of using class methods
         def protractor_find(many, how, what, parent = nil)
-          timeout = implicit_wait_seconds || 0
+          timeout = wait_seconds
 
           # we have to waitForAngular here. unlike selenium locators,
           # protractor locators don't go through execute. execute uses
@@ -115,6 +144,9 @@ module Selenium
           raw_execute(:get, {}, :url => url)['value']
         end
 
+        FIND_ELEMENT_METHODS  = [:findElement, :findChildElement].freeze
+        FIND_ELEMENTS_METHODS = [:findElements, :findChildElements].freeze
+
         #
         # executes a command on the remote server.
         #
@@ -136,11 +168,32 @@ module Selenium
             protractor.sync method_symbol
           end
 
-          if method_symbol == :implicitlyWait
-            @implicit_wait_seconds = args.last[:ms].to_f / 1000
-          end
+          timeout            = wait_seconds
+          finder             = lambda { raw_execute(*args)['value'] }
+          find_one_element   = FIND_ELEMENT_METHODS.include?(method_symbol)
+          find_many_elements = FIND_ELEMENTS_METHODS.include?(method_symbol)
 
-          raw_execute(*args)['value']
+          if find_one_element
+            wait(timeout: timeout, bubble: true) do
+              finder.call
+            end
+          elsif find_many_elements
+            result = []
+
+            # Ignore any exceptions here because find_elements returns
+            # an empty array when there are no values found, not an error.
+            ignore do
+              wait_true(timeout) do
+                result = finder.call
+                result.length > 0
+              end
+            end
+
+            result ||= []
+            result
+          else # all other commands
+            finder.call
+          end
         end
 
       end # class Bridge

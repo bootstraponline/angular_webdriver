@@ -57,9 +57,11 @@ RSpec.configure do |config|
     # https://github.com/angular/protractor/issues/117
     driver.manage.timeouts.script_timeout = 60 # seconds
 
+    raise 'incorrect driver wait seconds default' unless driver.wait_seconds == 0
+
     # sometimes elements just don't exist even though the page has loaded
-    # and wait for angular has succeeded. in these situations, use implicit wait.
-    driver.manage.timeouts.implicit_wait = implicit_wait_default # seconds
+    # and wait for angular has succeeded. in these situations, use client wait.
+    driver.set_wait wait_seconds_default # seconds
   end
 
   config.after(:all) do
@@ -67,7 +69,7 @@ RSpec.configure do |config|
   end
 end
 
-def implicit_wait_default
+def wait_seconds_default
   10
 end
 
@@ -114,28 +116,28 @@ def no_such_element_error
   Selenium::WebDriver::Error::NoSuchElementError
 end
 
-# Sets implicit wait to 0 then expects on no_such_element_error and
-# finally restores implicit wait to default
+# Sets client wait to 0 then expects on no_such_element_error and
+# finally restores client wait to default
 def expect_no_element_error &block
-  driver.manage.timeouts.implicit_wait = 0
+  driver.set_wait 0
   expect { block.call }.to raise_error no_such_element_error
-  driver.manage.timeouts.implicit_wait = implicit_wait_default
+  driver.set_wait wait_seconds_default
 end
 
 def no_wait &block
-  driver.manage.timeouts.implicit_wait = 0
+  driver.set_wait 0
   block.call
-  driver.manage.timeouts.implicit_wait = implicit_wait_default
+  driver.set_wait wait_seconds_default
 end
 
-# Expects on no_such_element_error and does not modify implicit wait
+# Expects on no_such_element_error and does not modify client wait
 def expect_no_element_error_nowait &block
   expect { block.call }.to raise_error no_such_element_error
 end
 
-# Sets the driver's implicit wait
+# Sets the driver's set_wait (client side client wait)
 def set_wait timeout_seconds
-  driver.manage.timeouts.implicit_wait = timeout_seconds
+  driver.set_wait timeout_seconds
 end
 
 # Expects block to raise error

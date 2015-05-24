@@ -15,7 +15,7 @@ describe 'ElementFinder' do
 
     expect(toggledNode.present?).to eq(true)
     element(by.id('checkbox')).click
-    # save 10 seconds by setting implicit wait to 0 before searching for
+    # save 10 seconds by setting client wait to 0 before searching for
     # an element we expect to not exist. see no_wait helper.
     no_wait { expect(toggledNode.present?).to eq(false) }
   end

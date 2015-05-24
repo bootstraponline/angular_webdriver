@@ -60,3 +60,13 @@ These locators are on the roadmap for implementation.
 Not yet supported other methods:
 
 - **evaluate**
+
+## Waiting
+
+Implicit waits are [unreliable](http://stackoverflow.com/questions/15164742/combining-implicit-wait-and-explicit-wait-together-results-in-unexpected-wait-ti#answer-15174978)
+due to being baked into the remote driver. Waiting in angular_webdriver has been
+reimplemented client side to avoid flakiness.
+ 
+**driver.set_wait(5)** - wait up to 5 seconds for an exception to not be raised
+                         when finding an element.
+**driver.wait_seconds** - The current wait amount (default 0) in seconds.
