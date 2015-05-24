@@ -55,12 +55,17 @@ RSpec.configure do |config|
 
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
-    driver.manage.timeouts.script_timeout = 60 # seconds
-
+    _60_seconds                           = 60
+    driver.manage.timeouts.script_timeout = _60_seconds
+    # some browsers are slow to load.
+    # https://github.com/angular/protractor/blob/6ebc4c3f8b557a56e53e0a1622d1b44b59f5bc04/spec/ciSmokeConf.js#L73
+    driver.manage.timeouts.page_load      = _60_seconds
     raise 'incorrect driver wait seconds default' unless driver.wait_seconds == 0
 
     # sometimes elements just don't exist even though the page has loaded
     # and wait for angular has succeeded. in these situations, use client wait.
+    #
+    # implicit wait shouldn't ever be used. client wait is a reliable replacement.
     driver.set_wait wait_seconds_default # seconds
   end
 
