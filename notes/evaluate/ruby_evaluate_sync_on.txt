@@ -1,0 +1,35 @@
+19:11:27.184 INFO - Done: [execute async script: /* Protractor.waitForAngular() */
+try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+19:11:27.190 INFO - Executing: [find element: By.id: checkboxes])
+19:11:27.289 INFO - Done: [find element: By.id: checkboxes]
+19:11:27.293 INFO - Executing: [execute script: /* Protractor.evaluate() */
+try { return (function (element, expression) {
+  return angular.element(element).scope().$eval(expression);
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [[[FirefoxDriver: firefox on MAC (3d7c9b89-3e07-474b-9a59-9a90dd0d8fc4)] -> id: checkboxes], show]])
+19:11:27.352 INFO - Done: [execute script: /* Protractor.evaluate() */
+try { return (function (element, expression) {
+  return angular.element(element).scope().$eval(expression);
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [[[FirefoxDriver: firefox on MAC (3d7c9b89-3e07-474b-9a59-9a90dd0d8fc4)] -> id: checkboxes], show]]

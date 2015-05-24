@@ -1,0 +1,60 @@
+
+
+19:04:49.004 INFO - Executing: [execute script: , []])
+19:04:49.036 INFO - Done: [execute script: , []]
+19:05:04.240 INFO - Executing: [execute script: , []])
+19:05:04.240 INFO - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+19:05:04.255 INFO - Done: [execute script: , []]
+19:05:04.318 INFO - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+19:05:04.336 INFO - Executing: [find elements: By.id: checkboxes])
+19:05:04.443 INFO - Done: [find elements: By.id: checkboxes]
+19:05:04.462 INFO - Executing: [execute script: try { return (function (element, expression) {
+  return angular.element(element).scope().$eval(expression);
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [[[FirefoxDriver: firefox on MAC (26afe35d-a29e-a549-b987-7a939847cc5e)] -> id: checkboxes], show]])
+19:05:04.491 INFO - Done: [execute script: try { return (function (element, expression) {
+  return angular.element(element).scope().$eval(expression);
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [[[FirefoxDriver: firefox on MAC (26afe35d-a29e-a549-b987-7a939847cc5e)] -> id: checkboxes], show]]
