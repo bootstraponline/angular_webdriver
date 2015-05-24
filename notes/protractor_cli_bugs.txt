@@ -35,3 +35,5 @@ base_url of 'http://localhost:8081/#/' doesn't work as expected because
 
 url.resolve(''http://localhost:8081/#/', 'async') becomes 'http://localhost:8081/async' instead of
 ''http://localhost:8081/#/async' when using the angular test app.
+
+'Evalute' typo in clientisdescripts.js

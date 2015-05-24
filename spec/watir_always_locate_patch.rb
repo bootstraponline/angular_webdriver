@@ -59,6 +59,17 @@ module Watir
       driver.protractor.allowAnimations @element, value
     end
 
+    # Evaluate an Angular expression as if it were on the scope
+    # of the current element.
+    #
+    # @param expression <String> The expression to evaluate.
+    #
+    # @return <Object> The result of the evaluation.
+    def evaluate expression
+      assert_exists
+      driver.protractor.evaluate @element, expression
+    end
+
     #
     # Returns true if the element exists and is visible on the page.
     #

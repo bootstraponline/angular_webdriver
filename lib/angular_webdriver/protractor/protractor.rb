@@ -365,6 +365,18 @@ class Protractor
     executeScript_ client_side_scripts.allow_animations, 'Protractor.allow_animations()', web_element, value
   end
 
+  # Evaluate an Angular expression as if it were on the scope
+  # of the given element.
+  #
+  # @param element <Element> The element in whose scope to evaluate.
+  # @param expression <String> The expression to evaluate.
+  #
+  # @return <Object> The result of the evaluation.
+  def evaluate element, expression
+    # angular.element(element).scope().$eval(expression);
+    executeScript_ client_side_scripts.evaluate, 'Protractor.evaluate()', element, expression
+  end
+
   private
 
   # @private

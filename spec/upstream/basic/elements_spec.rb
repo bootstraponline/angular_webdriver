@@ -7,7 +7,7 @@ describe 'ElementFinder' do
   it 'should export an allowAnimations helper' do
     visit 'animation'
     animationTop = element(by.id('animationTop'))
-    toggledNode = element(by.id('toggledNode'))
+    toggledNode  = element(by.id('toggledNode'))
 
     expect(animationTop.allowAnimations).to eq(true)
     animationTop.allowAnimations(false)
@@ -18,5 +18,14 @@ describe 'ElementFinder' do
     # save 10 seconds by setting client wait to 0 before searching for
     # an element we expect to not exist. see no_wait helper.
     no_wait { expect(toggledNode.present?).to eq(false) }
+  end
+end
+
+describe 'evaluating statements' do
+  it 'should evaluate statements in the context of an element' do
+    visit 'form'
+    checkboxElem = element(by.id('checkboxes'))
+
+    expect(checkboxElem.evaluate('show')).to eq(true)
   end
 end
