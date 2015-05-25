@@ -1,6 +1,10 @@
 require 'watir-webdriver'
 require 'watir-webdriver/elements/element'
 
+# match protractor semantics
+# unfortunately setting always locate doesn't always locate.
+Watir.always_locate = true
+
 #
 # This patch serves a few purposes. The first is matching Protractor semantics
 # of lazy finding elements and always relocating elements (ex: element.text)

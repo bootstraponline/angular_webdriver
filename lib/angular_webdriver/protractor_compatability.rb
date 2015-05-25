@@ -1,6 +1,9 @@
 # see protractor_compatability_spec for example usage
 # designed for use with watir-webdriver
 
+# todo: avoid global browser / @browser
+# todo: use module namespace for classes
+
 class ProtractorElement
   attr_accessor :watir
 
