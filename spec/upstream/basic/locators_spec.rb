@@ -6,6 +6,79 @@ describe 'locators' do
     visit 'form'
   end
 
+
+  describe 'by model' do
+    it 'should find an element by text input model' do
+      username = element(by.model('username'))
+      name     = element(by.binding('username'))
+
+      username.clear
+      expect(name.text).to eq('')
+
+      username.send_keys('Jane Doe')
+      expect(name.text).to eq('Jane Doe')
+    end
+
+    it 'should find an element by checkbox input model' do
+      expect(element(by.id('shower')).visible?).to eq(true)
+
+      element(by.model('show')).click
+
+      expect(element(by.id('shower')).visible?).to eq(false)
+    end
+
+    it 'should find a textarea by model' do
+      about = element(by.model('aboutbox'))
+      expect(about.value).to eq('This is a text box')
+
+      about.clear
+      about.send_keys('Something else to write about')
+
+      expect(about.value).to eq('Something else to write about')
+    end
+
+    it 'should find multiple selects by model' do
+      selects = element.all(by.model('dayColor.color')).to_a
+      expect(selects.length).to eq(3)
+    end
+
+    it 'should find the selected option' do
+      select         = element(by.model('fruit'))
+      selectedOption = select.element(by.css('option:checked'))
+      expect(selectedOption.text).to eq('apple')
+    end
+
+    it 'should find inputs with alternate attribute forms' do
+      letterList = element(by.id('letterlist'))
+      expect(letterList.text).to eq('')
+
+      element(by.model('check.w')).click
+      expect(letterList.text).to eq('w')
+
+      element(by.model('check.x')).click
+      expect(letterList.text).to eq('wx')
+    end
+
+    it 'should find multiple inputs' do
+      arr = element.all(by.model('color')).to_a
+      expect(arr.length).to eq(3)
+    end
+
+    it 'should clear text from an input model' do
+      username = element(by.model('username'))
+      name = element(by.binding('username'))
+
+      username.clear
+      expect(name.text).to eq('')
+
+      username.send_keys('Jane Doe')
+      expect(name.text).to eq('Jane Doe')
+
+      username.clear
+      expect(name.text).to eq('')
+    end
+  end
+
   describe 'by partial button text' do
     it 'should find multiple buttons containing "text"' do
       arr = element.all(by.partialButtonText('text')).to_a

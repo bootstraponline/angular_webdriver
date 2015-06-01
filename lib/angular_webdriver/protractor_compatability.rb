@@ -137,6 +137,22 @@ class By
     def buttonText search_text
       { buttonText: search_text }
     end
+
+    # Find an element by ng-model expression.
+    #
+    # @alias by.model(modelName)
+    # @view
+    # <input type="text" ng-model="person.name">
+    #
+    # @example
+    # var input = element(by.model('person.name'));
+    # input.sendKeys('123');
+    # expect(input.getAttribute('value')).toBe('Foo123');
+    #
+    # @param model_expression <String>  ng-model expression.
+    def model model_expression
+      { model: model_expression }
+    end
   end
 end
 

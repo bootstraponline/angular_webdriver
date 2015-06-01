@@ -65,6 +65,12 @@ module Watir
       driver.protractor.allowAnimations @element, value
     end
 
+    # Watir doesn't define a clear method on element so we have to provide one.
+    def clear
+      assert_exists
+      element_call { @element.clear }
+    end
+
     # Evaluate an Angular expression as if it were on the scope
     # of the current element.
     #
