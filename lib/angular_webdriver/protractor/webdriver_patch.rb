@@ -88,6 +88,10 @@ module Selenium
               model         = what
               args          = [model, using, root_selector]
               protractor_js = protractor.client_side_scripts.find_by_model
+            when 'options'
+              options_descriptor = what
+              args = [options_descriptor, using, root_selector]
+              protractor_js = protractor.client_side_scripts.find_by_options
           end
 
           finder = lambda { protractor.executeScript_(protractor_js, comment, *args) }

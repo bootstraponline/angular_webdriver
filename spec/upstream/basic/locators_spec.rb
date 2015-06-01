@@ -105,4 +105,14 @@ describe 'locators' do
       expect_equal arr.length, 0
     end
   end
+
+  describe 'by options' do
+    it 'should find elements by options' do
+      allOptions = element.all(by.options('fruit for fruit in fruits')).to_a
+      expect(allOptions.length).to eq(4)
+
+      firstOption = allOptions.first
+      expect(firstOption.text).to eq('apple')
+    end
+  end
 end

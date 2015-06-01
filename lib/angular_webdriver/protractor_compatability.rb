@@ -150,8 +150,30 @@ class By
     # expect(input.value).to eq('Foo123')
     #
     # @param model_expression <String>  ng-model expression.
+    # @return { model: model_expression }
     def model model_expression
       { model: model_expression }
+    end
+
+    #  Find an element by ng-options expression.
+    #
+    #  @alias by.options(optionsDescriptor)
+    #  @view
+    #  <select ng-model="color" ng-options="c for c in colors">
+    #    <option value="0" selected="selected">red</option>
+    #    <option value="1">green</option>
+    #  </select>
+    #
+    #  @example
+    #  allOptions = element.all(by.options('c for c in colors')).to_a
+    #  expect(allOptions.length).to eq(2);
+    #  firstOption = allOptions.first
+    #  expect(firstOption.text).to eq('red')
+    #
+    #  @param options_descriptor <String> ng-options expression.
+    #  @return { options: options_descriptor }
+    def options options_descriptor
+      { options: options_descriptor }
     end
   end
 end
