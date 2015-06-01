@@ -91,20 +91,20 @@ class By
     #  <span ng-bind="person.email"></span>
     #
     #  @example
-    #  var span1 = element(by.binding('person.name'));
-    #  expect(span1.getText()).toBe('Foo');
+    #  span1 = element(by.binding('person.name'))
+    #  expect(span1.text).to eq('Foo')
     #
-    #  var span2 = element(by.binding('person.email'));
-    #  expect(span2.getText()).toBe('foo@bar.com');
+    #  span2 = element(by.binding('person.email'))
+    #  expect(span2.text.to eq('foo@bar.com')
     #
-    #  // You can also use a substring for a partial match
-    #  var span1alt = element(by.binding('name'));
-    #  expect(span1alt.getText()).toBe('Foo');
+    #  # You can also use a substring for a partial match
+    #  span1alt = element(by.binding('name'))
+    #  expect(span1alt.text).to eq('Foo')
     #
-    #  // This works for sites using Angular 1.2 but NOT 1.3
-    #  var deprecatedSyntax = element(by.binding('{{person.name}}'));
+    #  # This works for sites using Angular 1.2 but NOT 1.3
+    #  deprecatedSyntax = element(by.binding('{{person.name}}'))
     #
-    #  @param {string} binding_descriptor
+    #  @param binding_descriptor <String>
     #  @return { binding: binding_descriptor }
     def binding binding_descriptor
       { binding: binding_descriptor }
@@ -116,7 +116,7 @@ class By
     # <button>Save my file</button>
     #
     # @example
-    # element(by.partialButtonText('Save'));
+    # element(by.partialButtonText('Save'))
     #
     # @param search_text <String>
     # @return { partialButtonText: search_text }
@@ -130,7 +130,7 @@ class By
     # <button>Save</button>
     #
     # @example
-    # element(by.buttonText('Save'));
+    # element(by.buttonText('Save'))
     #
     # @param search_text <String>
     # @return {buttonText: search_text }
@@ -145,9 +145,9 @@ class By
     # <input type="text" ng-model="person.name">
     #
     # @example
-    # var input = element(by.model('person.name'));
-    # input.sendKeys('123');
-    # expect(input.getAttribute('value')).toBe('Foo123');
+    # input = element(by.model('person.name'))
+    # input.send_keys('123')
+    # expect(input.value).to eq('Foo123')
     #
     # @param model_expression <String>  ng-model expression.
     def model model_expression
