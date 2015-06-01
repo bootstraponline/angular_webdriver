@@ -66,7 +66,7 @@ describe 'locators' do
 
     it 'should clear text from an input model' do
       username = element(by.model('username'))
-      name = element(by.binding('username'))
+      name     = element(by.binding('username'))
 
       username.clear
       expect(name.text).to eq('')
@@ -103,6 +103,22 @@ describe 'locators' do
       # we expect this not to find anything so temp set client max wait to 0
       arr = no_wait { element.all(by.buttonText('text')).to_a }
       expect_equal arr.length, 0
+    end
+  end
+
+  describe 'by css containing text' do
+    it 'should find elements by css and partial text' do
+      arr = element.all(by.cssContainingText('#animals ul .pet', 'dog')).to_a
+      expect(arr.length).to eq(2)
+      expect(arr[0].id).to eq('bigdog')
+      expect(arr[1].id).to eq('smalldog')
+    end
+
+    it 'should find elements with text-transform style' do
+      selector = '#transformedtext div'
+      expect(element(by.cssContainingText(selector, 'Uppercase')).id).to eq('textuppercase')
+      expect(element(by.cssContainingText(selector, 'Lowercase')).id).to eq('textlowercase')
+      expect(element(by.cssContainingText(selector, 'capitalize')).id).to eq('textcapitalize')
     end
   end
 

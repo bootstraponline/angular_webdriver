@@ -319,6 +319,12 @@ return (function (one, two, callback) {
     end
   end
 
+  it 'watir valid whats are not modified' do
+    expected_whats = [String, Regexp]
+    actual_whats   = Watir::ElementLocator::VALID_WHATS
+    expect_equal actual_whats, expected_whats
+  end
+
   it 'gets attribute from element in watir element array' do
     visit 'async'
     expect_no_error { element.all(by.tag_name('html')).to_a[0].value }

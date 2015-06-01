@@ -175,6 +175,25 @@ class By
     def options options_descriptor
       { options: options_descriptor }
     end
+
+    #  Find elements by CSS which contain a certain string.
+    #
+    #  @view
+    #  <ul>
+    #    <li class="pet">Dog</li>
+    #    <li class="pet">Cat</li>
+    #  </ul>
+    #
+    #  @example
+    #  # Returns the li for the dog, but not cat.
+    #  dog = element(by.cssContainingText('.pet', 'Dog'))
+    # @return { cssContainingText: { cssSelector: css_selector, searchText: search_text } }
+    def cssContainingText css_selector, search_text
+      # the "what" must be a string or watir will complain it's not a valid what.
+      # even if watir is patched to accept hashes, the what will be converted
+      # to a string by the time it's seen by selenium webdriver.
+      { cssContainingText: { cssSelector: css_selector, searchText: search_text }.to_json }
+    end
   end
 end
 

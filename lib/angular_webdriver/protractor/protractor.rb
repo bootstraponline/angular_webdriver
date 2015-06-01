@@ -7,7 +7,14 @@ require_relative 'client_side_scripts'
 
 class Protractor
 
-  NEW_FINDERS_KEYS = %i(binding partialButtonText buttonText model options).freeze # [:binding]
+  NEW_FINDERS_KEYS = %i(
+    binding
+    partialButtonText
+    buttonText
+    model
+    options
+    cssContainingText
+  ).freeze # [:binding]
   NEW_FINDERS_HASH = NEW_FINDERS_KEYS.map { |e| [e, e.to_s] }.to_h.freeze # {binding: 'binding'}
 
   # Return true if given finder is a protractor finder.

@@ -90,8 +90,14 @@ module Selenium
               protractor_js = protractor.client_side_scripts.find_by_model
             when 'options'
               options_descriptor = what
-              args = [options_descriptor, using, root_selector]
-              protractor_js = protractor.client_side_scripts.find_by_options
+              args               = [options_descriptor, using, root_selector]
+              protractor_js      = protractor.client_side_scripts.find_by_options
+            when 'cssContainingText'
+              json          = JSON.parse what
+              css_selector  = json['cssSelector']
+              search_text   = json['searchText']
+              args          = [css_selector, search_text, using, root_selector]
+              protractor_js = protractor.client_side_scripts.find_by_css_containing_text
           end
 
           finder = lambda { protractor.executeScript_(protractor_js, comment, *args) }
