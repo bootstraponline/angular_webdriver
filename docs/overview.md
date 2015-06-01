@@ -34,7 +34,9 @@ Features supported:
   window.clientSideScripts for debugging.
 - **Protractor.allowAnimations** - Control if animation is allowed on
   the current underlying elements.
-  
+- **element.evaluate** - Evaluate an Angular expression as if it were on the scope
+  of the given element.
+
 ## Protractor semantics
   
 The `by` syntax, such as `by.binding`, lazily finds elements.
@@ -76,10 +78,6 @@ These locators are on the roadmap for implementation.
 - **findByOptions**
 - **findByButtonText**
 - **findByCssContainingText**
-
-Not yet supported other methods:
-
-- **evaluate**
 
 ## Waiting
 
