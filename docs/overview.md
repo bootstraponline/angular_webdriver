@@ -39,9 +39,13 @@ Features supported:
  
 Note these work the same as standard locators.
 You can find a single element (find_element), multiple elements (find_elements),
-and the finders are chainable (finding elements from a parent element).
+and the finders are chainable (finding elements from a parent element). The protractor syntax
+(element/element.all) is also available as an alternative to find_element/find_elements.
 
-- **binding** - `driver.find_element(:binding, 'slowHttpStatus')`
+Locator                     | Protractor                                       | WebDriver
+                        --- |                                              --- | ---
+**binding**                 | `element(by.binding('slowHttpStatus'))`          | `driver.find_element(:binding, 'slowHttpStatus')`  
+**findByPartialButtonText** | `element.all(by.partialButtonText('text')).to_a` | `driver.find_elements(:findByPartialButtonText, 'slowHttpStatus')`
 
 ## Unsupported Protractor Locators
 
@@ -54,7 +58,6 @@ These locators are on the roadmap for implementation.
 - **findByModel**
 - **findByOptions**
 - **findByButtonText**
-- **findByPartialButtonText**
 - **findByCssContainingText**
 
 Not yet supported other methods:

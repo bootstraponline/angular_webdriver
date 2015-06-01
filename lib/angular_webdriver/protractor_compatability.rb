@@ -76,10 +76,52 @@ class By
 
     #
     # Protractor locators
+    # See protractor/lib/locators.js
     #
 
-    def binding what
-      { binding: what }
+    #  Find an element by binding. Does a partial match, so any elements bound to
+    #  variables containing the input string will be returned.
+    #
+    #  Note: For AngularJS version 1.2, the interpolation brackets, usually {{}},
+    #  are allowed in the binding description string. For Angular version 1.3, they
+    #  are not allowed, and no elements will be found if they are used.
+    #
+    #  @view
+    #  <span>{{person.name}}</span>
+    #  <span ng-bind="person.email"></span>
+    #
+    #  @example
+    #  var span1 = element(by.binding('person.name'));
+    #  expect(span1.getText()).toBe('Foo');
+    #
+    #  var span2 = element(by.binding('person.email'));
+    #  expect(span2.getText()).toBe('foo@bar.com');
+    #
+    #  // You can also use a substring for a partial match
+    #  var span1alt = element(by.binding('name'));
+    #  expect(span1alt.getText()).toBe('Foo');
+    #
+    #  // This works for sites using Angular 1.2 but NOT 1.3
+    #  var deprecatedSyntax = element(by.binding('{{person.name}}'));
+    #
+    #  @param {string} binding_descriptor
+    #  @return { binding: binding_descriptor }
+    def binding binding_descriptor
+      { binding: binding_descriptor }
+    end
+
+    # Find a button by partial text.
+    #
+    # @view
+    # <button>Save my file</button>
+    #
+    # @example
+    # element(by.partialButtonText('Save'));
+    #
+    # @param {string} search_text
+    # @return { partialButtonText: search_text }
+    def partialButtonText search_text
+      { partialButtonText: search_text }
     end
   end
 end

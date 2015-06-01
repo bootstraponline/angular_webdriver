@@ -1,6 +1,8 @@
 require 'watir-webdriver'
 require 'watir-webdriver/elements/element'
 
+require_relative 'protractor'
+
 # match protractor semantics
 # unfortunately setting always locate doesn't always locate.
 Watir.always_locate = true
@@ -124,6 +126,13 @@ module Watir
 
     # always raise element not found / stale reference error
     def locate
+      # element.all(by.partialButtonText('text')).to_a[0].value creates the
+      # selector {:element=>#<Selenium::WebDriver::Element ...>}
+      # in that case we've already located the element.
+      #
+      # see 'should find multiple buttons containing "text"' in locators_spec.rb
+      return @selector[:element] if @selector.is_a?(Hash) && @selector[:element].is_a?(Selenium::WebDriver::Element)
+
       e = by_id and return e # short-circuit if :id is given
 
       if @selector.size == 1
@@ -140,5 +149,3 @@ module Watir
     end
   end
 end
-
-Watir::ElementLocator::WD_FINDERS << :binding

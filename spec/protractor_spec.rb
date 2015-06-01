@@ -301,4 +301,26 @@ return (function (one, two, callback) {
     expected = [false, 'retries looking for angular exceeded']
     expect(protractor.send(:testForAngular, 1)).to eq(expected)
   end
+
+  it 'adds protractor finders to webdriver and watir' do
+    watir_finders            = Watir::ElementLocator::WD_FINDERS
+    protractor_watir_finders = Protractor::NEW_FINDERS_KEYS
+
+    protractor_watir_finders.each do |protractor_finder|
+      watir_includes_protractor_finder = watir_finders.include? protractor_finder
+      expect_equal watir_includes_protractor_finder, true
+    end
+
+    webdriver_finders            = Selenium::WebDriver::SearchContext::FINDERS
+    protractor_webdriver_finders = Protractor::NEW_FINDERS_HASH
+
+    protractor_webdriver_finders.keys.each do |key|
+      expect_equal webdriver_finders[key], protractor_webdriver_finders[key]
+    end
+  end
+
+  it 'gets attribute from element in watir element array' do
+    visit 'async'
+    expect_no_error { element.all(by.tag_name('html')).to_a[0].value }
+  end
 end

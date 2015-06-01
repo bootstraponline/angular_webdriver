@@ -6,6 +6,19 @@ require_relative 'webdriver_patch'
 require_relative 'client_side_scripts'
 
 class Protractor
+
+  NEW_FINDERS_HASH = { binding: 'binding', partialButtonText: 'partialButtonText' }.freeze
+  NEW_FINDERS_KEYS = NEW_FINDERS_HASH.keys.freeze
+
+  # Return true if given finder is a protractor finder.
+  #
+  # @param finder_name [Symbol|String] the name of the finder
+  #
+  # @return [boolean]
+  def finder? finder_name
+    NEW_FINDERS_KEYS.include? finder_name.intern
+  end
+
   # code/comments from protractor/lib/protractor.js
 
   # The css selector for an element on which to find Angular. This is usually
@@ -191,6 +204,17 @@ class Protractor
 
     watir   = defined?(Watir::Browser) && @driver.is_a?(Watir::Browser)
     @driver = watir ? @driver.driver : @driver
+
+    unless Selenium::WebDriver::SearchContext::FINDERS.keys.include?(NEW_FINDERS_KEYS)
+      Selenium::WebDriver::SearchContext::FINDERS.merge!(NEW_FINDERS_HASH)
+    end
+
+    unless Watir::ElementLocator::WD_FINDERS.include? NEW_FINDERS_KEYS
+      old = Watir::ElementLocator::WD_FINDERS
+      # avoid const redefinition warning
+      Watir::ElementLocator.send :remove_const, :WD_FINDERS
+      Watir::ElementLocator.send :const_set, :WD_FINDERS, old + NEW_FINDERS_KEYS
+    end
 
     @driver.protractor = self
 

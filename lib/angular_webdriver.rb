@@ -1,4 +1,4 @@
 require_relative 'angular_webdriver/version'
 require_relative 'angular_webdriver/protractor/protractor'
 require_relative 'angular_webdriver/protractor_compatability'
-require_relative 'angular_webdriver/watir_always_locate_patch'
+require_relative 'angular_webdriver/protractor/watir_patch'

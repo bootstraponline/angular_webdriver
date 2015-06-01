@@ -8,7 +8,6 @@ require 'selenium/webdriver/remote/bridge'
 
 module Selenium
   module WebDriver
-    SearchContext::FINDERS[:binding] = 'binding'
 
     class Driver
       def protractor
@@ -59,10 +58,6 @@ module Selenium
           @wait_seconds ||= 0
         end
 
-        def is_protractor? how
-          %w[binding].include? how
-        end
-
         def protractor_find(many, how, what, parent = nil)
           timeout = wait_seconds
 
@@ -71,16 +66,23 @@ module Selenium
           # protractor.sync to run waitForAngular when finding elements.
           wait(timeout: timeout, bubble: true) { protractor.waitForAngular }
 
+          using         = parent ? parent : false
+          root_selector = protractor.root_element
+          comment       = "Protractor find by.#{how}"
+
+          # args order from locators.js
           case how
             when 'binding'
               binding_descriptor = what
-              using              = parent ? parent : false
-              root_selector      = protractor.root_element
               args               = [binding_descriptor, false, using, root_selector]
-              find_bindings_js   = protractor.client_side_scripts.find_bindings
-              comment            = 'Protractor find by.binding()'
-              finder             = lambda { protractor.executeScript_(find_bindings_js, comment, *args) }
+              protractor_js      = protractor.client_side_scripts.find_bindings
+            when 'partialButtonText'
+              search_text   = what
+              args          = [search_text, using, root_selector]
+              protractor_js = protractor.client_side_scripts.find_by_partial_button_text
           end
+
+          finder = lambda { protractor.executeScript_(protractor_js, comment, *args) }
 
           result = []
 
@@ -105,7 +107,7 @@ module Selenium
         end
 
         def find_element_by(how, what, parent = nil)
-          if is_protractor? how
+          if protractor.finder? how
             return protractor_find(false, how, what, parent)
           end
 
@@ -119,7 +121,7 @@ module Selenium
         end
 
         def find_elements_by(how, what, parent = nil)
-          if is_protractor? how
+          if protractor.finder? how
             return protractor_find(true, how, what, parent)
           end
 
