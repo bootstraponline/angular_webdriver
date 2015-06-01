@@ -1,4 +1,5 @@
 require_relative 'angular_webdriver/version'
 require_relative 'angular_webdriver/protractor/protractor'
-require_relative 'angular_webdriver/protractor_compatability'
+require_relative 'angular_webdriver/protractor/protractor_element'
+require_relative 'angular_webdriver/protractor/by'
 require_relative 'angular_webdriver/protractor/watir_patch'

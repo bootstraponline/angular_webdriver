@@ -68,8 +68,7 @@ Locator                     | Protractor                                       |
 **findByButtonText**        | `element.all(by.buttonText('Exact text')).to_a`  | `driver.find_elements(:buttonText, 'Exact text')`
 **findByModel**             | `element(by.model('username'))`                  | `driver.find_element(:model, 'username')`
 **findByOptions**           | `element.all(by.options('fruit')).to_a`          | `driver.find_elements(:options, 'fruit')`
-**findByCssContainingText** | `element.all(by.cssContainingText('#animals ul .pet', 'dog')).to_a` | `
-driver.find_elements(:cssContainingText, { cssSelector: '#animals ul .pet', searchText: 'dog' }.to_json)`
+**findByCssContainingText** | `element.all(by.cssContainingText('#animals ul .pet', 'dog')).to_a` | `driver.find_elements(:cssContainingText, { cssSelector: '#animals ul .pet', searchText: 'dog' }.to_json)`
 
 ## Unsupported Protractor Locators
 
