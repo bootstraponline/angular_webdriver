@@ -13,9 +13,9 @@ end
 # Sets client wait to 0 then expects on no_such_element_error and
 # finally restores client wait to default
 def expect_no_element_error &block
-  driver.set_wait 0
+  driver.set_max_wait 0
   expect { block.call }.to raise_error no_such_element_error
-  driver.set_wait wait_seconds_default
+  driver.set_max_wait max_wait_seconds_default
 end
 
 # Expects on no_such_element_error and does not modify client wait

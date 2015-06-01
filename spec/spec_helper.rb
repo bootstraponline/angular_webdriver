@@ -35,13 +35,13 @@ RSpec.configure do |config|
     # some browsers are slow to load.
     # https://github.com/angular/protractor/blob/6ebc4c3f8b557a56e53e0a1622d1b44b59f5bc04/spec/ciSmokeConf.js#L73
     driver.manage.timeouts.page_load      = _60_seconds
-    raise 'incorrect driver wait seconds default' unless driver.wait_seconds == 0
+    raise 'incorrect driver wait seconds default' unless driver.max_wait_seconds == 0
 
     # sometimes elements just don't exist even though the page has loaded
     # and wait for angular has succeeded. in these situations, use client wait.
     #
     # implicit wait shouldn't ever be used. client wait is a reliable replacement.
-    driver.set_wait wait_seconds_default # seconds
+    driver.set_max_wait max_wait_seconds_default # seconds
   end
 
   config.after(:all) do

@@ -23,29 +23,29 @@ describe 'protractor_compatability' do
     # don't use expect_no_element_error. that will modify the wait.
     does_not_exist = by.binding('does not exist')
 
-    set_wait 0
+    set_max_wait 0
     time = time_seconds { expect_no_element_error_nowait { element(does_not_exist).visible? } }
     expect_equal time, 0
-    expect_equal driver.wait_seconds, 0
+    expect_equal driver.max_wait_seconds, 0
 
     # find by all returns [] when there are no matches.
     time = time_seconds { expect_no_error { element.all(does_not_exist).to_a } }
     expect_equal time, 0
-    expect_equal driver.wait_seconds, 0
+    expect_equal driver.max_wait_seconds, 0
 
-    set_wait 3
+    set_max_wait 3
     time = time_seconds { expect_no_element_error_nowait { element(does_not_exist).visible? } }
     expect_equal time, 3
-    expect_equal driver.wait_seconds, 3
+    expect_equal driver.max_wait_seconds, 3
 
     # find by all returns [] when there are no matches.
     time= time_seconds { expect_no_error { element.all(does_not_exist).to_a } }
     expect_equal time, 3
-    expect_equal driver.wait_seconds, 3
+    expect_equal driver.max_wait_seconds, 3
 
     # restore default client wait for use by remaining tests
-    set_wait wait_seconds_default
-    expect_equal driver.wait_seconds, wait_seconds_default
+    set_max_wait max_wait_seconds_default
+    expect_equal driver.max_wait_seconds, max_wait_seconds_default
   end
 
   describe 'element' do

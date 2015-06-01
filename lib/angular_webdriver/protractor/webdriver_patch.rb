@@ -30,16 +30,16 @@ module Selenium
       #
       # @return [Numeric] the wait time in seconds
       #
-      def set_wait value
-        @bridge.set_wait value
+      def set_max_wait value
+        @bridge.set_max_wait value
       end
 
       #
       # Returns the wait time in seconds used when locating elements and
       # waiting for angular to load.
       #
-      def wait_seconds
-        @bridge.wait_seconds
+      def max_wait_seconds
+        @bridge.max_wait_seconds
       end
     end
 
@@ -47,19 +47,19 @@ module Selenium
       class Bridge
         attr_accessor :protractor
 
-        def set_wait value
-          fail 'set_wait value must be a number' unless value.is_a?(Numeric)
+        def set_max_wait value
+          fail 'set_max_wait value must be a number' unless value.is_a?(Numeric)
           # ensure no negative values
-          @wait_seconds = value >= 0 ? value : 0
+          @max_wait_seconds = value >= 0 ? value : 0
         end
 
-        def wait_seconds
+        def max_wait_seconds
           # default to 0
-          @wait_seconds ||= 0
+          @max_wait_seconds ||= 0
         end
 
         def protractor_find(many, how, what, parent = nil)
-          timeout = wait_seconds
+          timeout = max_wait_seconds
 
           # we have to waitForAngular here. unlike selenium locators,
           # protractor locators don't go through execute. execute uses
@@ -170,7 +170,7 @@ module Selenium
             protractor.sync method_symbol
           end
 
-          timeout            = wait_seconds
+          timeout            = max_wait_seconds
           finder             = lambda { raw_execute(*args)['value'] }
           find_one_element   = FIND_ELEMENT_METHODS.include?(method_symbol)
           find_many_elements = FIND_ELEMENTS_METHODS.include?(method_symbol)

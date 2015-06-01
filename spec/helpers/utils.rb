@@ -1,4 +1,4 @@
-def wait_seconds_default
+def max_wait_seconds_default
   10
 end
 
@@ -24,14 +24,14 @@ def driver
 end
 
 def no_wait &block
-  driver.set_wait 0
+  driver.set_max_wait 0
   block.call
-  driver.set_wait wait_seconds_default
+  driver.set_max_wait max_wait_seconds_default
 end
 
-# Sets the driver's set_wait (client side client wait)
-def set_wait timeout_seconds
-  driver.set_wait timeout_seconds
+# Sets the driver's set_max_wait (client side client wait)
+def set_max_wait timeout_seconds
+  driver.set_max_wait timeout_seconds
 end
 
 # Returns time in seconds it took for the block to execute.

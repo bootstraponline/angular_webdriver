@@ -85,6 +85,6 @@ Implicit waits are [unreliable](http://stackoverflow.com/questions/15164742/comb
 due to being baked into the remote driver. Waiting in angular_webdriver has been
 reimplemented client side to avoid flakiness.
  
-**driver.set_wait(5)** - wait up to 5 seconds for an exception to not be raised
+**driver.set_max_wait(5)** - wait up to 5 seconds for an exception to not be raised
                          when finding an element.
-**driver.wait_seconds** - The current wait amount (default 0) in seconds.
+**driver.max_wait_seconds** - The max wait amount (default 0) in seconds.
