@@ -118,10 +118,24 @@ class By
     # @example
     # element(by.partialButtonText('Save'));
     #
-    # @param {string} search_text
+    # @param search_text <String>
     # @return { partialButtonText: search_text }
     def partialButtonText search_text
       { partialButtonText: search_text }
+    end
+
+    # Find a button by text.
+    #
+    # @view
+    # <button>Save</button>
+    #
+    # @example
+    # element(by.buttonText('Save'));
+    #
+    # @param search_text <String>
+    # @return {buttonText: search_text }
+    def buttonText search_text
+      { buttonText: search_text }
     end
   end
 end

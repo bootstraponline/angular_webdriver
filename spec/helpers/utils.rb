@@ -25,8 +25,9 @@ end
 
 def no_wait &block
   driver.set_max_wait 0
-  block.call
+  result = block.call
   driver.set_max_wait max_wait_seconds_default
+  result
 end
 
 # Sets the driver's set_max_wait (client side client wait)

@@ -65,6 +65,7 @@ Locator                     | Protractor                                       |
                         --- |                                              --- | ---
 **binding**                 | `element(by.binding('slowHttpStatus')).locate`   | `driver.find_element(:binding, 'slowHttpStatus')`  
 **findByPartialButtonText** | `element.all(by.partialButtonText('text')).to_a` | `driver.find_elements(:findByPartialButtonText, 'slowHttpStatus')`
+**findByButtonText**        | `element.all(by.buttonText('Exact text')).to_a`  | `driver.find_elements(:buttonText, 'Exact text')`
 
 ## Unsupported Protractor Locators
 
@@ -76,7 +77,6 @@ These locators are on the roadmap for implementation.
 - **findRepeaterColumn**
 - **findByModel**
 - **findByOptions**
-- **findByButtonText**
 - **findByCssContainingText**
 
 ## Waiting

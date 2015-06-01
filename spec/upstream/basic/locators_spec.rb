@@ -16,4 +16,20 @@ describe 'locators' do
       expect(arr[3].id).to eq('inputbutton')
     end
   end
+
+  describe 'by button text' do
+    it 'should find two button containing "Exact text"' do
+      arr = element.all(by.buttonText('Exact text')).to_a
+      expect_equal arr.length, 2
+      expect_equal arr[0].id, 'exacttext'
+      expect_equal arr[1].id, 'submitbutton'
+
+    end
+
+    it 'should not find any buttons containing "text"' do
+      # we expect this not to find anything so temp set client max wait to 0
+      arr = no_wait { element.all(by.buttonText('text')).to_a }
+      expect_equal arr.length, 0
+    end
+  end
 end

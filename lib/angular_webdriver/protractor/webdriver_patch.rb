@@ -80,6 +80,10 @@ module Selenium
               search_text   = what
               args          = [search_text, using, root_selector]
               protractor_js = protractor.client_side_scripts.find_by_partial_button_text
+            when 'buttonText'
+              search_text   = what
+              args          = [search_text, using, root_selector]
+              protractor_js = protractor.client_side_scripts.find_by_button_text
           end
 
           finder = lambda { protractor.executeScript_(protractor_js, comment, *args) }
