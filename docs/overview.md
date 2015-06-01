@@ -35,6 +35,23 @@ Features supported:
 - **Protractor.allowAnimations** - Control if animation is allowed on
   the current underlying elements.
   
+## Protractor semantics
+  
+The `by` syntax, such as `by.binding`, lazily finds elements.
+ 
+- `element(by.binding('slowHttpStatus'))` - This will not locate the element until
+the element is used (such as calling .value or explicitly invoking .locate)
+- `element.all(by.partialButtonText('text'))` - This will not locate the elements
+until `.to_a` is invoked.
+
+In addition to lazy locating, elements are always rediscovered. element.value
+will always first find the element and then get the value. The reason elements
+are rediscovered each time instead of cached is that Protrator relies on running
+waitForAngular before certain webdriver commands. For elements, the sync behavior
+is triggered when we find an element. If we didn't always rediscover elements then
+the element.value method wouldn't trigger a waitForAngular call and the page 
+could still be processing angular logic.
+  
 ## Supported Protractor Locators
  
 Note these work the same as standard locators.
@@ -44,7 +61,7 @@ and the finders are chainable (finding elements from a parent element). The prot
 
 Locator                     | Protractor                                       | WebDriver
                         --- |                                              --- | ---
-**binding**                 | `element(by.binding('slowHttpStatus'))`          | `driver.find_element(:binding, 'slowHttpStatus')`  
+**binding**                 | `element(by.binding('slowHttpStatus')).locate`   | `driver.find_element(:binding, 'slowHttpStatus')`  
 **findByPartialButtonText** | `element.all(by.partialButtonText('text')).to_a` | `driver.find_elements(:findByPartialButtonText, 'slowHttpStatus')`
 
 ## Unsupported Protractor Locators

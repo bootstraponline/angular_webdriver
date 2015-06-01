@@ -14,7 +14,10 @@ remains available however it's not recommended for use.
 
 `waitForAngular` is protractor's second method for syncing with Angular.
 `waitForAngular` is automatically invoked before selected webdriver commands
-to eliminate the need for waits.
+to eliminate the need for waits. Any command that interacts with an element,
+such as element.value, will cause that element to be located again. When an
+element is requested to be located, the `waitForAngular` command is 
+run before locating the element.
 
 The following webdriver commands execute `waitForAngular` before running.
 The single exception is `get`, in that case `waitForAngular` executes after
