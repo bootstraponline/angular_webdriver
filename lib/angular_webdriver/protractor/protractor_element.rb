@@ -2,23 +2,24 @@
 # designed for use with watir-webdriver
 
 # todo: avoid global browser / @browser
-# todo: use module namespace for classes
 
-class ProtractorElement
-  attr_accessor :watir
+module AngularWebdriver
+  class ProtractorElement
+    attr_accessor :watir
 
-  def initialize watir
-    @watir = watir
-  end
+    def initialize watir
+      @watir = watir
+    end
 
-  # @return Watir::HTMLElementCollection
-  def all *args
-    watir.elements *args
+    # @return Watir::HTMLElementCollection
+    def all *args
+      watir.elements *args
+    end
   end
 end
 
 def protractor_element
-  @pelement ||= ProtractorElement.new @browser
+  @pelement ||= AngularWebdriver::ProtractorElement.new @browser
 end
 
 # @return Watir::HTMLElement

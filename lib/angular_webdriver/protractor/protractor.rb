@@ -1,9 +1,4 @@
-require 'rubygems'
-require 'selenium-webdriver'
 require 'selenium/webdriver/common/error'
-
-require_relative 'webdriver_patch'
-require_relative 'client_side_scripts'
 
 class Protractor
 
@@ -14,6 +9,7 @@ class Protractor
     model
     options
     cssContainingText
+    repeater
   ).freeze # [:binding]
   NEW_FINDERS_HASH = NEW_FINDERS_KEYS.map { |e| [e, e.to_s] }.to_h.freeze # {binding: 'binding'}
 

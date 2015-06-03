@@ -329,4 +329,24 @@ return (function (one, two, callback) {
     visit 'async'
     expect_no_error { element.all(by.tag_name('html')).to_a[0].value }
   end
+
+  it 'passes elements successfully to execute_script' do
+    visit 'repeater'
+    protractor.ignore_sync = true
+    e                      = browser.element(tag_name: 'div')
+    tag_name               = driver.execute_script 'return arguments[0].tagName', e
+    tag_name.downcase!.strip!
+    expect_equal tag_name, 'div'
+  end
+
+  it 'successfully converts selenium elements to json' do
+    visit 'repeater'
+    actual = element(by.css('.allinfo')).locate.to_json
+
+    firefox_local = /{"ELEMENT":"{\h{8}-\h{4}-\h{4}-\h{4}-\h{12}}"}/
+    remote_driver = /{"ELEMENT":"\d+"}/
+
+    matched = !!(actual.match(firefox_local) || actual.match(remote_driver))
+    expect_equal matched, true
+  end
 end

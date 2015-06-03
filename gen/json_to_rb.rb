@@ -27,7 +27,7 @@ end
 source += <<'S'
   # class methods
 
-  def self.client_side_scripts
+  def self.scripts
     @@client_side_scripts
   end
 

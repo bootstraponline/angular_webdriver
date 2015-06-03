@@ -1,7 +1,4 @@
-require 'watir-webdriver'
 require 'watir-webdriver/elements/element'
-
-require_relative 'protractor'
 
 # match protractor semantics
 # unfortunately setting always locate doesn't always locate.
@@ -31,6 +28,15 @@ module Watir
     def all(*args)
       elements(*args)
     end
+
+    # Redefine extract_selector to wrap find by repeater
+    upstream_extract_selector = instance_method(:extract_selector)
+    define_method(:extract_selector) do |selectors|
+      selectors = AngularWebdriver::ByRepeaterInner.wrap_repeater selectors
+
+      upstream_extract_selector.bind(self).call selectors
+    end
+
   end # module Container
 
   #
@@ -40,7 +46,27 @@ module Watir
   # Note the element class is different on master.
 
   class Element
+
+    # required for watir otherwise execute_script will fail
+    #
+    # e = browser.element(tag_name: 'div')
+    # driver.execute_script 'return arguments[0].tagName', e
+    # {"script":"return arguments[0].tagName","args":[{"ELEMENT":"0"}]}
+    #
+    # Convert to a WebElement JSON Object for transmission over the wire.
+    # @see https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol#basic-terms-and-concepts
+    #
+    # @api private
+    #
+
+    def to_json(*args)
+      assert_exists
+      { ELEMENT: @element.ref }.to_json
+    end
+
     # Ensure that the element exists by always relocating it
+    # Required to trigger waitForAngular. Caching the element here will
+    # break the Protractor sync feature so this must be @element = locate.
     def assert_exists
       @element = locate
     end

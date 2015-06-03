@@ -166,9 +166,86 @@ module AngularWebdriver
         # to a string by the time it's seen by selenium webdriver.
         { cssContainingText: { cssSelector: css_selector, searchText: search_text }.to_json }
       end
-    end
-  end
-end
+
+      #  Find elements inside an ng-repeat.
+      #
+      #  @view
+      #  <div ng-repeat="cat in pets">
+      #    <span>{{cat.name}}</span>
+      #    <span>{{cat.age}}</span>
+      #  </div>
+      #
+      #  <div class="book-img" ng-repeat-start="book in library">
+      #    <span>{{$index}}</span>
+      #  </div>
+      #  <div class="book-info" ng-repeat-end>
+      #    <h4>{{book.name}}</h4>
+      #    <p>{{book.blurb}}</p>
+      #  </div>
+      #
+      #  @example
+      #  // Returns the DIV for the second cat.
+      #  secondCat = element(by.repeater('cat in pets').row(1));
+      #
+      #  // Returns the SPAN for the first cat's name.
+      #  firstCatName = element(by.repeater('cat in pets').
+      #      row(0).column('cat.name'));
+      #
+      #  // Returns a promise that resolves to an array of WebElements from a column
+      #  ages = element.all(
+      #      by.repeater('cat in pets').column('cat.age'));
+      #
+      #  // Returns a promise that resolves to an array of WebElements containing
+      #  // all top level elements repeated by the repeater. For 2 pets rows resolves
+      #  // to an array of 2 elements.
+      #  rows = element.all(by.repeater('cat in pets'));
+      #
+      #  // Returns a promise that resolves to an array of WebElements containing all
+      #  // the elements with a binding to the book's name.
+      #  divs = element.all(by.repeater('book in library').column('book.name'));
+      #
+      #  // Returns a promise that resolves to an array of WebElements containing
+      #  // the DIVs for the second book.
+      #  bookInfo = element.all(by.repeater('book in library').row(1));
+      #
+      #  // Returns the H4 for the first book's name.
+      #  firstBookName = element(by.repeater('book in library').
+      #      row(0).column('book.name'));
+      #
+      #  // Returns a promise that resolves to an array of WebElements containing
+      #  // all top level elements repeated by the repeater. For 2 books divs
+      #  // resolves to an array of 4 elements.
+      #  divs = element.all(by.repeater('book in library'));
+      #
+      #  @param {string} repeatDescriptor
+      #  @return {{findElementsOverride: findElementsOverride, toString: Function|string}}
+      #
+      def repeater repeat_descriptor
+        ByRepeaterInner.new exact: false, repeat_descriptor: repeat_descriptor
+      end
+
+      # Find an element by exact repeater.
+      #
+      #  @view
+      #  <li ng-repeat="person in peopleWithRedHair"></li>
+      #  <li ng-repeat="car in cars | orderBy:year"></li>
+      #
+      #  @example
+      #  expect(element(by.exactRepeater('person in peopleWithRedHair')).present?)
+      #      .to eq(true);
+      #  expect(element(by.exactRepeater('person in people')).present?).to eq(false);
+      #  expect(element(by.exactRepeater('car in cars')).present?).to eq(true);
+      #
+      #  @param {string} repeatDescriptor
+      #  @return {{findElementsOverride: findElementsOverride, toString: Function|string}}
+      #
+      def exactRepeater repeat_descriptor
+        ByRepeaterInner.new exact: true, repeat_descriptor: repeat_descriptor
+      end
+
+    end # class << self
+  end # class By
+end # module AngularWebdriver
 
 def by
   AngularWebdriver::By

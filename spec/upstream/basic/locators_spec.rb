@@ -6,7 +6,6 @@ describe 'locators' do
     visit 'form'
   end
 
-
   describe 'by model' do
     it 'should find an element by text input model' do
       username = element(by.model('username'))
@@ -131,4 +130,148 @@ describe 'locators' do
       expect(firstOption.text).to eq('apple')
     end
   end
+
+  describe 'by repeater' do
+    before do
+      visit 'repeater'
+    end
+
+    it 'should find by partial match' do
+      fullMatch = element(
+        by.repeater('baz in days | filter:\'T\'').
+          row(0).column('baz.initial'))
+      expect(fullMatch.text).to eq('T')
+
+      partialMatch = element(
+        by.repeater('baz in days').row(0).column('b'))
+      expect(partialMatch.text).to eq('T')
+
+      partialRowMatch = element(
+        by.repeater('baz in days').row(0))
+      expect(partialRowMatch.text).to eq('T')
+    end
+
+    it 'should return all rows when unmodified' do
+      all = element.all(by.repeater('allinfo in days'))
+      arr = all.to_a
+      expect(arr.length).to eq(5)
+      expect(arr[0].text).to eq('M Monday')
+      expect(arr[1].text).to eq('T Tuesday')
+      expect(arr[2].text).to eq('W Wednesday')
+    end
+
+
+    it 'should return a single column' do
+      initials = element.all(
+        by.repeater('allinfo in days').
+          column('initial'))
+      arr      = initials.to_a
+      expect(arr.length).to eq(5)
+      expect(arr[0].text).to eq('M')
+      expect(arr[1].text).to eq('T')
+      expect(arr[2].text).to eq('W')
+
+      names = element.all(
+        by.repeater('allinfo in days').
+          column('name'))
+      arr   = names.to_a
+      expect(arr.length).to eq(5)
+      expect(arr[0].text).to eq('Monday')
+      expect(arr[1].text).to eq('Tuesday')
+      expect(arr[2].text).to eq('Wednesday')
+    end
+
+    it 'should allow chaining while returning a single column' do
+      secondName = element(by.css('.allinfo')).element(
+        by.repeater('allinfo in days').column('name').row(2))
+      expect(secondName.text).to eq('Wednesday')
+    end
+
+    it 'should return a single row' do
+      secondRow = element(by.repeater('allinfo in days').row(1))
+      expect(secondRow.text).to eq('T Tuesday')
+    end
+
+    it 'should return an individual cell' do
+      secondNameByRowFirst = element(
+        by.repeater('allinfo in days').
+          row(1).
+          column('name'))
+
+      secondNameByColumnFirst = element(
+        by.repeater('allinfo in days').
+          column('name').
+          row(1))
+
+      expect(secondNameByRowFirst.text).to eq('Tuesday')
+      expect(secondNameByColumnFirst.text).to eq('Tuesday')
+    end
+
+    it 'should find a using data-ng-repeat' do
+      byRow = element(by.repeater('day in days').row(2))
+      expect(byRow.text).to eq('W')
+
+      byCol = element(by.repeater('day in days').row(2).column('day'))
+      expect(byCol.text).to eq('W')
+    end
+
+    it 'should find using ng:repeat' do
+      byRow = element(by.repeater('bar in days').row(2))
+      expect(byRow.text).to eq('W')
+
+      byCol = element(by.repeater('bar in days').row(2).column('bar'))
+      expect(byCol.text).to eq('W')
+    end
+
+    it 'should determine if repeater elements are present' do
+      expect(element(by.repeater('allinfo in days').row(3)).present?).to eq(true)
+      # There are only 5 rows, so the 6th row is not present.
+      expect(element(by.repeater('allinfo in days').row(5)).present?).to eq(false)
+    end
+
+    it 'should have by.exactRepeater working' do
+      expect(element(by.exactRepeater('day in d')).present?).to eq(false)
+      expect(element(by.exactRepeater('day in days')).present?).to eq(true)
+    end
+
+    describe 'repeaters using ng-repeat-start and ng-repeat-end' do
+      it 'should return all elements when unmodified' do
+        all = element.all(by.repeater('bloop in days'))
+
+        arr = all.to_a
+        expect(arr.length).to eq(3 * 5)
+        expect(arr[0].text).to eq('M')
+        expect(arr[1].text).to eq('-')
+        expect(arr[2].text).to eq('Monday')
+        expect(arr[3].text).to eq('T')
+        expect(arr[4].text).to eq('-')
+        expect(arr[5].text).to eq('Tuesday')
+      end
+
+      it 'should return a group of elements for a row' do
+        firstRow = element.all(by.repeater('bloop in days').row(0))
+
+        arr = firstRow.to_a
+        expect(arr.length).to eq(3)
+        expect(arr[0].text).to eq('M')
+        expect(arr[1].text).to eq('-')
+        expect(arr[2].text).to eq('Monday')
+      end
+
+      it 'should return a group of elements for a column' do
+        nameColumn = element.all(by.repeater('bloop in days').column('name'))
+
+        arr = nameColumn.to_a
+        expect(arr.length).to eq(5)
+        expect(arr[0].text).to eq('Monday')
+        expect(arr[1].text).to eq('Tuesday')
+      end
+
+      it 'should find an individual element' do
+        firstInitial = element(by.repeater('bloop in days').row(0).column('bloop.initial'))
+
+        expect(firstInitial.text).to eq('M')
+      end
+    end # describe 'repeaters using ng-repeat-start and ng-repeat-end'
+  end # describe 'by repeater'
 end

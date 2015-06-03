@@ -1,7 +1,5 @@
 # https://github.com/SeleniumHQ/selenium/blob/1221ea539d92a46f392b00abccb9f48886415d26/rb/lib/selenium/webdriver/remote/bridge.rb#L576
 
-require 'rubygems'
-require 'selenium-webdriver'
 require 'selenium/webdriver/common/search_context'
 require 'selenium/webdriver/remote'
 require 'selenium/webdriver/remote/bridge'
@@ -24,7 +22,7 @@ module Selenium
 
       #
       # Sets the wait time in seconds used when locating elements and
-      # waiting for angular to load.
+      # waiting for angular tohttps://www.youtube.com/watch?v=o9c3U5_8tGY load.
       #
       # @param value [Numeric] the amount of time to wait in seconds
       #
@@ -58,6 +56,18 @@ module Selenium
           @max_wait_seconds ||= 0
         end
 
+        # execute_script requires a JSON representation of the element id
+        # otherwise the element will not be sent correctly to the browser
+        class WrappedParent
+          def initialize id
+            @id = id
+          end
+
+          def to_json *args
+            { ELEMENT: @id }.to_json
+          end
+        end
+
         def protractor_find(many, how, what, parent = nil)
           timeout = max_wait_seconds
 
@@ -66,7 +76,9 @@ module Selenium
           # protractor.sync to run waitForAngular when finding elements.
           wait(timeout: timeout, bubble: true) { protractor.waitForAngular }
 
-          using         = parent ? parent : false
+          # execute_script will invoke to_json on the parent, WrappedParent
+          # ensures that the JSON produces the expected result.
+          using         = parent ? WrappedParent.new(parent) : false
           root_selector = protractor.root_element
           comment       = "Protractor find by.#{how}"
 
@@ -98,6 +110,17 @@ module Selenium
               search_text   = json['searchText']
               args          = [css_selector, search_text, using, root_selector]
               protractor_js = protractor.client_side_scripts.find_by_css_containing_text
+            when 'repeater' # includes 'exactRepeater'
+              json          = JSON.parse what
+              repeater_args = json['args'].values # json args is a hash
+              # using and root_selector are always passed to repeater even
+              # if the script doesn't use them.
+              args          = repeater_args + [using, root_selector]
+
+              # findRepeaterElement, findRepeaterRows, findRepeaterColumn, findAllRepeaterRows
+              script_name   = json['script'].intern
+
+              protractor_js = protractor.client_side_scripts.scripts[script_name]
           end
 
           finder = lambda { protractor.executeScript_(protractor_js, comment, *args) }
