@@ -1,0 +1,94 @@
+debugging  'should allow chaining while returning a single column'
+
+["allinfo in days", false, 2, "name", "{ebfdf19b-a4a8-be46-8118-6f313da550fd}", nil]
+
+
+
+The element reference isn't being sent properly.
+
+
+Ruby server output:
+
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [allinfo in days, false, 2, name, 0, body]])
+
+
+element.ref is 0
+
+
+Protractor server output:
+
+[allinfo in days, false, 2, name, [[FirefoxDriver: firefox on MAC (7f28005d-8e97-024e-86aa-879ee42d9e76)] -> css selector: .allinfo], body]]
+
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [allinfo in days, false, 2, name, [[FirefoxDriver: firefox on MAC (7f28005d-8e97-024e-86aa-879ee42d9e76)] -> css selector: .allinfo], body]]
+
+---
+
+browser.get('http://localhost:8081/#/repeater')
+
+
+var secondName = element(by.css('.allinfo')).element(by.repeater('allinfo in days').column('name').row(2))
+
+---
+
+> e.ref
+=> "2"
+
+
+driver.execute_script 'return arguments[0].tagName', e
+> DIV
+driver.execute_script 'return arguments[0].tagName', e.ref
+> nil
+
+driver.execute_script 'return arguments[0].tagName', 2
+=> nil
+
+driver.execute_script 'return arguments[0].tagName', '2'
+=> nil
+
+
+driver.execute_script 'return arguments[0].tagName', '{7c79f087-b7a2-dd43-be77-2a4076cb5959}'
+=> nil
+
+
+e =  browser.element(tag_name: 'div')
+
+
+---
+
+> command_hash
+=> {:script=>"return arguments[0].tagName", :args=>[#<Selenium::WebDriver::Element:0x..fea95b8c7217851b0 id="0">]}
+
+---
+
+e = browser.element(tag_name: 'div')
+driver.execute_script 'return arguments[0].tagName', e
+
+Requesting: {"script":"return arguments[0].tagName","args":["#<Watir::HTMLElement:0x007f8a6d098ae0>"]}
+
+patched webdriver http default to output request body
+
+def new_request_for(verb, url, headers, payload)
+  puts "Requesting: #{req.body}"
+
+---
+
+e = driver.find_element(tag_name: 'div')
+driver.execute_script 'return arguments[0].tagName', e
+Requesting: {"script":"return arguments[0].tagName","args":[{"ELEMENT":"0"}]}
+
+----
+
+> puts e.to_json
+{"ELEMENT":"0"}
+
+---
+
+
+element id changes depending on if a remote bridge or a firefox bridge is used.
+remote bridges start at 0 and go up by one.
+
+firefox bridge uses hashes.
+
+---
+
+driver.execute_script 'return arguments[0].tagName', WrappedParent.new('0')

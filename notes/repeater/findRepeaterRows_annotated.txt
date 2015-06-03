@@ -1,0 +1,156 @@
+browser.get('http://localhost:8081/#/repeater')
+element(by.repeater('baz in days').row(0)).getText();
+
+
+16:14:10.375 INFO - Executing: [execute script: , []])
+16:14:10.375 INFO - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+16:14:10.390 INFO - Done: [execute script: , []]
+16:14:10.450 INFO - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+
+// -- function (repeater, exact, index, using)
+// -- [baz in days, false, 0, null, body]
+// -- findRepeaterRows
+16:14:10.466 INFO - Executing: [execute script: try { return (function (repeater, exact, index, using) {
+  function repeaterMatch(ngRepeat, repeater, exact) {
+    if (exact) {
+      return ngRepeat.split(' track by ')[0].split(' as ')[0].split('|')[0].
+          trim() == repeater;
+    } else {
+      return ngRepeat.indexOf(repeater) != -1;
+    }
+  }
+
+  using = using || document;
+
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var rows = [];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        rows.push(repeatElems[i]);
+      }
+    }
+  }
+  /* multiRows is an array of arrays, where each inner array contains
+     one row of elements. */
+  var multiRows = [];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat-start';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        var elem = repeatElems[i];
+        var row = [];
+        while (elem.nodeType != 8 ||
+            !repeaterMatch(elem.nodeValue, repeater, exact)) {
+          if (elem.nodeType == 1) {
+            row.push(elem);
+          }
+          elem = elem.nextSibling;
+        }
+        multiRows.push(row);
+      }
+    }
+  }
+  var row = rows[index] || [], multiRow = multiRows[index] || [];
+  return [].concat(row, multiRow);
+ }).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [baz in days, false, 0, null, body]])
+16:14:10.553 INFO - Done: [execute script: try { return (function (repeater, exact, index, using) {
+  function repeaterMatch(ngRepeat, repeater, exact) {
+    if (exact) {
+      return ngRepeat.split(' track by ')[0].split(' as ')[0].split('|')[0].
+          trim() == repeater;
+    } else {
+      return ngRepeat.indexOf(repeater) != -1;
+    }
+  }
+
+  using = using || document;
+
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  var rows = [];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        rows.push(repeatElems[i]);
+      }
+    }
+  }
+  /* multiRows is an array of arrays, where each inner array contains
+     one row of elements. */
+  var multiRows = [];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat-start';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        var elem = repeatElems[i];
+        var row = [];
+        while (elem.nodeType != 8 ||
+            !repeaterMatch(elem.nodeValue, repeater, exact)) {
+          if (elem.nodeType == 1) {
+            row.push(elem);
+          }
+          elem = elem.nextSibling;
+        }
+        multiRows.push(row);
+      }
+    }
+  }
+  var row = rows[index] || [], multiRow = multiRows[index] || [];
+  return [].concat(row, multiRow);
+ }).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [baz in days, false, 0, null, body]]
+16:14:10.570 INFO - Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@fa534d6b -> unknown locator]])
+16:14:10.616 INFO - Done: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@fa534d6b -> unknown locator]]

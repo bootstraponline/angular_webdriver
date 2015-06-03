@@ -1,0 +1,145 @@
+browser.get('http://localhost:8081/#/repeater')
+var partialMatch = element(by.repeater('baz in days'));
+partialMatch.getText()
+
+
+16:09:01.247 INFO - Executing: [execute script: , []])
+16:09:01.247 INFO - Executing: [execute script: , []])
+16:09:01.248 INFO - Executing: [execute script: , []])
+16:09:01.247 INFO - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+16:09:01.274 INFO - Done: [execute script: , []]
+16:09:01.338 INFO - Done: [execute script: , []]
+16:09:01.392 INFO - Done: [execute script: , []]
+16:09:01.450 INFO - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+16:09:01.467 INFO - Executing: [execute script: try { return (function (repeater, exact, using) {
+  function repeaterMatch(ngRepeat, repeater, exact) {
+    if (exact) {
+      return ngRepeat.split(' track by ')[0].split(' as ')[0].split('|')[0].
+          trim() == repeater;
+    } else {
+      return ngRepeat.indexOf(repeater) != -1;
+    }
+  }
+
+  using = using || document;
+
+  var rows = [];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        rows.push(repeatElems[i]);
+      }
+    }
+  }
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat-start';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        var elem = repeatElems[i];
+        while (elem.nodeType != 8 ||
+            !repeaterMatch(elem.nodeValue, repeater, exact)) {
+          if (elem.nodeType == 1) {
+            rows.push(elem);
+          }
+          elem = elem.nextSibling;
+        }
+      }
+    }
+  }
+  return rows;
+ }).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [baz in days, false, null, body]])
+16:09:01.554 INFO - Done: [execute script: try { return (function (repeater, exact, using) {
+  function repeaterMatch(ngRepeat, repeater, exact) {
+    if (exact) {
+      return ngRepeat.split(' track by ')[0].split(' as ')[0].split('|')[0].
+          trim() == repeater;
+    } else {
+      return ngRepeat.indexOf(repeater) != -1;
+    }
+  }
+
+  using = using || document;
+
+  var rows = [];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        rows.push(repeatElems[i]);
+      }
+    }
+  }
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat-start';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        var elem = repeatElems[i];
+        while (elem.nodeType != 8 ||
+            !repeaterMatch(elem.nodeValue, repeater, exact)) {
+          if (elem.nodeType == 1) {
+            rows.push(elem);
+          }
+          elem = elem.nextSibling;
+        }
+      }
+    }
+  }
+  return rows;
+ }).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [baz in days, false, null, body]]
+16:09:01.570 INFO - Executing: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@a7eb949e -> unknown locator]])
+16:09:01.623 INFO - Done: [get text: 0 [org.openqa.selenium.remote.RemoteWebElement@a7eb949e -> unknown locator]]

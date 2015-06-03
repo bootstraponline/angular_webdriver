@@ -1,0 +1,146 @@
+browser.get('http://localhost:8081/#/repeater')
+var partialMatch = element(by.repeater('baz in days').row(0).column('b'));
+partialMatch.getText()
+
+15:59:03.466 INFO - Executing: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]])
+15:59:03.467 INFO - Executing: [execute script: , []])
+15:59:08.146 INFO - Done: [execute async script: try { return (function (rootSelector, callback) {
+  var el = document.querySelector(rootSelector);
+
+  try {
+    if (!window.angular) {
+      throw new Error('angular could not be found on the window');
+    }
+    if (angular.getTestability) {
+      angular.getTestability(el).whenStable(callback);
+    } else {
+      if (!angular.element(el).injector()) {
+        throw new Error('root element (' + rootSelector + ') has no injector.' +
+           ' this may mean it is not inside ng-app.');
+      }
+      angular.element(el).injector().get('$browser').
+          notifyWhenNoOutstandingRequests(callback);
+    }
+  } catch (err) {
+    callback(err.message);
+  }
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [body]]
+15:59:08.177 INFO - Executing: [execute script: try { return (function (repeater, exact, index, binding, using, rootSelector) {
+  function repeaterMatch(ngRepeat, repeater, exact) {
+    if (exact) {
+      return ngRepeat.split(' track by ')[0].split(' as ')[0].split('|')[0].
+          trim() == repeater;
+    } else {
+      return ngRepeat.indexOf(repeater) != -1;
+    }
+  }
+
+  var matches = [];
+  var root = document.querySelector(rootSelector || 'body');
+  using = using || document;
+
+  var rows = [];
+  var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-', 'ng\\:'];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        rows.push(repeatElems[i]);
+      }
+    }
+  }
+  /* multiRows is an array of arrays, where each inner array contains
+     one row of elements. */
+  var multiRows = [];
+  for (var p = 0; p < prefixes.length; ++p) {
+    var attr = prefixes[p] + 'repeat-start';
+    var repeatElems = using.querySelectorAll('[' + attr + ']');
+    attr = attr.replace(/\\/g, '');
+    for (var i = 0; i < repeatElems.length; ++i) {
+      if (repeaterMatch(repeatElems[i].getAttribute(attr), repeater, exact)) {
+        var elem = repeatElems[i];
+        var row = [];
+        while (elem.nodeType != 8 || (elem.nodeValue &&
+            !repeaterMatch(elem.nodeValue, repeater, exact))) {
+          if (elem.nodeType == 1) {
+            row.push(elem);
+          }
+          elem = elem.nextSibling;
+        }
+        multiRows.push(row);
+      }
+    }
+  }
+  var row = rows[index];
+  var multiRow = multiRows[index];
+  var bindings = [];
+  if (row) {
+    if (angular.getTestability) {
+      matches.push.apply(
+          matches,
+          angular.getTestability(root).findBindings(row, binding));
+    } else {
+      if (row.className.indexOf('ng-binding') != -1) {
+        bindings.push(row);
+      }
+      var childBindings = row.getElementsByClassName('ng-binding');
+      for (var i = 0; i < childBindings.length; ++i) {
+        bindings.push(childBindings[i]);
+      }
+    }
+  }
+  if (multiRow) {
+    for (var i = 0; i < multiRow.length; ++i) {
+      var rowElem = multiRow[i];
+      if (angular.getTestability) {
+        matches.push.apply(
+            matches,
+            angular.getTestability(root).findBindings(rowElem, binding));
+      } else {
+        if (rowElem.className.indexOf('ng-binding') != -1) {
+          bindings.push(rowElem);
+        }
+        var childBindings = rowElem.getElementsByClassName('ng-binding');
+        for (var j = 0; j < childBindings.length; ++j) {
+          bindings.push(childBindings[j]);
+        }
+      }
+    }
+  }
+  for (var i = 0; i < bindings.length; ++i) {
+    var dataBinding = angular.element(bindings[i]).data('$binding');
+    if (dataBinding) {
+      var bindingName = dataBinding.exp || dataBinding[0].exp || dataBinding;
+      if (bindingName.indexOf(binding) != -1) {
+        matches.push(bindings[i]);
+      }
+    }
+  }
+  return matches;
+}).apply(this, arguments); }
+catch(e) { throw (e instanceof Error) ? e : new Error(e); }, [baz in days, false, 0, b, null, body]])
+
