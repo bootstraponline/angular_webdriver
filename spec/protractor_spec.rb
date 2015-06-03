@@ -349,4 +349,16 @@ return (function (one, two, callback) {
     matched = !!(actual.match(firefox_local) || actual.match(remote_driver))
     expect_equal matched, true
   end
+
+  it 'handles watir present and webdriver displayed' do
+    protractor.ignore_sync = true
+
+    # watir returns false on .present? when the element doesn't exist
+    expect_equal browser.element(tag_name: 'html').present?, true
+    no_wait { expect_equal browser.element(tag_name: 'doesntexist').present?, false }
+
+    # webdriver throws element not found on .displayed? when the element doesn't exist
+    expect_equal driver.find_element(tag_name: 'html').displayed?, true
+    expect_no_element_error { driver.find_element(tag_name: 'doesntexist').displayed? }
+  end
 end
