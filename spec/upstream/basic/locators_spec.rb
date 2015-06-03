@@ -6,6 +6,47 @@ describe 'locators' do
     visit 'form'
   end
 
+  describe 'by binding' do
+    it 'should find an element by binding' do
+      greeting = element(by.binding('greeting'))
+
+      expect(greeting.text).to eq('Hiya')
+    end
+
+    # it 'should allow custom expectations to expect an element' do 
+    # Not applicable to Ruby
+
+    it 'should find a binding by partial match' do
+      greeting = element(by.binding('greet'))
+
+      expect(greeting.text).to eq('Hiya')
+    end
+
+    it 'should find exact match by exactBinding' do
+      greeting = element(by.exactBinding('greeting'))
+
+      expect(greeting.text).to eq('Hiya')
+    end
+
+    it 'should not find partial match by exactBinding' do
+      greeting = element(by.exactBinding('greet'))
+
+      expect(greeting.present?).to eq(false)
+    end
+
+    it 'should find an element by binding with ng-bind attribute' do
+      name = element(by.binding('username'))
+
+      expect(name.text).to eq('Anon')
+    end
+
+    it 'should find an element by binding with ng-bind-template attribute' do
+      name = element(by.binding('nickname|uppercase'))
+
+      expect(name.text).to eq('(ANNIE)')
+    end
+  end # describe 'by binding'
+
   describe 'by model' do
     it 'should find an element by text input model' do
       username = element(by.model('username'))

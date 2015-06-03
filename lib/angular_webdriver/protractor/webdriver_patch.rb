@@ -84,9 +84,10 @@ module Selenium
 
           # args order from locators.js
           case how
-            when 'binding'
+            when 'binding', 'exactBinding'
+              exact              = how == 'exactBinding'
               binding_descriptor = what
-              args               = [binding_descriptor, false, using, root_selector]
+              args               = [binding_descriptor, exact, using, root_selector]
               protractor_js      = protractor.client_side_scripts.find_bindings
             when 'partialButtonText'
               search_text   = what

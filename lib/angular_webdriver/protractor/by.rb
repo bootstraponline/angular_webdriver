@@ -82,6 +82,27 @@ module AngularWebdriver
         { binding: binding_descriptor }
       end
 
+      # Find an element by exact binding.
+      #
+      # @view
+      # <span>{{ person.name }}</span>
+      # <span ng-bind="person-email"></span>
+      # <span>{{person_phone|uppercase}}</span>
+      #
+      # @example
+      # expect(element(by.exactBinding('person.name')).present?).to eq(true);
+      # expect(element(by.exactBinding('person-email')).present?).to eq(true);
+      # expect(element(by.exactBinding('person')).present?).to eq(false);
+      # expect(element(by.exactBinding('person_phone')).present?).to eq(true);
+      # expect(element(by.exactBinding('person_phone|uppercase')).present?).to eq(true);
+      # expect(element(by.exactBinding('phone')).present?).to eq(false);
+      #
+      #  @param binding_descriptor <String>
+      #  @return { exactBinding: binding_descriptor }
+      def exactBinding binding_descriptor
+        { exactBinding: binding_descriptor }
+      end
+
       # Find a button by partial text.
       #
       # @view
@@ -262,6 +283,5 @@ end
  :name=>"name",
  :partial_link_text=>"partial link text",
  :tag_name=>"tag name",
- :xpath=>"xpath",
- :binding=>"binding"}
+ :xpath=>"xpath"}
 =end

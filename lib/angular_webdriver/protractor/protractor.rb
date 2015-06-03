@@ -4,6 +4,7 @@ class Protractor
 
   NEW_FINDERS_KEYS = %i(
     binding
+    exactBinding
     partialButtonText
     buttonText
     model
