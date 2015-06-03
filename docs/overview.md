@@ -61,7 +61,7 @@ You can find a single element (find_element), multiple elements (find_elements),
 and the finders are chainable (finding elements from a parent element). The protractor syntax
 (element/element.all) is also available as an alternative to find_element/find_elements.
 
-Locator                     | Protractor                                       | WebDriver
+Client side script          | Protractor                                       | WebDriver
                         --- |                                              --- | ---
 **binding**                 | `element(by.binding('slowHttpStatus')).locate`   | `driver.find_element(:binding, 'slowHttpStatus')`  
 **findByPartialButtonText** | `element.all(by.partialButtonText('text')).to_a` | `driver.find_elements(:findByPartialButtonText, 'slowHttpStatus')`
@@ -69,15 +69,23 @@ Locator                     | Protractor                                       |
 **findByModel**             | `element(by.model('username'))`                  | `driver.find_element(:model, 'username')`
 **findByOptions**           | `element.all(by.options('fruit')).to_a`          | `driver.find_elements(:options, 'fruit')`
 **findByCssContainingText** | `element.all(by.cssContainingText('#animals ul .pet', 'dog')).to_a` | `driver.find_elements(:cssContainingText, { cssSelector: '#animals ul .pet', searchText: 'dog' }.to_json)`
+**findRepeaterRows**        | `element(by.repeater('baz in days').row(0))`     | -
+**findAllRepeaterRows**     | `element(by.repeater('baz in days'));`           | -
+**findRepeaterElement**     | `element(by.repeater('baz in days').row(0).column('b'))` | -
+**findRepeaterColumn**      | `element(by.repeater('baz in days').column('b'))`        | -
 
-## Unsupported Protractor Locators
+## By locators
 
-These locators are on the roadmap for implementation.
+All the by locators are supported.
 
-- **findRepeaterRows**
-- **findAllRepeaterRows**
-- **findRepeaterElement**
-- **findRepeaterColumn**
+- by.binding
+- by.partialButtonText
+- by.buttonText
+- by.model
+- by.options
+- by.cssContainingText
+- by.repeater
+- by.exactRepeater
 
 ## Waiting
 
