@@ -76,9 +76,10 @@ Client side script          | Protractor                                       |
 
 ## By locators
 
-All the by locators are supported.
+All the [Protractor by locators](http://angular.github.io/protractor/#/api?view=ProtractorBy) are supported.
 
 - by.binding
+- by.exactBinding
 - by.partialButtonText
 - by.buttonText
 - by.model
@@ -86,6 +87,7 @@ All the by locators are supported.
 - by.cssContainingText
 - by.repeater
 - by.exactRepeater
+- by.deepCss
 
 ## Waiting
 
@@ -94,5 +96,5 @@ due to being baked into the remote driver. Waiting in angular_webdriver has been
 reimplemented client side to avoid flakiness.
  
 **driver.set_max_wait(5)** - wait up to 5 seconds for an exception to not be raised
-                         when finding an element.
+                             when finding an element.
 **driver.max_wait_seconds** - The max wait amount (default 0) in seconds.

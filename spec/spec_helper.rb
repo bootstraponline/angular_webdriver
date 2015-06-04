@@ -15,10 +15,15 @@ require_relative 'helpers/helpers'
 
 RSpec.configure do |config|
   config.before(:all) do
-    # remote driver is useful for debugging
+    @browser = Watir::Browser.new :firefox
+
+    # Chrome is required for the shadow dom test
+    # Selenium::WebDriver::Chrome.driver_path = File.expand_path File.join(__dir__, '..', 'chromedriver')
+    # @browser = Watir::Browser.new :chrome
+
+    # Remote driver is useful for debugging
     # @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
 
-    @browser = Watir::Browser.new :firefox
     @driver  = @browser.driver
     raise 'Driver is nil!' unless driver
 

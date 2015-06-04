@@ -315,4 +315,30 @@ describe 'locators' do
       end
     end # describe 'repeaters using ng-repeat-start and ng-repeat-end'
   end # describe 'by repeater'
-end
+
+  describe 'by deep css' do
+    before do
+      visit 'shadow'
+    end
+
+    it 'should find items inside the shadow DOM' do
+      skip_reason = 'Shadow DOM is not currently supported outside of Chrome.'
+      skip skip_reason unless driver.capabilities[:browser_name] == 'chrome'
+
+      parentHeading       = element(by.deepCss('.parentshadowheading'))
+      olderChildHeading   = element(by.deepCss('.oldershadowheading'))
+      youngerChildHeading = element(by.deepCss('.youngershadowheading'))
+
+      expect(parentHeading.present?).to eq(true)
+      expect(olderChildHeading.present?).to eq(true)
+      expect(youngerChildHeading.present?).to eq(true)
+
+      expect(parentHeading.text).to eq('Parent')
+      expect(olderChildHeading.text).to eq('Older Child')
+      expect(youngerChildHeading.text).to eq('Younger Child')
+
+      expect(element(by.deepCss('.originalcontent')).text)
+        .to eq('original content')
+    end
+  end # describe 'by deep css'
+end # describe 'locators'

@@ -264,6 +264,26 @@ module AngularWebdriver
         ByRepeaterInner.new exact: true, repeat_descriptor: repeat_descriptor
       end
 
+      # Find an element by css selector within the Shadow DOM.
+      #
+      # @alias by.deepCss(selector)
+      # @view
+      # <div>
+      #   <span id="outerspan">
+      #   <"shadow tree">
+      #     <span id="span1"></span>
+      #     <"shadow tree">
+      #       <span id="span2"></span>
+      #     </>
+      #   </>
+      # </div>
+      # @example
+      # spans = element.all(by.deepCss('span'));
+      # expect(spans.count()).to eq(3);
+      def deepCss selector
+        # TODO: syntax will change from /deep/ to >>> at some point.
+        { css: '* /deep/ ' + selector }
+      end
     end # class << self
   end # class By
 end # module AngularWebdriver
