@@ -288,8 +288,32 @@ module AngularWebdriver
   end # class By
 end # module AngularWebdriver
 
-def by
-  AngularWebdriver::By
+# Support camel and snake case for protractor compatibility
+# deepCss & deep_css
+AngularWebdriver::By.singleton_methods.each do |method_symbol|
+  by = AngularWebdriver::By
+  next if method_symbol == :yaml_tag # skip ruby core psych
+
+  method_name   = method_symbol.to_s
+  is_snake_case = method_name.include? '_'
+  is_camel_case = !!method_name.match(/[a-z][A-Z]/)
+
+  if is_snake_case # deep_css -> deepCss
+    camel_case = method_name.gsub(/([a-z\d])_([a-z])/) do
+      full, one, two = Regexp.last_match.to_a
+      "#{one}#{two.upcase}"
+    end
+    next if by.respond_to? camel_case
+    by.define_singleton_method camel_case do |*args|
+      by.method(method_symbol).call *args
+    end
+  elsif is_camel_case # deepCss -> deep_css
+    snake_case = method_name.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
+    next if by.respond_to? snake_case
+    by.define_singleton_method snake_case do |*args|
+      by.method(method_symbol).call *args
+    end
+  end
 end
 
 =begin

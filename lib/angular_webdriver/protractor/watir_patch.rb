@@ -20,6 +20,18 @@ Watir.always_locate = true
 #
 
 module Watir
+
+  #class HTMLElementCollection
+    # make sure the element method is undefined on HTMLElementCollection
+    # otherwise defining element on object will cause confusion.
+    #
+    # this code should always be invalid:
+    # browser.elements(:binding, 'ok').element(:binding, 'ok')
+    #def element *args
+    #  raise NoMethodError, "undefined method 'element' for #{self}"
+    #end
+  #end
+
   module Container
     #
     # Alias of elements for Protractor

@@ -199,15 +199,16 @@ class Protractor
   # driver.
   #
   # @param [Hash] opts the options to initialize with
+  # @option opts [Watir::Browser] :watir the watir instance used for automation
   # @option opts [String]  :root_element the root element on which to find Angular
   # @option opts [Boolean] :ignore_sync if true, Protractor won't auto sync the page
   #
   def initialize opts={}
-    @driver = opts[:driver]
-    raise 'Must supply Selenium::WebDriver' unless @driver
+    @watir = opts[:watir]
 
-    watir   = defined?(Watir::Browser) && @driver.is_a?(Watir::Browser)
-    @driver = watir ? @driver.driver : @driver
+    valid_watir = defined?(Watir::Browser) && @watir.is_a?(Watir::Browser)
+    raise "Driver must be a Watir::Browser not #{@driver.class}" unless valid_watir
+    @driver = @watir.driver
 
     unless Selenium::WebDriver::SearchContext::FINDERS.keys.include?(NEW_FINDERS_KEYS)
       Selenium::WebDriver::SearchContext::FINDERS.merge!(NEW_FINDERS_HASH)
@@ -245,7 +246,27 @@ class Protractor
     browser_name = driver.capabilities[:browser_name].to_s.strip
     @reset_url   = reset_url_for_browser browser_name
 
-    @base_url = opts.fetch(:base_url, nil)
+    @base_url          = opts.fetch(:base_url, nil)
+
+    # must be local var for use with define element below.
+    protractor_element = AngularWebdriver::ProtractorElement.new @watir
+
+    # Top level element method to enable protractor syntax.
+    # redefine element to point to the new protractor element instance.
+    #
+    # toplevel self enables by/element from within pry. rspec helpers enables
+    # by/element within rspec tests when used with install_rspec_helpers.
+    [eval('self', TOPLEVEL_BINDING), AngularWebdriver::RSpecHelpers].each do |obj|
+      obj.send :define_singleton_method, :element do |*args|
+        protractor_element.element *args
+      end
+
+      obj.send :define_singleton_method, :by do
+        AngularWebdriver::By
+      end
+    end
+
+    self
   end
 
   # Reset URL used on IE & Safari since they don't work well with data URLs
@@ -285,11 +306,16 @@ class Protractor
     # for angular). the selenium set location is for latitude/longitude/altitude
     # and that doesn't require syncing
     #
-    sync_whitelist    = [
-      :getCurrentUrl, :refresh, :getPageSource,
-      :getTitle, :findElement, :findElements,
-      :findChildElement, :findChildElements
-    ]
+    sync_whitelist    = %i(
+      getCurrentUrl
+      refresh
+      getPageSource
+      getTitle
+      findElement
+      findElements
+      findChildElement
+      findChildElements
+    )
     must_sync         = sync_whitelist.include? webdriver_command
 
     self.waitForAngular if must_sync

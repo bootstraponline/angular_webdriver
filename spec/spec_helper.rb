@@ -13,16 +13,24 @@ require 'ostruct'
 require_relative '../lib/angular_webdriver'
 require_relative 'helpers/helpers'
 
+# Define browser name at top level to selectively exclude browser specific
+# tests within the spec files
+def browser_name
+  :firefox # must be a symbol
+end
+
 RSpec.configure do |config|
+  config.include AngularWebdriver::RSpecHelpers
+
   config.before(:all) do
-    @browser = Watir::Browser.new :firefox
+    @browser = Watir::Browser.new browser_name
 
     # Chrome is required for the shadow dom test
     # Selenium::WebDriver::Chrome.driver_path = File.expand_path File.join(__dir__, '..', 'chromedriver')
-    # @browser = Watir::Browser.new :chrome
+    # @browser = Watir::Browser.new browser_name
 
     # Remote driver is useful for debugging
-    # @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox
+    # @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send browser_name
 
     @driver  = @browser.driver
     raise 'Driver is nil!' unless driver
@@ -31,7 +39,11 @@ RSpec.configure do |config|
     @driver.extend Selenium::WebDriver::DriverExtensions::HasLocation
 
     # Must activate protractor before any driver commands
-    @protractor                           = Protractor.new driver: driver
+    @protractor = Protractor.new watir: @browser
+
+    # Must call after Protractor.new and not before.
+    AngularWebdriver.install_rspec_helpers
+
 
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
@@ -48,6 +60,7 @@ RSpec.configure do |config|
     # implicit wait shouldn't ever be used. client wait is a reliable replacement.
     driver.set_max_wait max_wait_seconds_default # seconds
   end
+
 
   config.after(:all) do
     driver.quit rescue nil

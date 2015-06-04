@@ -77,6 +77,7 @@ Client side script          | Protractor                                       |
 ## By locators
 
 All the [Protractor by locators](http://angular.github.io/protractor/#/api?view=ProtractorBy) are supported.
+Camel case (by.deepCss) and snake case (by.deep_css) are both supported.
 
 - by.binding
 - by.exactBinding

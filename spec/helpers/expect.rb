@@ -23,6 +23,10 @@ def expect_no_element_error_nowait &block
   expect { block.call }.to raise_error no_such_element_error
 end
 
+def expect_no_method_error &block
+  expect { block.call }.to raise_error NoMethodError
+end
+
 # Expects block to raise error
 def expect_error &block
   expect { block.call }.to raise_error

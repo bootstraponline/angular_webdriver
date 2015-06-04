@@ -89,16 +89,16 @@ describe 'protractor_compatability' do
 
     it 'errors when chained' do
       # watir syntax
-      expect_error { browser.elements(:binding, 'ok').elements(:binding, 'ok') }
-      expect_error { browser.elements(:binding, 'ok').element(:binding, 'ok') }
+      expect_no_method_error { browser.elements(:binding, 'ok').elements(:binding, 'ok') }
+      expect_no_method_error { browser.elements(:binding, 'ok').element(:binding, 'ok') }
 
       # mixed syntax
-      expect_error { browser.elements(by.binding('ok')).elements(by.binding('ok')) }
-      expect_error { browser.elements(by.binding('ok')).element(by.binding('ok')) }
+      expect_no_method_error { browser.elements(by.binding('ok')).elements(by.binding('ok')) }
+      expect_no_method_error { browser.elements(by.binding('ok')).element(by.binding('ok')) }
 
       # protractor syntax
-      expect_error { element.all(by.binding('ok')).all(by.binding('ok')) }
-      expect_error { element.all(by.binding('ok')).element(by.binding('ok')) }
+      expect_no_method_error { element.all(by.binding('ok')).all(by.binding('ok')) }
+      expect_no_method_error { element.all(by.binding('ok')).element(by.binding('ok')) }
     end
   end
 end
