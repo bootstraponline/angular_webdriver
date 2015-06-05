@@ -189,6 +189,7 @@ describe 'ElementArrayFinder' do
     end
 
     expect(elements.length).to eq(1)
+    expect(elements.first.text).to eq('big dog')
   end
 
   it 'should be able to get ElementFinder from filtered ElementArrayFinder' do
