@@ -23,16 +23,16 @@ RSpec.configure do |config|
   config.include AngularWebdriver::RSpecHelpers
 
   config.before(:all) do
-    @browser = Watir::Browser.new browser_name
+    # @browser = Watir::Browser.new browser_name
 
     # Chrome is required for the shadow dom test
     # Selenium::WebDriver::Chrome.driver_path = File.expand_path File.join(__dir__, '..', 'chromedriver')
     # @browser = Watir::Browser.new browser_name
 
     # Remote driver is useful for debugging
-    # @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send browser_name
+    @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser_name)
 
-    @driver  = @browser.driver
+    @driver = @browser.driver
     raise 'Driver is nil!' unless driver
 
     @driver.extend Selenium::WebDriver::DriverExtensions::HasTouchScreen
@@ -44,7 +44,6 @@ RSpec.configure do |config|
     # Must call after Protractor.new and not before.
     AngularWebdriver.install_rspec_helpers
 
-
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
     _60_seconds                           = 60
@@ -52,6 +51,7 @@ RSpec.configure do |config|
     # some browsers are slow to load.
     # https://github.com/angular/protractor/blob/6ebc4c3f8b557a56e53e0a1622d1b44b59f5bc04/spec/ciSmokeConf.js#L73
     driver.manage.timeouts.page_load      = _60_seconds
+    driver.manage.timeouts.implicit_wait  = 0
     raise 'incorrect driver wait seconds default' unless driver.max_wait_seconds == 0
 
     # sometimes elements just don't exist even though the page has loaded

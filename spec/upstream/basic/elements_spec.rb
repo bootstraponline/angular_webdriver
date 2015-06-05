@@ -119,19 +119,353 @@ describe 'ElementFinder' do
   it 'should keep a reference to the original locator' do
     visit 'form'
 
-    byCss = by.css('body')
+    byCss     = by.css('body')
     byBinding = by.binding('greet')
 
     expect(element(byCss).locator).to eq(byCss)
     expect(element(byBinding).locator).to eq(byBinding)
   end
-end
+
+  # exception propagation is node.js specific
+  #
+  # it 'should propagate exceptions'
+  #
+  # infinite looping promises is thankfully node specific
+  #
+  # it 'should be returned from a helper without infinite loops'
+
+  it 'should be usable in WebDriver functions via getWebElement' do
+    # note that ruby doesn't need the getWebElement call thanks to the watir patching
+    visit 'form'
+    greeting = element(by.binding('greeting'))
+    driver.execute_script(
+      'arguments[0].scrollIntoView', greeting)
+  end
+end # describe 'ElementFinder'
+
+# --
+
+describe 'ElementArrayFinder' do
+
+  it 'action should act on all elements' do
+    visit('conflict')
+
+    multiElement = element.all(by.binding('item.reusedBinding'))
+    expect(multiElement.text).to eq(['Outer: outer', 'Inner: inner'])
+  end
+
+  it 'click action should act on all elements' do
+    checkboxesElms = element.all(by.css('#checkboxes input'))
+    visit 'index.html'
+
+    expect(checkboxesElms..selected?).to eq([true, false, false, false])
+    checkboxesElms.click
+    expect(checkboxesElms..selected?).to eq([false, true, true, true])
+  end
+
+  it 'action should act on all elements selected by filter' do
+    visit 'index.html'
+
+    multiElement = element.all(by.css('#checkboxes input')).to_a.each_with_index do |elem, index|
+      index == 2 || index == 3
+    end
+    multiElement.click
+    expect(element(by.css('#letterlist')).text).to eq('wx')
+  end
+
+  it 'filter should chain with index correctly' do
+    visit 'index.html'
+
+    elem = element.all(by.css('#checkboxes input')).to_a.each_with_index do |elem, index|
+      index == 2 || index == 3
+    end.last
+    elem.click
+    expect(element(by.css('#letterlist')).text).to eq('x')
+  end
+
+  it 'filter should work in page object' do
+    elements = element.all(by.css('#animals ul li')).to_a
+    expect(elements.first.text).to eq('big dog')
+
+    visit('form')
+    expect(elements.length).to eq(1)
+  end
+
+  it 'should be able to get ElementFinder from filtered ElementArrayFinder' do
+    elements = element.all(by.css('#animals ul li')).to_a.select do |element|
+      element.text.include? 'dog'
+    end
+
+    visit('form')
+    expect(elements.length).to eq(3)
+    expect(elements.get(2).text).to eq('other dog')
+  end
+
+  it 'filter should be compoundable' do
+    isDog    = lambda do |element|
+      element.text.include? 'dog'
+    end
+    isBig    = lambda do |element|
+      relement.text.include? 'big'
+    end
+    elements = element.all(by.css('#animals ul li')).to_a.detect(&:isDog).detect(&:isBig)
+
+    visit('form')
+    expect(elements.length).to eq(1)
+    expect(elements.first.text).to eq('big dog')
+  end
+
+  # it 'filter should work with reduce' do
+  #   isDog = function(elem) {
+  #     return elem.text.then(function(text) {
+  #       return text.indexOf('dog') > -1
+  #     end
+  #   }
+  #   visit('form')
+  #   value = element.all(by.css('#animals ul li')).filter(isDog).
+  #       reduce(function(currentValue, elem, index, elemArr) {
+  #         return elem.text.then(function(text) {
+  #           return currentValue + index + '/' + elemArr.length + ': ' + text + '\n'
+  #         end
+  #       }, '')
+  # 
+  #   expect(value).to eq('0/3: big dog\n' +
+  #                         '1/3: small dog\n' +
+  #                         '2/3: other dog\n')
+  # end
+
+  it 'should find multiple elements scoped properly with chaining' do
+    visit('conflict')
+
+    elems = element.all(by.binding('item')).to_a
+    expect(elems.length).to eq(4)
+
+    elems = element(by.id('baz')).all(by.binding('item')).to_a
+    expect(elems.length).to eq(2)
+  end
+
+  # rspec spec/upstream/basic/elements_spec.rb -e 'should wait to grab multiple chained elements'
+  it 'should wait to grab multiple chained elements' do
+    # These should throw no error before a page is loaded.
+    reused = element(by.id('baz')).all(by.binding('item'))
+
+    visit('conflict')
+
+    expect(reused.length).to eq(2)
+    expect(reused.first.text).to eq('Inner: inner') # infinite loops
+    expect(reused.last().text).to eq('Inner other: innerbarbaz')
+  end
+
+  it 'should wait to grab elements chained by index' do
+    # These should throw no error before a page is loaded.
+    reused = element(by.id('baz')).all(by.binding('item'))
+    first  = reused.first()
+    second = reused[1]
+    last   = reused.last()
+
+    visit('conflict')
+
+    expect(reused.length).to eq(2)
+    expect(first.text).to eq('Inner: inner')
+    expect(second.text).to eq('Inner other: innerbarbaz')
+    expect(last.text).to eq('Inner other: innerbarbaz')
+  end
+
+  it 'should count all elements' do
+    visit('form')
+
+    num = element.all(by.model('color')).to_a.length
+    expect(num).to eq(3)
+
+
+    # Should also work with promise expect unwrapping
+    expect(element.all(by.model('color')).to_a.length).to eq(3)
+  end
+
+  it 'should return 0 when counting no elements' do
+    visit('form')
+
+    expect(element.all(by.binding('doesnotexist')).to_a.length).to eq(0)
+  end
+
+  it 'should return not present when an element disappears within an array' do
+    visit('form')
+    elements         = element.all(by.model('color')).to_a
+    disappearingElem = elements[0]
+    expect(disappearingElem.present?).to eq true
+    visit('bindings')
+    no_wait { expect(disappearingElem.present?).to eq false }
+  end
+
+  it 'should get an element from an array' do
+    colorList = element.all(by.model('color')).to_a
+
+    visit('form')
+
+    expect(colorList.first.value).to eq('blue')
+    expect(colorList[1].value).to eq('green')
+    expect(colorList.get(2).value).to eq('red')
+  end
+
+  it 'should get an element from an array using negative indices' do
+    colorList = element.all(by.model('color')).to_a
+
+    visit('form')
+
+    expect(colorList[-3].value).to eq('blue')
+    expect(colorList[-2].value).to eq('green')
+    expect(colorList[-1].value).to eq('red')
+  end
+
+  it 'should get the first element from an array' do
+    colorList = element.all(by.model('color')).to_a
+    visit('form')
+
+    expect(colorList.first.value).to eq('blue')
+  end
+
+  it 'should get the last element from an array' do
+    colorList = element.all(by.model('color')).to_a
+    visit('form')
+
+    expect(colorList.last().value).to eq('red')
+  end
+
+  it 'should perform an action on each element in an array' do
+    colorList = element.all(by.model('color')).to_a
+    visit('form')
+
+    colorList.each do |colorElement|
+      expect(colorElement.text).not_to eq('purple')
+    end
+  end
+
+  it 'should keep a reference to the array original locator' do
+    byCss   = by.css('#animals ul li')
+    byModel = by.model('color')
+    visit('form')
+
+    expect(element.all(byCss).locator()).to eq(byCss)
+    expect(element.all(byModel).locator()).to eq(byModel)
+  end
+
+  it 'should map each element on array and with promises' do
+    visit('form')
+    labels = element.all(by.css('#animals ul li')).to_a.each_with_index do |elm, index|
+      return {
+        index: index,
+        text:  elm.text
+      }
+    end
+
+    expect(labels).to eq([
+                           { index: 0, text: 'big dog' },
+                           { index: 1, text: 'small dog' },
+                           { index: 2, text: 'other dog' },
+                           { index: 3, text: 'big cat' },
+                           { index: 4, text: 'small cat' }
+                         ])
+  end
+
+  it 'should map and resolve multiple promises' do
+    visit('form')
+    labels = element.all(by.css('#animals ul li')).to_a.each do |elm|
+      return {
+        text:  elm.text,
+        inner: elm.getInnerHtml()
+      }
+    end
+
+    def newExpected expectedLabel
+      {
+        text:  expectedLabel,
+        inner: expectedLabel
+      }
+    end
+
+    expect(labels).to eq([
+                           newExpected('big dog'),
+                           newExpected('small dog'),
+                           newExpected('other dog'),
+                           newExpected('big cat'),
+                           newExpected('small cat')
+                         ])
+  end
+
+  it 'should map each element from a literal and promise array' do
+    visit('form')
+    i      = 1
+    labels = element.all(by.css('#animals ul li')).to_a.map do |elm|
+      result = i
+      i      += 1
+      result
+    end
+
+    expect(labels).to eq([1, 2, 3, 4, 5])
+  end
+
+  it 'should filter elements' do
+    visit('form')
+    count = element.all(by.css('#animals ul li')).to_a.select do |elem|
+      elem.text == 'big dog'
+    end
+    count = count.length
+
+    expect(count).to eq(1)
+  end
+
+  # it 'should reduce elements' do
+  #   visit('form')
+  #   value = element.all(by.css('#animals ul li')).
+  #       reduce(function(currentValue, elem, index, elemArr) {
+  #         return elem.text.then(function(text) {
+  #           return currentValue + index + '/' + elemArr.length + ': ' + text + '\n'
+  #         end
+  #       }, '')
+  #
+  #   expect(value).to eq('0/5: big dog\n' +
+  #                         '1/5: small dog\n' +
+  #                         '2/5: other dog\n' +
+  #                         '3/5: big cat\n' +
+  #                         '4/5: small cat\n')
+  # end
+
+  it 'should allow using protractor locator within map' do
+    visit('repeater')
+
+    expected = [
+      { first: 'M', second: 'Monday' },
+      { first: 'T', second: 'Tuesday' },
+      { first: 'W', second: 'Wednesday' },
+      { first: 'Th', second: 'Thursday' },
+      { first: 'F', second: 'Friday' }]
+
+    result = element.all(by.repeater('allinfo in days')).to_a.map do |ell|
+      return {
+        first:  el.element(by.binding('allinfo.initial')).text,
+        second: el.element(by.binding('allinfo.name')).text
+      }
+    end
+
+    expect(result).to eq(expected)
+  end
+end # describe ElementArrayFinder
 
 describe 'evaluating statements' do
+  before do
+    visit('form')
+  end
+
   it 'should evaluate statements in the context of an element' do
-    visit 'form'
     checkboxElem = element(by.id('checkboxes'))
 
+    # Ruby has no promise expectation.
     expect(checkboxElem.evaluate('show')).to eq(true)
   end
 end
+
+# Ruby has no shortcut css notation ($$ and $ are JS only)
+#
+# describe 'shortcut css notation'
+# it 'should grab by css'
+# it 'should chain $$ with $' do

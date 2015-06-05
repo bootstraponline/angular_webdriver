@@ -22,14 +22,14 @@ Watir.always_locate = true
 module Watir
 
   #class HTMLElementCollection
-    # make sure the element method is undefined on HTMLElementCollection
-    # otherwise defining element on object will cause confusion.
-    #
-    # this code should always be invalid:
-    # browser.elements(:binding, 'ok').element(:binding, 'ok')
-    #def element *args
-    #  raise NoMethodError, "undefined method 'element' for #{self}"
-    #end
+  # make sure the element method is undefined on HTMLElementCollection
+  # otherwise defining element on object will cause confusion.
+  #
+  # this code should always be invalid:
+  # browser.elements(:binding, 'ok').element(:binding, 'ok')
+  #def element *args
+  #  raise NoMethodError, "undefined method 'element' for #{self}"
+  #end
   #end
 
   module Container
@@ -59,6 +59,11 @@ module Watir
 
   class Element
 
+    def selected?
+      assert_exists
+      element_call { @element.selected? }
+    end
+
     # required for watir otherwise execute_script will fail
     #
     # e = browser.element(tag_name: 'div')
@@ -70,7 +75,6 @@ module Watir
     #
     # @api private
     #
-
     def to_json(*args)
       assert_exists
       { ELEMENT: @element.ref }.to_json
