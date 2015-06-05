@@ -88,8 +88,8 @@ describe 'ElementFinder' do
 
   # catching errors in a callback is node.js specific
   #
-  # it 'should allow handling errors'
-  # it 'should allow handling chained errors'
+  # it 'should allow handling errors' do
+  # it 'should allow handling chained errors' do
 
   it 'isPresent() should not raise error on chained finders' do
     visit 'form'
@@ -126,11 +126,11 @@ describe 'ElementFinder' do
 
   # exception propagation is node.js specific
   #
-  # it 'should propagate exceptions'
+  # it 'should propagate exceptions' do
   #
   # infinite looping promises is thankfully node specific
   #
-  # it 'should be returned from a helper without infinite loops'
+  # it 'should be returned from a helper without infinite loops' do
 
   it 'should be usable in WebDriver functions via getWebElement' do
     # note that ruby doesn't need the getWebElement call thanks to the watir patching
@@ -139,6 +139,11 @@ describe 'ElementFinder' do
     driver.execute_script(
       'arguments[0].scrollIntoView', greeting)
   end
+
+  # success handlers are specific to the JavaScript bindings
+  #
+  # it 'should allow null as success handler' do
+
 end # describe 'ElementFinder'
 
 # --
@@ -204,10 +209,10 @@ describe 'ElementArrayFinder' do
   end
 
   it 'filter should be compoundable' do
-    isDog    = lambda do |element|
+    isDog = lambda do |element|
       element.text.include? 'dog'
     end
-    isBig    = lambda do |element|
+    isBig = lambda do |element|
       element.text.include? 'big'
     end
 
@@ -473,5 +478,5 @@ end
 # Ruby has no shortcut css notation ($$ and $ are JS only)
 #
 # describe 'shortcut css notation' do
-# it 'should grab by css'
+# it 'should grab by css' do
 # it 'should chain $$ with $' do

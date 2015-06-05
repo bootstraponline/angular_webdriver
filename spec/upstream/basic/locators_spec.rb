@@ -345,4 +345,14 @@ describe 'locators' do
       end
     end # describe 'by deep css'
   end # if browser_name
+
+  it 'should determine if an element is present' do
+    expect(element(by.binding('greet')).present?).to eq(true)
+    no_wait { expect(element(by.binding('nopenopenope')).present?).to eq(false) }
+  end
+
+  it 'should determine if an ElementFinder is present' do
+    expect(element(by.binding('greet')).present?).to eq(true)
+    no_wait { expect(element(by.binding('nopenopenope')).present?).to eq(false) }
+  end
 end # describe 'locators'
