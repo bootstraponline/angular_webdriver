@@ -91,6 +91,12 @@ module Watir
       nil
     end
 
+    # Return original selector.
+    # Method added for protractor compatibility
+    def locator
+      @selector
+    end
+
     # avoid context lookup
     def locate
       locator_class.new(@parent.wd, @selector, self.class.attribute_list).locate
