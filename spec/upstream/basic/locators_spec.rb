@@ -146,32 +146,6 @@ describe 'locators' do
     end
   end
 
-  describe 'by css containing text' do
-    it 'should find elements by css and partial text' do
-      arr = element.all(by.cssContainingText('#animals ul .pet', 'dog')).to_a
-      expect(arr.length).to eq(2)
-      expect(arr[0].id).to eq('bigdog')
-      expect(arr[1].id).to eq('smalldog')
-    end
-
-    it 'should find elements with text-transform style' do
-      selector = '#transformedtext div'
-      expect(element(by.cssContainingText(selector, 'Uppercase')).id).to eq('textuppercase')
-      expect(element(by.cssContainingText(selector, 'Lowercase')).id).to eq('textlowercase')
-      expect(element(by.cssContainingText(selector, 'capitalize')).id).to eq('textcapitalize')
-    end
-  end
-
-  describe 'by options' do
-    it 'should find elements by options' do
-      allOptions = element.all(by.options('fruit for fruit in fruits')).to_a
-      expect(allOptions.length).to eq(4)
-
-      firstOption = allOptions.first
-      expect(firstOption.text).to eq('apple')
-    end
-  end
-
   describe 'by repeater' do
     before do
       visit 'repeater'
@@ -315,6 +289,32 @@ describe 'locators' do
       end
     end # describe 'repeaters using ng-repeat-start and ng-repeat-end'
   end # describe 'by repeater'
+
+  describe 'by css containing text' do
+    it 'should find elements by css and partial text' do
+      arr = element.all(by.cssContainingText('#animals ul .pet', 'dog')).to_a
+      expect(arr.length).to eq(2)
+      expect(arr[0].id).to eq('bigdog')
+      expect(arr[1].id).to eq('smalldog')
+    end
+
+    it 'should find elements with text-transform style' do
+      selector = '#transformedtext div'
+      expect(element(by.cssContainingText(selector, 'Uppercase')).id).to eq('textuppercase')
+      expect(element(by.cssContainingText(selector, 'Lowercase')).id).to eq('textlowercase')
+      expect(element(by.cssContainingText(selector, 'capitalize')).id).to eq('textcapitalize')
+    end
+  end
+
+  describe 'by options' do
+    it 'should find elements by options' do
+      allOptions = element.all(by.options('fruit for fruit in fruits')).to_a
+      expect(allOptions.length).to eq(4)
+
+      firstOption = allOptions.first
+      expect(firstOption.text).to eq('apple')
+    end
+  end
 
   # Don't even run shadow dom tests unless we're on chrome.
   if browser_name == :chrome

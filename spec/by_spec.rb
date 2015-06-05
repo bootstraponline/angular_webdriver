@@ -247,6 +247,8 @@ describe 'by' do
       should_not
     ]
 
-    expect_equal Object.methods.sort, method_whitelist.sort
+    difference = Object.methods - method_whitelist
+    none       = []
+    expect(difference).to eq(none)
   end
 end

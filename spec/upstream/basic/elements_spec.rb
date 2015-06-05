@@ -471,6 +471,6 @@ end
 
 # Ruby has no shortcut css notation ($$ and $ are JS only)
 #
-# describe 'shortcut css notation'
+# describe 'shortcut css notation' do
 # it 'should grab by css'
 # it 'should chain $$ with $' do

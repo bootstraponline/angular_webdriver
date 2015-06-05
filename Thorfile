@@ -27,4 +27,12 @@ class ::Default < Thor
 
     # only the first exec will work so we can't use two of them.
   end
+
+  desc 'compare', 'Compare protractor JS specs to ruby specs'
+  def compare
+    commands = [
+      'rspec ./gen/compare_specs.rb'
+    ].join ';'
+    exec commands
+  end
 end
