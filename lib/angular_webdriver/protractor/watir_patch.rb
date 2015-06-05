@@ -59,6 +59,13 @@ module Watir
 
   class Element
 
+    # Always raise on stale element ref error. Prevents infinite retry loop.
+    def element_call
+      yield
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      raise
+    end
+
     def selected?
       assert_exists
       element_call { @element.selected? }
