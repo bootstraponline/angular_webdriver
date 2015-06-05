@@ -30,7 +30,13 @@ RSpec.configure do |config|
     # @browser = Watir::Browser.new browser_name
 
     # Remote driver is useful for debugging
-    @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser_name)
+    begin
+      @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser_name)
+    rescue # assume local browser if the remote doesn't connect
+      # often the tests are running locally using a remote which fails on
+      # travis since travis isn't setup for a remote browser.
+      @browser = Watir::Browser.new browser_name
+    end
 
     @driver = @browser.driver
     raise 'Driver is nil!' unless driver
