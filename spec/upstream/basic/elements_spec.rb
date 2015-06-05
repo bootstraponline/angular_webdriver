@@ -1,8 +1,6 @@
 # https://github.com/angular/protractor/blob/6ebc4c3f8b557a56e53e0a1622d1b44b59f5bc04/spec/basic/elements_spec.js
 require_relative '../../../spec/spec_helper'
 
-# todo: port remaining elements_spec tests
-
 describe 'ElementFinder' do
 
   before do
@@ -151,16 +149,16 @@ describe 'ElementArrayFinder' do
     visit('conflict')
 
     multiElement = element.all(by.binding('item.reusedBinding'))
-    expect(multiElement.text).to eq(['Outer: outer', 'Inner: inner'])
+    expect(multiElement.map &:text).to eq(['Outer: outer', 'Inner: inner'])
   end
 
   it 'click action should act on all elements' do
     checkboxesElms = element.all(by.css('#checkboxes input'))
     visit 'index.html'
 
-    expect(checkboxesElms..selected?).to eq([true, false, false, false])
-    checkboxesElms.click
-    expect(checkboxesElms..selected?).to eq([false, true, true, true])
+    expect(checkboxesElms.map &:selected?).to eq([true, false, false, false])
+    checkboxesElms.map &:click
+    expect(checkboxesElms.map &:selected?).to eq([false, true, true, true])
   end
 
   it 'action should act on all elements selected by filter' do
@@ -169,7 +167,7 @@ describe 'ElementArrayFinder' do
     multiElement = element.all(by.css('#checkboxes input')).to_a.each_with_index do |elem, index|
       index == 2 || index == 3
     end
-    multiElement.click
+    multiElement.map &:click
     expect(element(by.css('#letterlist')).text).to eq('wx')
   end
 
@@ -184,21 +182,24 @@ describe 'ElementArrayFinder' do
   end
 
   it 'filter should work in page object' do
-    elements = element.all(by.css('#animals ul li')).to_a
-    expect(elements.first.text).to eq('big dog')
-
     visit('form')
+
+    elements = element.all(by.css('#animals ul li')).select do |element|
+      element.text == 'big dog'
+    end
+
     expect(elements.length).to eq(1)
   end
 
   it 'should be able to get ElementFinder from filtered ElementArrayFinder' do
-    elements = element.all(by.css('#animals ul li')).to_a.select do |element|
+    visit('form')
+
+    elements = element.all(by.css('#animals ul li')).select do |element|
       element.text.include? 'dog'
     end
 
-    visit('form')
     expect(elements.length).to eq(3)
-    expect(elements.get(2).text).to eq('other dog')
+    expect(elements[2].text).to eq('other dog')
   end
 
   it 'filter should be compoundable' do
@@ -206,11 +207,13 @@ describe 'ElementArrayFinder' do
       element.text.include? 'dog'
     end
     isBig    = lambda do |element|
-      relement.text.include? 'big'
+      element.text.include? 'big'
     end
-    elements = element.all(by.css('#animals ul li')).to_a.detect(&:isDog).detect(&:isBig)
 
     visit('form')
+
+    elements = element.all(by.css('#animals ul li')).select(&isDog).select(&isBig)
+
     expect(elements.length).to eq(1)
     expect(elements.first.text).to eq('big dog')
   end
@@ -252,18 +255,20 @@ describe 'ElementArrayFinder' do
     visit('conflict')
 
     expect(reused.length).to eq(2)
-    expect(reused.first.text).to eq('Inner: inner') # infinite loops
+    expect(reused.first.text).to eq('Inner: inner')
     expect(reused.last().text).to eq('Inner other: innerbarbaz')
   end
 
   it 'should wait to grab elements chained by index' do
-    # These should throw no error before a page is loaded.
+    # Note Ruby will always immediately find the element once index is accessed
+    # This differs from protractor which will wait to resolve the locator
+    # until .length/.text/or some other method is invoked after index.
+    visit('conflict')
+
     reused = element(by.id('baz')).all(by.binding('item'))
     first  = reused.first()
     second = reused[1]
     last   = reused.last()
-
-    visit('conflict')
 
     expect(reused.length).to eq(2)
     expect(first.text).to eq('Inner: inner')
@@ -276,7 +281,6 @@ describe 'ElementArrayFinder' do
 
     num = element.all(by.model('color')).to_a.length
     expect(num).to eq(3)
-
 
     # Should also work with promise expect unwrapping
     expect(element.all(by.model('color')).to_a.length).to eq(3)
@@ -298,17 +302,17 @@ describe 'ElementArrayFinder' do
   end
 
   it 'should get an element from an array' do
-    colorList = element.all(by.model('color')).to_a
+    colorList = element.all(by.model('color'))
 
     visit('form')
 
     expect(colorList.first.value).to eq('blue')
     expect(colorList[1].value).to eq('green')
-    expect(colorList.get(2).value).to eq('red')
+    expect(colorList[2].value).to eq('red')
   end
 
   it 'should get an element from an array using negative indices' do
-    colorList = element.all(by.model('color')).to_a
+    colorList = element.all(by.model('color'))
 
     visit('form')
 
@@ -318,21 +322,21 @@ describe 'ElementArrayFinder' do
   end
 
   it 'should get the first element from an array' do
-    colorList = element.all(by.model('color')).to_a
+    colorList = element.all(by.model('color'))
     visit('form')
 
     expect(colorList.first.value).to eq('blue')
   end
 
   it 'should get the last element from an array' do
-    colorList = element.all(by.model('color')).to_a
+    colorList = element.all(by.model('color'))
     visit('form')
 
     expect(colorList.last().value).to eq('red')
   end
 
   it 'should perform an action on each element in an array' do
-    colorList = element.all(by.model('color')).to_a
+    colorList = element.all(by.model('color'))
     visit('form')
 
     colorList.each do |colorElement|
@@ -351,8 +355,9 @@ describe 'ElementArrayFinder' do
 
   it 'should map each element on array and with promises' do
     visit('form')
-    labels = element.all(by.css('#animals ul li')).to_a.each_with_index do |elm, index|
-      return {
+
+    labels = element.all(by.css('#animals ul li')).map.with_index do |elm, index|
+      {
         index: index,
         text:  elm.text
       }
@@ -369,10 +374,10 @@ describe 'ElementArrayFinder' do
 
   it 'should map and resolve multiple promises' do
     visit('form')
-    labels = element.all(by.css('#animals ul li')).to_a.each do |elm|
-      return {
+    labels = element.all(by.css('#animals ul li')).map do |elm|
+      {
         text:  elm.text,
-        inner: elm.getInnerHtml()
+        inner: elm.inner_html
       }
     end
 
@@ -414,21 +419,21 @@ describe 'ElementArrayFinder' do
     expect(count).to eq(1)
   end
 
-  # it 'should reduce elements' do
-  #   visit('form')
-  #   value = element.all(by.css('#animals ul li')).
-  #       reduce(function(currentValue, elem, index, elemArr) {
-  #         return elem.text.then(function(text) {
-  #           return currentValue + index + '/' + elemArr.length + ': ' + text + '\n'
-  #         end
-  #       }, '')
-  #
-  #   expect(value).to eq('0/5: big dog\n' +
-  #                         '1/5: small dog\n' +
-  #                         '2/5: other dog\n' +
-  #                         '3/5: big cat\n' +
-  #                         '4/5: small cat\n')
-  # end
+  it 'should reduce elements' do
+    visit('form')
+
+    value = element.all(by.css('#animals ul li'))
+
+    value = value.map.with_index do |elem, index|
+      "#{index}/#{value.length}: #{elem.text}"
+    end.join('\n') + '\n'
+
+    expect(value).to eq('0/5: big dog\n' +
+                          '1/5: small dog\n' +
+                          '2/5: other dog\n' +
+                          '3/5: big cat\n' +
+                          '4/5: small cat\n')
+  end
 
   it 'should allow using protractor locator within map' do
     visit('repeater')
@@ -440,8 +445,8 @@ describe 'ElementArrayFinder' do
       { first: 'Th', second: 'Thursday' },
       { first: 'F', second: 'Friday' }]
 
-    result = element.all(by.repeater('allinfo in days')).to_a.map do |ell|
-      return {
+    result = element.all(by.repeater('allinfo in days')).map do |el|
+      {
         first:  el.element(by.binding('allinfo.initial')).text,
         second: el.element(by.binding('allinfo.name')).text
       }

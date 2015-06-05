@@ -1,5 +1,5 @@
 # -- Trace
-trace = true
+trace = false
 
 if trace
   require 'trace_files'
