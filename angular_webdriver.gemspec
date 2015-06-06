@@ -19,11 +19,11 @@ Gem::Specification.new do |s|
   # exact versions of both are used.
   s.add_runtime_dependency 'selenium-webdriver', '= 2.45.0'
   s.add_runtime_dependency 'watir-webdriver', '= 0.7.0'
+  s.add_runtime_dependency 'webdriver_utils', '>= 0.0.5'
 
   s.add_development_dependency 'rspec', '>= 3.2.0'
   s.add_development_dependency 'appium_thor', '>= 0.0.7'
   s.add_development_dependency 'pry', '>= 0.10.1'
-  s.add_development_dependency 'webdriver_utils', '>= 0.0.4'
   s.add_development_dependency 'trace_files', '~> 0.0.2'
 
   s.files = `git ls-files -z`.split("\x0").reject do |f|
