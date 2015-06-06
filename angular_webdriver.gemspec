@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   # The selenium-webdriver and watir-webdriver patches may require updating
   # as the gems change. To ensure angular_webdriver continues to work
   # exact versions of both are used.
-  s.add_runtime_dependency 'selenium-webdriver', '= 2.45.0'
+  s.add_runtime_dependency 'selenium-webdriver', '= 2.46.2'
   s.add_runtime_dependency 'watir-webdriver', '= 0.7.0'
   s.add_runtime_dependency 'webdriver_utils', '>= 0.0.5'
 
