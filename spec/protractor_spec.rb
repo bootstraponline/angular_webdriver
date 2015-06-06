@@ -343,8 +343,8 @@ return (function (one, two, callback) {
     visit 'repeater'
     actual = element(by.css('.allinfo')).locate.to_json
 
-    firefox_local = /{"ELEMENT":"{\h{8}-\h{4}-\h{4}-\h{4}-\h{12}}"}/
-    remote_driver = /{"ELEMENT":"\d+"}/
+    firefox_local = /{"ELEMENT":"{\h{8}-\h{4}-\h{4}-\h{4}-\h{12}}"/
+    remote_driver = /{"ELEMENT":"\d+"/
 
     matched = !!(actual.match(firefox_local) || actual.match(remote_driver))
     expect_equal matched, true
