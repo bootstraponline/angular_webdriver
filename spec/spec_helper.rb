@@ -20,8 +20,6 @@ def browser_name
 end
 
 RSpec.configure do |config|
-  config.include AngularWebdriver::RSpecHelpers
-
   config.before(:all) do
     # @browser = Watir::Browser.new browser_name
 
