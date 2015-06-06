@@ -1,4 +1,4 @@
 module AngularWebdriver
-  VERSION = '0.0.7' unless defined? ::AngularWebdriver::VERSION
-  DATE    = '2015-05-12' unless defined? ::AngularWebdriver::DATE
+  VERSION = '1.0.0' unless defined? ::AngularWebdriver::VERSION
+  DATE    = '2015-06-06' unless defined? ::AngularWebdriver::DATE
 end
