@@ -1,3 +1,11 @@
+#### v1.0.3 2015-06-07
+
+- [97d5f18](https://github.com/bootstraponline/angular_webdriver/commit/97d5f18e187d56bc8616fb65ec1e5b9bafa8c289) Release 1.0.3
+- [42b527e](https://github.com/bootstraponline/angular_webdriver/commit/42b527e81045c03b051bf14494189da8276cf754) Fix about and data url handling
+- [8022a5c](https://github.com/bootstraponline/angular_webdriver/commit/8022a5c04e46f0f007d2b9bd394b914127cc610a) Fix set_max_page_wait spec
+- [6000137](https://github.com/bootstraponline/angular_webdriver/commit/60001379d283d289247b8a2f9adad9469a8921bd) Fix loading urls without scheme
+
+
 #### v1.0.2 2015-06-07
 
 - [9b9cc12](https://github.com/bootstraponline/angular_webdriver/commit/9b9cc12e778d4230cd5ea6382bb9e31de4506b0a) Release 1.0.2
