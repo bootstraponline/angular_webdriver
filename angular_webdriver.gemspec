@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   # exact versions of both are used.
   s.add_runtime_dependency 'selenium-webdriver', '= 2.46.2'
   s.add_runtime_dependency 'watir-webdriver', '= 0.7.0'
-  s.add_runtime_dependency 'webdriver_utils', '>= 0.0.5'
+  s.add_runtime_dependency 'webdriver_utils', '>= 0.0.6'
 
   s.add_development_dependency 'rspec', '>= 3.2.0'
   s.add_development_dependency 'appium_thor', '>= 0.0.7'
