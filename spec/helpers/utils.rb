@@ -2,6 +2,10 @@ def max_wait_seconds_default
   10
 end
 
+def page_wait_seconds_default
+  30
+end
+
 def browser
   @browser
 end
@@ -25,8 +29,10 @@ end
 
 def no_wait &block
   driver.set_max_wait 0
+  driver.set_max_page_wait 0
   result = block.call
   driver.set_max_wait max_wait_seconds_default
+  driver.set_max_page_wait page_wait_seconds_default
   result
 end
 

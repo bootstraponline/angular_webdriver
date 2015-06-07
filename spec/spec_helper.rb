@@ -53,8 +53,13 @@ RSpec.configure do |config|
     _60_seconds                           = 60
     driver.manage.timeouts.script_timeout = _60_seconds
     # some browsers are slow to load.
+    #
+    # will error with Unknown command: setTimeout on Safari 8
+    #
     # https://github.com/angular/protractor/blob/6ebc4c3f8b557a56e53e0a1622d1b44b59f5bc04/spec/ciSmokeConf.js#L73
+
     driver.manage.timeouts.page_load      = _60_seconds
+
     driver.manage.timeouts.implicit_wait  = 0
     raise 'incorrect driver wait seconds default' unless driver.max_wait_seconds == 0
 

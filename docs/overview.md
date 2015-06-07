@@ -99,3 +99,7 @@ reimplemented client side to avoid flakiness.
 **driver.set_max_wait(5)** - wait up to 5 seconds for an exception to not be raised
                              when finding an element.
 **driver.max_wait_seconds** - The max wait amount (default 0) in seconds.
+**driver.set_max_page_wait(30)** - wait up to 30 seconds for pages to load via
+                                 protractor.get
+**driver.max_page_wait_seconds** - The max wait amount (default 30) in seconds
+                                   for pages to load via protractor.get.

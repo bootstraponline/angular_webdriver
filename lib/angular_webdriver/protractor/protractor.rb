@@ -82,9 +82,10 @@ class Protractor
   #  expect(browser.getCurrentUrl()).toBe('https://angularjs.org/');
   #
   # @param destination [String] The destination URL to load, can be relative if base_url is set
-  # @param opt_timeout [Integer] Number of seconds to wait for Angular to start. Default 30.
+  # @param opt_timeout [Integer] Number of seconds to wait for Angular to start.
+  #                              Default 30
   #
-  def get destination, opt_timeout=30
+  def get destination, opt_timeout=driver.max_page_wait_seconds
     # do not use driver.get because that redirects to this method
     # instead driver_get is provided.
 
@@ -318,13 +319,15 @@ class Protractor
     )
     must_sync         = sync_whitelist.include? webdriver_command
 
-    self.waitForAngular if must_sync
+    waitForAngular if must_sync
   end
 
   # Instruct webdriver to wait until Angular has finished rendering and has
   # no outstanding $http or $timeout calls before continuing.
   # Note that Protractor automatically applies this command before every
   # WebDriver action.
+  #
+  # Will wait up to driver.max_wait_seconds (set with driver.set_max_wait)
   #
   # @param [String] opt_description An optional description to be added
   #     to webdriver logs.
@@ -333,16 +336,18 @@ class Protractor
   def waitForAngular opt_description='' # Protractor.prototype.waitForAngular
     return if ignore_sync
 
-    begin
-      # the client side script will return a string on error
-      # the string won't be raised as an error unless we explicitly do so here
-      error = executeAsyncScript_(client_side_scripts.wait_for_angular,
-                                  "Protractor.waitForAngular() #{opt_description}",
-                                  root_element)
-      raise Selenium::WebDriver::Error::JavascriptError, error if error
-    rescue Exception => e
-      # https://github.com/angular/protractor/blob/master/docs/faq.md
-      raise e.class, "Error while waiting for Protractor to sync with the page: #{e}"
+    wait(timeout: driver.max_wait_seconds, bubble: true) do
+      begin
+        # the client side script will return a string on error
+        # the string won't be raised as an error unless we explicitly do so here
+        error = executeAsyncScript_(client_side_scripts.wait_for_angular,
+                                    "Protractor.waitForAngular() #{opt_description}",
+                                    root_element)
+        raise Selenium::WebDriver::Error::JavascriptError, error if error
+      rescue Exception => e
+        # https://github.com/angular/protractor/blob/master/docs/faq.md
+        raise e.class, "Error while waiting for Protractor to sync with the page: #{e}"
+      end
     end
   end
 

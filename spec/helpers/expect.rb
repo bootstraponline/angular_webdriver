@@ -3,7 +3,9 @@ def expect_equal actual, expected
 end
 
 def expect_angular_not_found &block
-  expect { block.call }.to raise_error(*angular_not_found_error)
+  no_wait do # since we expect angular not found, don't wait for default 10s
+    expect { block.call }.to raise_error(*angular_not_found_error)
+  end
 end
 
 def expect_no_error &block
@@ -13,12 +15,13 @@ end
 # Sets client wait to 0 then expects on no_such_element_error and
 # finally restores client wait to default
 def expect_no_element_error &block
-  driver.set_max_wait 0
-  expect { block.call }.to raise_error no_such_element_error
-  driver.set_max_wait max_wait_seconds_default
+  no_wait do
+    expect { block.call }.to raise_error no_such_element_error
+  end
 end
 
 # Expects on no_such_element_error and does not modify client wait
+# does not use no_wait.
 def expect_no_element_error_nowait &block
   expect { block.call }.to raise_error no_such_element_error
 end

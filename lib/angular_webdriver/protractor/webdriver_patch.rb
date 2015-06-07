@@ -37,7 +37,25 @@ module Selenium
       # waiting for angular to load.
       #
       def max_wait_seconds
-        @bridge.max_wait_seconds
+        @bridge.max_wait_seconds || 0
+      end
+
+      # Sets the wait time in seconds used when loading pages with protractor.get
+      #
+      # @param value [Numeric] the amount of time to wait in seconds
+      #
+      # @return [Numeric] the wait time in seconds
+      def set_max_page_wait value
+        @max_page_wait = value
+      end
+
+      # Gets the wait time in seconds used when loading pages with protractor.get
+      #
+      # Defaults to 30
+      #
+      # @return [Numeric] the wait time in seconds
+      def max_page_wait_seconds
+        @max_page_wait || 30
       end
     end
 
