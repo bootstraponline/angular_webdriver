@@ -361,4 +361,22 @@ return (function (one, two, callback) {
     expect_equal driver.find_element(tag_name: 'html').displayed?, true
     expect_no_element_error { driver.find_element(tag_name: 'doesntexist').displayed? }
   end
+
+  it 'successfully loads localhost' do
+    # 'localhost' alone will error so angular_webdriver patches it to default
+    # to http.
+    #
+    # error:
+    # driver.execute_script 'window.location.replace("localhost:5555")'
+
+    # get url with & without protocol ignoring sync
+    protractor.ignore_sync = true
+    no_wait { expect_no_error { driver.get 'localhost:8081' } }
+    no_wait { expect_no_error { driver.get 'http://localhost:8081' } }
+
+    # get url with & without protocol with sync
+    protractor.ignore_sync = false
+    no_wait { expect_no_error { driver.get 'localhost:8081' } }
+    no_wait { expect_no_error { driver.get 'http://localhost:8081' } }
+  end
 end

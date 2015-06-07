@@ -49,7 +49,27 @@ class Protractor
   #
   # @return [String] Default nil.
   #
-  attr_accessor :base_url
+  attr_reader :base_url
+
+  # Sets the base url.
+  #
+  # Expected format:
+  # scheme://host
+  #
+  # Example:
+  # http://localhost
+  #
+  # @param url [String] the url to use as a base
+  #
+  # @return [String] url
+  def base_url= url
+    # Allow resetting base_url with falsey value
+    return @base_url = nil unless url
+
+    uri = URI.parse(url) rescue false
+    raise "Invalid URL #{url.inspect}. Must contain scheme and host." unless uri && uri.scheme && uri.host
+    @base_url = url
+  end
 
   #  All scripts to be run on the client via executeAsyncScript or
   #  executeScript should be put here.
@@ -106,10 +126,13 @@ class Protractor
     #                => http://localhost:8081/#/async
     #
     base_url_exists = base_url && !base_url.empty?
-    no_scheme = !URI.parse(destination).scheme rescue true
+    tmp_uri = URI.parse(destination) rescue URI.parse('')
+    relative_url = !tmp_uri.scheme || !tmp_uri.host
 
-    if base_url_exists && no_scheme
+    if base_url_exists && relative_url
       destination = File.join(base_url, destination.to_s)
+    elsif relative_url # prepend 'http://' to urls such as localhost
+      destination = "http://#{destination}"
     end
 
     msg = lambda { |str| 'Protractor.get(' + destination + ') - ' + str }
