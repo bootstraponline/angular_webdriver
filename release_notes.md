@@ -1,3 +1,9 @@
+#### v1.0.2 2015-06-07
+
+- [9b9cc12](https://github.com/bootstraponline/angular_webdriver/commit/9b9cc12e778d4230cd5ea6382bb9e31de4506b0a) Release 1.0.2
+- [be10bc6](https://github.com/bootstraponline/angular_webdriver/commit/be10bc6f2354cde175e8320bd33612abc3f5af33) Update webdriver_utils dependency
+
+
 #### v1.0.1 2015-06-07
 
 - [afb8d22](https://github.com/bootstraponline/angular_webdriver/commit/afb8d228f087c897ce35deaeace4adbbe63eac25) Release 1.0.1
