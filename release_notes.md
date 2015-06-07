@@ -1,3 +1,11 @@
+#### v1.0.1 2015-06-07
+
+- [afb8d22](https://github.com/bootstraponline/angular_webdriver/commit/afb8d228f087c897ce35deaeace4adbbe63eac25) Release 1.0.1
+- [449c605](https://github.com/bootstraponline/angular_webdriver/commit/449c605d9c43972296d6f04a8f860d43813d1b36) Update wait logic and fix tests
+- [7f133c0](https://github.com/bootstraponline/angular_webdriver/commit/7f133c0a16ca3303f18c0ec99519e066933d85fd) waitForAngular now waits driver.max_wait_seconds
+- [36a1e1a](https://github.com/bootstraponline/angular_webdriver/commit/36a1e1a8093b4c13db6a7ba2cc551cffecbb00e8) Remove unnecessary include
+
+
 #### v1.0.0 2015-06-06
 
 - [8291152](https://github.com/bootstraponline/angular_webdriver/commit/82911526e99411420ef5bde4cc5dba652cc514ed) Release 1.0.0
