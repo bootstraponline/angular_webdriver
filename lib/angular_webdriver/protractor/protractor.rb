@@ -131,7 +131,7 @@ class Protractor
     # now that the url has changed, make sure Angular has loaded
     # note that the mock module logic is omitted.
     #
-    waitForAngular
+    waitForAngular description: 'Protractor.get', timeout: timeout
   end
 
   # Invokes the underlying driver.get. Does not wait for angular.
@@ -329,19 +329,25 @@ class Protractor
   #
   # Will wait up to driver.max_wait_seconds (set with driver.set_max_wait)
   #
-  # @param [String] opt_description An optional description to be added
-  #     to webdriver logs.
+  # @param [Hash] opts
+  # @option opts [String] :description An optional description to be added
+  #                                    to webdriver logs.
+  # @option opts [Integer] :timeout Amount of time in seconds to wait for
+  #                                 angular to load. Default driver.max_wait_seconds
   # @return [WebDriver::Element, Integer, Float, Boolean, NilClass, String, Array]
   #
-  def waitForAngular opt_description='' # Protractor.prototype.waitForAngular
+  def waitForAngular opts={} # Protractor.prototype.waitForAngular
     return if ignore_sync
 
-    wait(timeout: driver.max_wait_seconds, bubble: true) do
+    description = opts.fetch(:description, '')
+    timeout     = opts.fetch(:timeout, driver.max_wait_seconds)
+
+    wait(timeout: timeout, bubble: true) do
       begin
         # the client side script will return a string on error
         # the string won't be raised as an error unless we explicitly do so here
         error = executeAsyncScript_(client_side_scripts.wait_for_angular,
-                                    "Protractor.waitForAngular() #{opt_description}",
+                                    "Protractor.waitForAngular() #{description}",
                                     root_element)
         raise Selenium::WebDriver::Error::JavascriptError, error if error
       rescue Exception => e

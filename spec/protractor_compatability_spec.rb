@@ -18,34 +18,73 @@ describe 'protractor_compatability' do
     no_wait { expect(does_not_exist.present?).to eq(false) }
   end
 
-  it 'client waits when using custom protractor locator' do
+  it 'set_max_wait' do
     # expect_no_element_error_nowait is used because it doesn't modify the wait
     # don't use expect_no_element_error. that will modify the wait.
     does_not_exist = by.binding('does not exist')
 
     set_max_wait 0
-    time = time_seconds { expect_no_element_error_nowait { element(does_not_exist).visible? } }
+    time = time_seconds { expect_no_element_error_with_wait { element(does_not_exist).visible? } }
     expect_equal time, 0
-    expect_equal driver.max_wait_seconds, 0
+    expect_equal max_wait_seconds, 0
 
     # find by all returns [] when there are no matches.
     time = time_seconds { expect_no_error { element.all(does_not_exist).to_a } }
     expect_equal time, 0
-    expect_equal driver.max_wait_seconds, 0
+    expect_equal max_wait_seconds, 0
 
     set_max_wait 3
-    time = time_seconds { expect_no_element_error_nowait { element(does_not_exist).visible? } }
+    time = time_seconds { expect_no_element_error_with_wait { element(does_not_exist).visible? } }
     expect_equal time, 3
-    expect_equal driver.max_wait_seconds, 3
+    expect_equal max_wait_seconds, 3
 
     # find by all returns [] when there are no matches.
     time= time_seconds { expect_no_error { element.all(does_not_exist).to_a } }
     expect_equal time, 3
-    expect_equal driver.max_wait_seconds, 3
+    expect_equal max_wait_seconds, 3
 
     # restore default client wait for use by remaining tests
     set_max_wait max_wait_seconds_default
-    expect_equal driver.max_wait_seconds, max_wait_seconds_default
+    expect_equal max_wait_seconds, max_wait_seconds_default
+  end
+
+  it 'set_max_page_wait' do
+    good_url = lambda { time_seconds { expect_no_error { protractor.get angular_website } } }
+    bad_url  = lambda { time_seconds { expect_error { protractor.get 'http://doesnotexist' } } }
+
+    # When ignoring sync, bad url get should not error
+    expect_no_error { protractor.get 'http://doesnotexist' }
+
+    # we need to sync for max_page_wait to be respected
+    protractor.ignore_sync = false
+
+    # Gets website successfully with 0 wait.
+    set_max_page_wait 0
+    time = good_url.call
+    expect_equal time, 0
+    expect_equal max_page_wait_seconds, 0
+
+    # Gets website successfully with 3 wait.
+    set_max_page_wait 0
+    time = good_url.call
+    expect_equal time, 0
+    expect_equal max_page_wait_seconds, 0
+
+    # Successfully waits and errors on invalid website
+    set_max_page_wait 3
+    time = bad_url.call
+    expect_equal time, 3
+    expect_equal max_page_wait_seconds, 3
+
+    # Successfully waits and errors on invalid website
+    set_max_page_wait 0
+    time = bad_url.call
+    expect_equal time, 0
+    expect_equal max_page_wait_seconds, 0
+
+    # restore for use by remaining tests
+    set_max_page_wait max_page_wait_seconds_default
+    expect_equal max_page_wait_seconds, max_page_wait_seconds_default
   end
 
   describe 'element' do

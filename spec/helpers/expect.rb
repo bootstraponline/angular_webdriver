@@ -20,9 +20,10 @@ def expect_no_element_error &block
   end
 end
 
-# Expects on no_such_element_error and does not modify client wait
-# does not use no_wait.
-def expect_no_element_error_nowait &block
+# Expects on no_such_element_error. The client wait is respected.
+# Compare to expect_no_element_error which sets wait to 0 before
+# invoking the block.
+def expect_no_element_error_with_wait &block
   expect { block.call }.to raise_error no_such_element_error
 end
 
@@ -31,6 +32,8 @@ def expect_no_method_error &block
 end
 
 # Expects block to raise error
+#
+# Does **not** modify client wait.
 def expect_error &block
   expect { block.call }.to raise_error
 end

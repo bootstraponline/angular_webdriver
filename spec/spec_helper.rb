@@ -60,8 +60,11 @@ RSpec.configure do |config|
 
     driver.manage.timeouts.page_load      = _60_seconds
 
-    driver.manage.timeouts.implicit_wait  = 0
-    raise 'incorrect driver wait seconds default' unless driver.max_wait_seconds == 0
+    driver.manage.timeouts.implicit_wait = 0
+
+    # check protractor wait defaults
+    expect(driver.max_wait_seconds).to eq(0)
+    expect(driver.max_page_wait_seconds).to eq(30)
 
     # sometimes elements just don't exist even though the page has loaded
     # and wait for angular has succeeded. in these situations, use client wait.
@@ -69,7 +72,6 @@ RSpec.configure do |config|
     # implicit wait shouldn't ever be used. client wait is a reliable replacement.
     driver.set_max_wait max_wait_seconds_default # seconds
   end
-
 
   config.after(:all) do
     driver.quit rescue nil

@@ -2,7 +2,7 @@ def max_wait_seconds_default
   10
 end
 
-def page_wait_seconds_default
+def max_page_wait_seconds_default
   30
 end
 
@@ -32,13 +32,28 @@ def no_wait &block
   driver.set_max_page_wait 0
   result = block.call
   driver.set_max_wait max_wait_seconds_default
-  driver.set_max_page_wait page_wait_seconds_default
+  driver.set_max_page_wait max_page_wait_seconds_default
   result
 end
 
 # Sets the driver's set_max_wait (client side client wait)
 def set_max_wait timeout_seconds
   driver.set_max_wait timeout_seconds
+end
+
+# driver.max_wait_seconds
+def max_wait_seconds
+  driver.max_wait_seconds
+end
+
+# Sets the driver's set_max_page_wait (client side wait used in protractor.get)
+def set_max_page_wait timeout_seconds
+  driver.set_max_page_wait timeout_seconds
+end
+
+# Returns driver.max_page_wait_seconds
+def max_page_wait_seconds
+  driver.max_page_wait_seconds
 end
 
 # Returns time in seconds it took for the block to execute.

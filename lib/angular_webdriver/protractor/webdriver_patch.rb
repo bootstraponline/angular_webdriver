@@ -51,7 +51,7 @@ module Selenium
 
       # Gets the wait time in seconds used when loading pages with protractor.get
       #
-      # Defaults to 30
+      # Defaults to 30 seconds
       #
       # @return [Numeric] the wait time in seconds
       def max_page_wait_seconds
