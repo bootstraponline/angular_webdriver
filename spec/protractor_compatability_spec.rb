@@ -73,7 +73,8 @@ describe 'protractor_compatability' do
     # Successfully waits and errors on invalid website
     set_max_page_wait 3
     time = bad_url.call
-    expect_equal time, 3
+    delay = time - max_page_wait_seconds
+    expect(delay).to be_between(0, 1) # allow up to 1 second variance
     expect_equal max_page_wait_seconds, 3
 
     # Successfully waits and errors on invalid website
