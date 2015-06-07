@@ -117,22 +117,31 @@ class Protractor
       raise "Invalid destination #{destination}"
     end
 
-    # URI.join doesn't allow for http://localhost:8081/#/ as a base_url
-    # so this departs from the Protractor behavior and favors File.join instead.
-    #
-    # In protractor: url.resolve('http://localhost:8081/#/', 'async')
-    #                => http://localhost:8081/async
-    # In Ruby:       File.join('http://localhost:8081/#/', 'async')
-    #                => http://localhost:8081/#/async
-    #
-    base_url_exists = base_url && !base_url.empty?
-    tmp_uri = URI.parse(destination) rescue URI.parse('')
-    relative_url = !tmp_uri.scheme || !tmp_uri.host
+    # http://about:blank doesn't work. it must be exactly about:blank
+    about_url = destination.start_with?('about:')
 
-    if base_url_exists && relative_url
-      destination = File.join(base_url, destination.to_s)
-    elsif relative_url # prepend 'http://' to urls such as localhost
-      destination = "http://#{destination}"
+    # data urls must be preserved and not have http:// prepended.
+    # data:<blah>
+    data_url = destination.start_with?('data:')
+
+    unless about_url || data_url
+      # URI.join doesn't allow for http://localhost:8081/#/ as a base_url
+      # so this departs from the Protractor behavior and favors File.join instead.
+      #
+      # In protractor: url.resolve('http://localhost:8081/#/', 'async')
+      #                => http://localhost:8081/async
+      # In Ruby:       File.join('http://localhost:8081/#/', 'async')
+      #                => http://localhost:8081/#/async
+      #
+      base_url_exists = base_url && !base_url.empty?
+      tmp_uri = URI.parse(destination) rescue URI.parse('')
+      relative_url = !tmp_uri.scheme || !tmp_uri.host
+
+      if base_url_exists && relative_url
+        destination = File.join(base_url, destination.to_s)
+      elsif relative_url # prepend 'http://' to urls such as localhost
+        destination = "http://#{destination}"
+      end
     end
 
     msg = lambda { |str| 'Protractor.get(' + destination + ') - ' + str }
