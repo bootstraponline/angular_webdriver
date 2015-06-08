@@ -1,3 +1,11 @@
+#### v1.0.4 2015-06-07
+
+- [a7965d7](https://github.com/bootstraponline/angular_webdriver/commit/a7965d7d1103bb802eabbdf11a37c9be8f9f3547) Release 1.0.4
+- [bf94300](https://github.com/bootstraponline/angular_webdriver/commit/bf9430076da4a89a85050b92289b1fda34afe3f8) Fix and test rspec helpers
+- [1d11610](https://github.com/bootstraponline/angular_webdriver/commit/1d11610441ed56addabc5be60fe35125151a7a75) Move no_wait into top level singleton
+- [10f7ff9](https://github.com/bootstraponline/angular_webdriver/commit/10f7ff9ecbbdf0751752c751cebef4119eb86f94) Fix watir patch. Fix exists?
+
+
 #### v1.0.3 2015-06-07
 
 - [97d5f18](https://github.com/bootstraponline/angular_webdriver/commit/97d5f18e187d56bc8616fb65ec1e5b9bafa8c289) Release 1.0.3
