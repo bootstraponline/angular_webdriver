@@ -34,6 +34,6 @@ end
 # Expects block to raise error
 #
 # Does **not** modify client wait.
-def expect_error &block
-  expect { block.call }.to raise_error
+def expect_error error=Exception, &block
+  expect { block.call }.to raise_error error
 end

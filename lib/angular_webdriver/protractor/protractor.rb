@@ -283,6 +283,7 @@ class Protractor
 
     # must be local var for use with define element below.
     protractor_element = AngularWebdriver::ProtractorElement.new @watir
+    driver             = @driver
 
     # Top level element method to enable protractor syntax.
     # redefine element to point to the new protractor element instance.
@@ -291,28 +292,39 @@ class Protractor
     # by/element within rspec tests when used with install_rspec_helpers.
     toplevel_main      = eval('self', TOPLEVEL_BINDING)
     [toplevel_main, AngularWebdriver::RSpecHelpers].each do |obj|
-      obj.send :define_singleton_method, :element do |*args|
+      # define singleton on toplevel main, otherwise use regular define method
+      # if we use define singleton on the rspec helpers, then rspec won't
+      # be able to handle block parameters.
+      #
+      # Also rspec requires config.include AngularWebdriver::RSpecHelpers
+      # for the no_wait helper to accept the block parameter.
+      method_type = obj == toplevel_main ? :define_singleton_method : :define_method
+
+      obj.send method_type, :element do |*args|
         protractor_element.element *args
       end
 
-      obj.send :define_singleton_method, :by do
+      obj.send method_type, :by do
         AngularWebdriver::By
       end
-    end
 
-    toplevel_main.send :define_singleton_method, :no_wait do |&block|
-      max_wait      = driver.max_wait_seconds
-      max_page_wait = driver.max_page_wait_seconds
+      obj.send method_type, :no_wait do |&block|
+        max_wait      = driver.max_wait_seconds
+        max_page_wait = driver.max_page_wait_seconds
 
-      driver.set_max_wait 0
-      driver.set_max_page_wait 0
+        driver.set_max_wait 0
+        driver.set_max_page_wait 0
 
-      result = block.call
+        begin
+          raise ArgumentError, 'Tried to use no_wait without a block' unless block
+          result = block.call
+        ensure
+          driver.set_max_wait max_wait
+          driver.set_max_page_wait max_page_wait
+        end
 
-      driver.set_max_wait max_wait
-      driver.set_max_page_wait max_page_wait
-
-      result
+        result
+      end
     end
 
     self

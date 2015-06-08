@@ -20,6 +20,9 @@ def browser_name
 end
 
 RSpec.configure do |config|
+  # Required for no_wait &block passing to work correctly.
+  config.include AngularWebdriver::RSpecHelpers
+
   config.before(:all) do
     # @browser = Watir::Browser.new browser_name
 
