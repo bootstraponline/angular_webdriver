@@ -71,6 +71,13 @@ RSpec.configure do |config|
     #
     # implicit wait shouldn't ever be used. client wait is a reliable replacement.
     driver.set_max_wait max_wait_seconds_default # seconds
+    driver.set_max_page_wait max_page_wait_seconds_default
+  end
+
+  config.before(:each) do
+    # verify the waits are set to the expected value (10, 30)
+    expect(driver.max_wait_seconds).to eq(max_wait_seconds_default)
+    expect(driver.max_page_wait_seconds).to eq(max_page_wait_seconds_default)
   end
 
   config.after(:all) do

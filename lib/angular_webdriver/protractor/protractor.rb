@@ -122,7 +122,7 @@ class Protractor
 
     # data urls must be preserved and not have http:// prepended.
     # data:<blah>
-    data_url = destination.start_with?('data:')
+    data_url  = destination.start_with?('data:')
 
     unless about_url || data_url
       # URI.join doesn't allow for http://localhost:8081/#/ as a base_url
@@ -289,7 +289,8 @@ class Protractor
     #
     # toplevel self enables by/element from within pry. rspec helpers enables
     # by/element within rspec tests when used with install_rspec_helpers.
-    [eval('self', TOPLEVEL_BINDING), AngularWebdriver::RSpecHelpers].each do |obj|
+    toplevel_main      = eval('self', TOPLEVEL_BINDING)
+    [toplevel_main, AngularWebdriver::RSpecHelpers].each do |obj|
       obj.send :define_singleton_method, :element do |*args|
         protractor_element.element *args
       end
@@ -297,6 +298,21 @@ class Protractor
       obj.send :define_singleton_method, :by do
         AngularWebdriver::By
       end
+    end
+
+    toplevel_main.send :define_singleton_method, :no_wait do |&block|
+      max_wait      = driver.max_wait_seconds
+      max_page_wait = driver.max_page_wait_seconds
+
+      driver.set_max_wait 0
+      driver.set_max_page_wait 0
+
+      result = block.call
+
+      driver.set_max_wait max_wait
+      driver.set_max_page_wait max_page_wait
+
+      result
     end
 
     self

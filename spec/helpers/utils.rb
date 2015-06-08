@@ -27,15 +27,6 @@ def driver
   @driver
 end
 
-def no_wait &block
-  driver.set_max_wait 0
-  driver.set_max_page_wait 0
-  result = block.call
-  driver.set_max_wait max_wait_seconds_default
-  driver.set_max_page_wait max_page_wait_seconds_default
-  result
-end
-
 # Sets the driver's set_max_wait (client side client wait)
 def set_max_wait timeout_seconds
   driver.set_max_wait timeout_seconds
