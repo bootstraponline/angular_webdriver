@@ -4,9 +4,6 @@ scripts_file = File.join __dir__, 'clientSideScripts.json'
 raise "json file doesn't exist" unless File.exist?(scripts_file)
 parsed       = JSON.parse(File.read(scripts_file))
 
-# todo: automatically generate rspec tests based on json parsing to verify:
-# all expect methods exist in source.rb as in the json and the string values
-# are identical
 source       = <<'S'
 module ClientSideScripts
 
