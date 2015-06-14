@@ -11,8 +11,17 @@ describe 'client side scripts' do
     expect(actual).to eq(expected)
 
     # verify individual methods return the expected results.
-    ClientSideScripts.singleton_methods(false) do |method|
-      expect(ClientSideScripts.send(method)).to eq(expected[method])
+    ClientSideScripts.singleton_methods(false).each do |method_name|
+      # scripts helper is only for Ruby so skip it
+      skip_methods = %i(scripts)
+      next if skip_methods.include?(method_name)
+
+      camel_case = method_name.to_s.gsub(/([a-z\d])_([a-z])/) do
+        full, one, two = Regexp.last_match.to_a
+        "#{one}#{two.upcase}"
+      end.intern
+
+      expect(ClientSideScripts.send(method_name)).to eq(expected[camel_case])
     end
   end
 end
