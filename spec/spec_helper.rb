@@ -1,6 +1,16 @@
 require 'rubygems'
 
 # gems
+require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatters = [SimpleCov::Formatter::HTMLFormatter, Coveralls::SimpleCov::Formatter]
+
+# Exclude spec directory from coverage reports.
+SimpleCov.start do
+  add_filter '/spec'
+end
+
 require 'watir-webdriver'
 require 'pry'
 require 'webdriver_utils'

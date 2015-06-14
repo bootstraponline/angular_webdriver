@@ -9,5 +9,10 @@ describe 'client side scripts' do
     # actual must be identical to expected.
     # make sure to regenerate both json and the ruby code (thor gen) before testing
     expect(actual).to eq(expected)
+
+    # verify individual methods return the expected results.
+    ClientSideScripts.singleton_methods(false) do |method|
+      expect(ClientSideScripts.send(method)).to eq(expected[method])
+    end
   end
 end
