@@ -67,7 +67,7 @@ class Protractor
     return @base_url = nil unless url
 
     uri = URI.parse(url) rescue false
-    raise "Invalid URL #{url.inspect}. Must contain scheme and host." unless uri && uri.scheme && uri.host
+    fail ArgumentError, "Invalid URL #{url.inspect}. Must contain scheme and host." unless uri && uri.scheme && uri.host
     @base_url = url
   end
 
@@ -111,10 +111,10 @@ class Protractor
 
     timeout = opt_timeout
 
-    raise "Invalid timeout #{timeout}" unless timeout.is_a?(Numeric)
+    fail ArgumentError, "Invalid timeout #{timeout}" unless timeout.is_a?(Numeric)
 
     unless destination.is_a?(String) || destination.is_a?(URI)
-      raise "Invalid destination #{destination}"
+      fail ArgumentError, "Invalid destination #{destination}"
     end
 
     # http://about:blank doesn't work. it must be exactly about:blank
@@ -157,7 +157,7 @@ class Protractor
       url                  = executeScript_('return window.location.href;', msg.call('get url'))
       not_on_reset_url     = url != reset_url
       destination_is_reset = destination == reset_url
-      raise 'still on reset url' unless not_on_reset_url || destination_is_reset
+      fail 'still on reset url' unless not_on_reset_url || destination_is_reset
     end
 
     # now that the url has changed, make sure Angular has loaded
@@ -240,7 +240,7 @@ class Protractor
     @watir = opts[:watir]
 
     valid_watir = defined?(Watir::Browser) && @watir.is_a?(Watir::Browser)
-    raise "Driver must be a Watir::Browser not #{@driver.class}" unless valid_watir
+    fail ArgumentError, "Driver must be a Watir::Browser not #{@driver.class}" unless valid_watir
     @driver = @watir.driver
 
     unless Selenium::WebDriver::SearchContext::FINDERS.keys.include?(NEW_FINDERS_KEYS)

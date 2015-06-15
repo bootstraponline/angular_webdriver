@@ -41,8 +41,8 @@ describe 'Protractor' do
     protractor.ignore_sync = true
     expect_no_error { driver.get protractor.reset_url }
 
-    # should raise error on invalid destination
-    expect_error { driver.get({ invalid: 'object '}) }
+    # protractor.get should raise error on invalid destination
+    expect_argument_error { protractor.get({ invalid: 'object '}) }
   end
 
   it 'driver_get' do

@@ -25,15 +25,19 @@ module ExpectHelpers
   # Compare to expect_no_element_error which sets wait to 0 before
   # invoking the block.
   def expect_no_element_error_with_wait &block
-    expect { block.call }.to raise_error no_such_element_error
+    expect_error no_such_element_error, &block
   end
 
   def expect_no_method_error &block
-    expect { block.call }.to raise_error NoMethodError
+    expect_error NoMethodError, &block
   end
 
   def expect_javascript_error &block
-    expect { block.call }.to raise_error Selenium::WebDriver::Error::JavascriptError
+    expect_error Selenium::WebDriver::Error::JavascriptError, &block
+  end
+
+  def expect_argument_error &block
+    expect_error ArgumentError, &block
   end
 
   # Expects block to raise error
