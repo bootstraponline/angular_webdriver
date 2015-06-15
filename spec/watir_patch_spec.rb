@@ -2,6 +2,8 @@ require_relative 'spec_helper'
 
 describe 'watir_patch' do
 
+  before(:each) { protractor.ignore_sync = false }
+
   it 'exists?' do
     visit 'async'
 
@@ -35,5 +37,13 @@ describe 'watir_patch' do
 
     browser.instance_variable_set(:@closed, false)
     expect_no_error { browser.assert_exists }
+  end
+
+  it 'locate find_first_by_multiple' do
+    protractor.ignore_sync = true
+    # finding with div xpath creates a selector of size 2
+    # (one for tag_name div, the other for the xpath selector)
+    # which is a different watir code path than normal.
+    expect_no_error { browser.div(xpath: '//*').locate }
   end
 end
