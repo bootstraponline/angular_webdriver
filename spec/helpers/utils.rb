@@ -7,7 +7,7 @@ def max_page_wait_seconds_default
 end
 
 def browser
-  @browser
+  $browser
 end
 
 # requires angular's test app to be running
@@ -20,11 +20,11 @@ def visit page=''
 end
 
 def protractor
-  @protractor
+  $protractor
 end
 
 def driver
-  @driver
+  $driver
 end
 
 # Sets the driver's set_max_wait (client side client wait)
