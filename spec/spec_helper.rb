@@ -23,6 +23,8 @@ require 'ostruct'
 require_relative '../lib/angular_webdriver'
 require_relative 'helpers/helpers'
 
+Pry.pager = nil if defined?(Pry) # disable pry paging
+
 # Define browser name at top level to selectively exclude browser specific
 # tests within the spec files
 def browser_name
