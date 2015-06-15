@@ -292,13 +292,7 @@ class Protractor
     # by/element within rspec tests when used with install_rspec_helpers.
     toplevel_main      = eval('self', TOPLEVEL_BINDING)
     [toplevel_main, AngularWebdriver::RSpecHelpers].each do |obj|
-      # define singleton on toplevel main, otherwise use regular define method
-      # if we use define singleton on the rspec helpers, then rspec won't
-      # be able to handle block parameters.
-      #
-      # Also rspec requires config.include AngularWebdriver::RSpecHelpers
-      # for the no_wait helper to accept the block parameter.
-      method_type = obj == toplevel_main ? :define_singleton_method : :define_method
+      method_type = :define_singleton_method
 
       obj.send method_type, :element do |*args|
         protractor_element.element *args

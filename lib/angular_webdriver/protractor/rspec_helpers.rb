@@ -9,10 +9,10 @@ module AngularWebdriver
   def self.install_rspec_helpers
     context = RSpec::Core::ExampleGroup
     helpers = AngularWebdriver::RSpecHelpers
-    helpers.singleton_methods.each do |method_symbol|
-      context.send(:define_method, method_symbol) do |*args|
-        args.length == 0 ? helpers.send(method_symbol) :
-                           helpers.send(method_symbol, *args)
+    helpers.singleton_methods(false).each do |method_symbol|
+      context.send(:define_method, method_symbol) do |*args, &block|
+        args.length == 0 ? helpers.send(method_symbol, &block) :
+                           helpers.send(method_symbol, *args, &block)
       end
     end
   end
