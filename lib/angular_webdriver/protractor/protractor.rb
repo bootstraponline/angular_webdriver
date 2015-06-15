@@ -181,13 +181,13 @@ class Protractor
   #
   #  @param opt_timeout [Integer] Number of seconds to wait for Angular to start.
   #
-  def refresh opt_timeout
-    timeout = opt_timeout || 10
+  def refresh opt_timeout=10
+    timeout = opt_timeout
 
     return driver.navigate.refresh if ignore_sync
 
-    executeScript_('return window.location.href;',
-                   'Protractor.refresh() - getUrl')
+    href = executeScript_('return window.location.href;',
+                          'Protractor.refresh() - getUrl')
 
     get(href, timeout)
   end

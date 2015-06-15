@@ -32,6 +32,10 @@ module ExpectHelpers
     expect { block.call }.to raise_error NoMethodError
   end
 
+  def expect_javascript_error &block
+    expect { block.call }.to raise_error Selenium::WebDriver::Error::JavascriptError
+  end
+
   # Expects block to raise error
   #
   # Does **not** modify client wait.

@@ -40,6 +40,9 @@ describe 'Protractor' do
     # should not raise error when loading blank page and ignore sync is true
     protractor.ignore_sync = true
     expect_no_error { driver.get protractor.reset_url }
+
+    # should raise error on invalid destination
+    expect_error { driver.get({ invalid: 'object '}) }
   end
 
   it 'driver_get' do
@@ -49,12 +52,16 @@ describe 'Protractor' do
   end
 
   it 'refresh' do
+    # test both driver.refresh and protractor refresh
+    #
     # should raise error when loading blank page and ignore sync is false
     expect_angular_not_found { driver.navigate.refresh }
+    expect_angular_not_found { protractor.refresh }
 
     # should not raise error when loading blank page and ignore sync is true
     protractor.ignore_sync = true
     expect_no_error { driver.navigate.refresh }
+    expect_no_error { protractor.refresh }
   end
 
   it 'ignore_sync' do
@@ -114,6 +121,9 @@ describe 'Protractor' do
     expected = 'http://localhost:8081/#/polling'
 
     expect(actual).to eq(expected)
+
+    # should error on malformed URI sequence
+    expect_javascript_error { protractor.setLocation '%(' }
   end
 
   it 'getLocationAbsUrl' do
