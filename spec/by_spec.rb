@@ -251,4 +251,13 @@ describe 'by' do
     none       = []
     expect(difference).to eq(none)
   end
+
+  it 'repeater inner errors on invalid repeaters' do
+    # Repeater constructors and setters correctly validate all input
+    # so the only way to create an invalid repeater is by direct modification
+    # of the instance variable.
+    repeater = by.repeater('ok')
+    repeater.instance_variable_set(:@repeat_descriptor, nil)
+    expect_error { repeater.process }
+  end
 end
