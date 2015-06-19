@@ -1,4 +1,6 @@
-# angular_webdriver [![Gem Version](https://badge.fury.io/rb/angular_webdriver.svg)](https://rubygems.org/gems/angular_webdriver) [![Build Status](https://travis-ci.org/bootstraponline/angular_webdriver.svg?branch=master)](https://travis-ci.org/bootstraponline/angular_webdriver/builds) [![Coverage Status](https://coveralls.io/repos/bootstraponline/angular_webdriver/badge.svg?nocache)](https://coveralls.io/r/bootstraponline/angular_webdriver) [![Dependency Status](https://gemnasium.com/bootstraponline/angular_webdriver.svg?nocache)](https://gemnasium.com/bootstraponline/angular_webdriver)
+# angular_webdriver 
+
+[![Gem Version](https://badge.fury.io/rb/angular_webdriver.svg)](https://rubygems.org/gems/angular_webdriver) [![Build Status](https://travis-ci.org/bootstraponline/angular_webdriver.svg?branch=master)](https://travis-ci.org/bootstraponline/angular_webdriver/builds) [![Coverage Status](https://coveralls.io/repos/bootstraponline/angular_webdriver/badge.svg?nocache)](https://coveralls.io/r/bootstraponline/angular_webdriver) [![Dependency Status](https://gemnasium.com/bootstraponline/angular_webdriver.svg?nocache)](https://gemnasium.com/bootstraponline/angular_webdriver)
 
 
 Angular enhancements to the Ruby webdriver bindings based on [protractor](https://github.com/angular/protractor).
