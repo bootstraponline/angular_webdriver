@@ -1,3 +1,24 @@
+#### v1.0.5 2015-06-20
+
+- [248bd2a](https://github.com/bootstraponline/angular_webdriver/commit/248bd2a7d979543047e4ad9d4f7f12f4a99f4ce8) Release 1.0.5
+- [1347e18](https://github.com/bootstraponline/angular_webdriver/commit/1347e181c8d0c29a9e62b9a7a29c882c20fff6e4) Update dependencies
+- [0f41127](https://github.com/bootstraponline/angular_webdriver/commit/0f411277df55783ef46736ba28c5f3aaee07324c) Update install_rspec_helpers. Add page helpers
+- [b4c4ad4](https://github.com/bootstraponline/angular_webdriver/commit/b4c4ad4d519b1538e4db5e25ddd7594f86b99660) Test rspec helpers
+- [7075fc0](https://github.com/bootstraponline/angular_webdriver/commit/7075fc037acf2797e39ea4be64631275b2c6ded6) Update badges
+- [ddbfbf0](https://github.com/bootstraponline/angular_webdriver/commit/ddbfbf0c18489c1f1b73f458daeca4f0defdf0c8) Add gemnasium badge
+- [b47c73c](https://github.com/bootstraponline/angular_webdriver/commit/b47c73c8835e160b28ab0b65bb66866f32e744a5) Set spec timeouts and window size
+- [5b5b260](https://github.com/bootstraponline/angular_webdriver/commit/5b5b260d45df6f0a5f462cdcb5008d09b300b180) Test locate find_first_by_multiple
+- [eed49f4](https://github.com/bootstraponline/angular_webdriver/commit/eed49f44d6bf9ed6caf5a725648d16acbdcc0991) Improve watir patch tests
+- [2033489](https://github.com/bootstraponline/angular_webdriver/commit/2033489b6f8425c19e55b1eb8bab5d18c1f6ecf9) Clean up exception raising
+- [20b8d91](https://github.com/bootstraponline/angular_webdriver/commit/20b8d91bac69d4e2411baed30c470db23c6c7ab8) Fix protractor refresh
+- [df975a4](https://github.com/bootstraponline/angular_webdriver/commit/df975a4ce94950e58f0077c3510402912d327ae0) Fix dynamic methods
+- [2b0aa97](https://github.com/bootstraponline/angular_webdriver/commit/2b0aa97e8f31003bb75a1ad7c3bc1c8cd7cf6d93) Launch browser exactly once for faster testing
+- [a522795](https://github.com/bootstraponline/angular_webdriver/commit/a52279514b9db1ff3ec548bd9f63f8ab003e54b7) Disable Pry paging
+- [a5d129e](https://github.com/bootstraponline/angular_webdriver/commit/a5d129ec81a85a18952a040b9be1b6ef7345bad3) Fix client side scripts spec
+- [cdf3c88](https://github.com/bootstraponline/angular_webdriver/commit/cdf3c88e1aa7cde322843aa25bfadd7fe03a6ccd) Add coveralls
+- [e9231df](https://github.com/bootstraponline/angular_webdriver/commit/e9231dfbb327e6243222dda573fbdc9eb97b6c95) Remove completed todo
+
+
 #### v1.0.4 2015-06-07
 
 - [a7965d7](https://github.com/bootstraponline/angular_webdriver/commit/a7965d7d1103bb802eabbdf11a37c9be8f9f3547) Release 1.0.4
