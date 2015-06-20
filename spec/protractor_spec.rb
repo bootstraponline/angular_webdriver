@@ -42,7 +42,7 @@ describe 'Protractor' do
     expect_no_error { driver.get protractor.reset_url }
 
     # protractor.get should raise error on invalid destination
-    expect_argument_error { protractor.get({ invalid: 'object '}) }
+    expect_argument_error { protractor.get({ invalid: 'object ' }) }
   end
 
   it 'driver_get' do
@@ -388,5 +388,11 @@ return (function (one, two, callback) {
     protractor.ignore_sync = false
     no_wait { expect_no_error { driver.get 'localhost:8081' } }
     no_wait { expect_no_error { driver.get 'http://localhost:8081' } }
+  end
+
+  it 'populates rspec helpers module' do
+    actual   = AngularWebdriver::RSpecHelpers.singleton_methods.sort
+    expected = %i(by element no_wait)
+    expect_equal actual, expected
   end
 end

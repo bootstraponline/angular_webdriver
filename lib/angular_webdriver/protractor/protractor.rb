@@ -290,8 +290,8 @@ class Protractor
     #
     # toplevel self enables by/element from within pry. rspec helpers enables
     # by/element within rspec tests when used with install_rspec_helpers.
-    toplevel_main      = eval('self', TOPLEVEL_BINDING)
-    [toplevel_main, AngularWebdriver::RSpecHelpers].each do |obj|
+    toplevel_main      = TOPLEVEL_BINDING.eval('self')
+    [toplevel_main, ::AngularWebdriver::RSpecHelpers].each do |obj|
       method_type = :define_singleton_method
 
       obj.send method_type, :element do |*args|
