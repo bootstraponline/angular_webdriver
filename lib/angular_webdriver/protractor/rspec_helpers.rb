@@ -18,7 +18,10 @@ module AngularWebdriver
     end
 
     def require_all_pages glob_path=nil
-      glob_path ||= File.join(Rake.application.original_dir, 'page', '**', '*.rb')
+      base_dir = Rake.application.original_dir if defined?(Rake)
+      base_dir ||= @original_dir ||= Dir.pwd
+
+      glob_path ||= File.join(base_dir, 'page', '**', '*.rb')
       Dir.glob(glob_path) { |file| require_relative file }
     end
 
