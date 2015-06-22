@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'appium_thor', '>= 1.0.1'
   s.add_development_dependency 'pry', '>= 0.10.1'
   s.add_development_dependency 'trace_files', '>= 1.0.0'
+  s.add_development_dependency 'page_object', '>= 1.1.3' # for page_object_spec
 
   s.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(gen|test|spec|features|protractor)/})

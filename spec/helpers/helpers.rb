@@ -48,6 +48,12 @@ class SpecHelpers
       end
     end
 
+    # override stub methods
+    AngularWebdriver.define_page_methods page_module:  ::Page,
+                                         target_class: context,
+                                         method:       :define_method,
+                                         watir:        browser
+
     # set script timeout for protractor client side javascript
     # https://github.com/angular/protractor/issues/117
     _60_seconds                           = 60

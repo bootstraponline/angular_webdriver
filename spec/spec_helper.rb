@@ -11,6 +11,7 @@ SimpleCov.start do
   add_filter '/spec'
 end
 
+require 'page_object'
 require 'watir-webdriver'
 require 'pry'
 require 'webdriver_utils'
@@ -24,6 +25,8 @@ require_relative '../lib/angular_webdriver'
 require_relative 'helpers/helpers'
 
 Pry.pager = nil if defined?(Pry) # disable pry paging
+
+AngularWebdriver.require_all_pages
 
 # Define browser name at top level to selectively exclude browser specific
 # tests within the spec files
