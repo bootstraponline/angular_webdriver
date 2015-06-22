@@ -1,3 +1,10 @@
+#### v1.0.6 2015-06-22
+
+- [6e3002f](https://github.com/bootstraponline/angular_webdriver/commit/6e3002f8d54b6147c7c327a9e48fe288bdfa9fd8) Release 1.0.6
+- [1e190f2](https://github.com/bootstraponline/angular_webdriver/commit/1e190f27b0802d49ff23cc9e95ec5945f9242b60) Test define_page_methods and require_all_pages
+- [83a4d30](https://github.com/bootstraponline/angular_webdriver/commit/83a4d302331475e4757e8fc9b14260a41895e494) Remove Rake runtime dependency
+
+
 #### v1.0.5 2015-06-20
 
 - [248bd2a](https://github.com/bootstraponline/angular_webdriver/commit/248bd2a7d979543047e4ad9d4f7f12f4a99f4ce8) Release 1.0.5
