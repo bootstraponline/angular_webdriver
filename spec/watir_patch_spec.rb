@@ -46,4 +46,11 @@ describe 'watir_patch' do
     # which is a different watir code path than normal.
     expect_no_error { browser.div(xpath: '//*').locate }
   end
+
+  it 'does not prepend http:// to empty string' do
+    protractor.base_url = angular_website
+    protractor.get ''
+    expect(driver.current_url).to eq('http://localhost:8081/#/form')
+    protractor.base_url = nil
+  end
 end

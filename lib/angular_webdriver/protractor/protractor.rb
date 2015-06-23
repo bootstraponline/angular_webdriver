@@ -64,7 +64,11 @@ class Protractor
   # @return [String] url
   def base_url= url
     # Allow resetting base_url with falsey value
-    return @base_url = nil unless url
+    return @base_url = nil unless url && !url.empty?
+
+    # Note: can't use URI.regexp because 'localhost:8081' will pass
+    # 'localhost:8081' =~ URI.regexp # 0
+    # when really it should fail because we need to prepend it with http://
 
     uri = URI.parse(url) rescue false
     fail ArgumentError, "Invalid URL #{url.inspect}. Must contain scheme and host." unless uri && uri.scheme && uri.host

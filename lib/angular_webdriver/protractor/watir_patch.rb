@@ -27,6 +27,17 @@ module AngularWebdriver
     #              should not make any server requests
     #
 
+    ::Watir::Browser.class_eval do
+      # avoid prepending 'http://' to non-urls because protractor handles
+      # the prepending at the driver level.
+      def goto(uri)
+        @driver.navigate.to uri
+        run_checkers
+
+        url
+      end
+    end
+
     ::Watir::HTMLElementCollection.class_eval do
       # Return original selector.
       # Method added for protractor compatibility
