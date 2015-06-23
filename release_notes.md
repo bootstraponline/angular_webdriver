@@ -1,3 +1,9 @@
+#### v1.0.7 2015-06-23
+
+- [deb38c6](https://github.com/bootstraponline/angular_webdriver/commit/deb38c6a60e5d3fefc746beeeb4af19b95a7963a) Release 1.0.7
+- [a198f27](https://github.com/bootstraponline/angular_webdriver/commit/a198f276c3948fe13bdc9a571a22bc62a0b0a1b7) Fix watir goto prepending
+
+
 #### v1.0.6 2015-06-22
 
 - [6e3002f](https://github.com/bootstraponline/angular_webdriver/commit/6e3002f8d54b6147c7c327a9e48fe288bdfa9fd8) Release 1.0.6
