@@ -42,8 +42,7 @@ module AngularWebdriver
         page_name = page_class.to_s.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
         target_class.send(method, page_name) do
           instance_name = "@#{page_module}#{page_class}"
-          instance      = instance_variable_get(instance_name)
-          return instance if instance
+          # must always set because the driver may have changed sessions
           obj = qualified_class.new driver_object
           instance_variable_set instance_name, obj
         end
