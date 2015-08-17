@@ -1,3 +1,9 @@
+#### v1.0.8 2015-08-17
+
+- [be152ba](https://github.com/bootstraponline/angular_webdriver/commit/be152bae4a8276850817f2002816c3cd751ae49b) Release 1.0.8
+- [3df1040](https://github.com/bootstraponline/angular_webdriver/commit/3df1040ef71cc16db8cd6b08baed46434a126b26) Fix rspec helper
+
+
 #### v1.0.7 2015-06-23
 
 - [deb38c6](https://github.com/bootstraponline/angular_webdriver/commit/deb38c6a60e5d3fefc746beeeb4af19b95a7963a) Release 1.0.7
