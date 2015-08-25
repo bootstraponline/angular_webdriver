@@ -35,4 +35,15 @@ class ::Default < Thor
     ].join ';'
     exec commands
   end
+
+  desc 'testapp', 'Start protractor test app'
+  def testapp
+    commands = [
+      'cd protractor',
+      'npm install .',
+      'cd testapp',
+      'npm start .'
+    ].join ';'
+    exec commands
+  end
 end
