@@ -39,8 +39,15 @@ spec_helpers = SpecHelpers.instance
 RSpec.configure do |config|
   config.include ExpectHelpers
 
-  regex_string = Regexp.escape "/Users/#{ENV['USER']}/.rvm/gems/"
-  config.backtrace_exclusion_patterns = [/^#{regex_string}/]
+  user = ENV['USER']
+
+  def exclude_pattern regex_string
+    /^#{Regexp.escape regex_string}/
+  end
+
+  osx_rvm_gems                        = exclude_pattern "/Users/#{user}/.rvm/gems/"
+  linux_rvm_gems                      = exclude_pattern "/home/#{user}/.rvm/gems/"
+  config.backtrace_exclusion_patterns = [osx_rvm_gems, linux_rvm_gems]
 
   config.before(:all) do # describes
     # sometimes elements just don't exist even though the page has loaded
