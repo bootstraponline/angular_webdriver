@@ -39,6 +39,9 @@ spec_helpers = SpecHelpers.instance
 RSpec.configure do |config|
   config.include ExpectHelpers
 
+  regex_string = Regexp.escape "/Users/#{ENV['USER']}/.rvm/gems/"
+  config.backtrace_exclusion_patterns = [/^#{regex_string}/]
+
   config.before(:all) do # describes
     # sometimes elements just don't exist even though the page has loaded
     # and wait for angular has succeeded. in these situations, use client wait.
