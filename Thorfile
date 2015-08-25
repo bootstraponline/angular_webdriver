@@ -12,42 +12,39 @@ end
 # https://github.com/erikhuda/thor/issues/484
 #
 class ::Default < Thor
+  no_commands do
+    def run_commands commands
+      # only the first exec will work so we can't use two of them.
+      # bypass by joining the commands into one big command
+      exec Array(commands).join ';'
+    end
+  end
+
   desc 'spec', 'Run RSpec tests'
   def spec
-    commands = [
-      'parallel_rspec spec',
-      'bundle exec rake coveralls:push'
-    ].join ';'
-    exec commands
+    run_commands 'parallel_rspec spec'
   end
 
   desc 'gen', 'Generate client_side_scripts.rb'
   def gen
-    commands = [
-      'node ./gen/scripts_to_json.js',
-      'ruby ./gen/json_to_rb.rb'
-    ].join ';'
-    exec commands
-
-    # only the first exec will work so we can't use two of them.
+    run_commands [
+                   'node ./gen/scripts_to_json.js',
+                   'ruby ./gen/json_to_rb.rb'
+                 ]
   end
 
   desc 'compare', 'Compare protractor JS specs to ruby specs'
   def compare
-    commands = [
-      'rspec ./gen/compare_specs.rb'
-    ].join ';'
-    exec commands
+    run_commands 'rspec ./gen/compare_specs.rb'
   end
 
   desc 'testapp', 'Start protractor test app'
   def testapp
-    commands = [
+    run_commands [
       'cd protractor',
       'npm install .',
       'cd testapp',
       'npm start .'
-    ].join ';'
-    exec commands
+    ]
   end
 end

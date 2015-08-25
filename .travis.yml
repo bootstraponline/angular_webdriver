@@ -2,11 +2,11 @@ language: node_js
 node_js:
   - stable
 sudo: false
-cache: 
+cache:
   bundler: true
   directories:
     - protractor/node_modules
-before_install: 
+before_install:
   - rvm install 2.2.2
   - rvm --default use 2.2.2
   - gem update --remote bundler
@@ -24,8 +24,10 @@ before_script:
   - sleep 5 # wait for servers to start
 script:
   - bundle exec thor gen     # regenerate every time before testing
-  - bundle exec thor compare # ensure ported protractor tests stay up to date 
+  - bundle exec thor compare # ensure ported protractor tests stay up to date
   - bundle exec thor spec
+after_script:
+  - bundle exec rake coveralls:push # publish coverage to coveralls.io
 notifications:
   email:
     on_success: never
