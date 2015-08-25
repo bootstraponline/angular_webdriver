@@ -14,7 +14,11 @@ end
 class ::Default < Thor
   desc 'spec', 'Run RSpec tests'
   def spec
-    exec 'parallel_rspec spec'
+    commands = [
+      'parallel_rspec spec',
+      'bundle exec rake coveralls:push'
+    ].join ';'
+    exec commands
   end
 
   desc 'gen', 'Generate client_side_scripts.rb'

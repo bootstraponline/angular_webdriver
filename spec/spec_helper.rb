@@ -4,8 +4,6 @@ require 'rubygems'
 require 'simplecov'
 require 'coveralls'
 
-SimpleCov.formatters = [SimpleCov::Formatter::HTMLFormatter, Coveralls::SimpleCov::Formatter]
-
 # Exclude spec directory from coverage reports.
 SimpleCov.start do
   add_filter '/spec'
