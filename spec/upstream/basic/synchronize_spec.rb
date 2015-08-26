@@ -1,7 +1,7 @@
 # https://github.com/angular/protractor/blob/8743d5cdf4c6b1337f5a4bd376336911cf62b856/spec/basic/synchronize_spec.js
 require_relative '../../../spec/spec_helper'
 
-describe 'synchronizing with slow pages' do
+describe 'synchronizing with slow pages', :no_split do
   before(:each) { visit 'async' }
 
   it 'waits for http calls' do
