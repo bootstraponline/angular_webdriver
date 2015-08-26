@@ -63,34 +63,36 @@ describe 'protractor_compatability' do
   end
 
   it 'set_max_page_wait' do
-    good_url = lambda { time_seconds { expect_no_error { protractor.get angular_website } } }
-    bad_url  = lambda { time_seconds { expect_error { protractor.get 'http://doesnotexist' } } }
+    begin
+      good_url = lambda { time_seconds { expect_no_error { protractor.get angular_website } } }
+      bad_url  = lambda { time_seconds { expect_error { protractor.get 'http://doesnotexist' } } }
 
-    # When ignoring sync, bad url get should not error
-    expect_no_error { protractor.get 'http://doesnotexist' }
+      # When ignoring sync, bad url get should not error
+      expect_no_error { protractor.get 'http://doesnotexist' }
 
-    # we need to sync for max_page_wait to be respected
-    protractor.ignore_sync = false
+      # we need to sync for max_page_wait to be respected
+      protractor.ignore_sync = false
 
-    # Gets website successfully with 0 second wait.
-    get_url_with_wait url: good_url, wait: 0
+      # Gets website successfully with 0 second wait.
+      get_url_with_wait url: good_url, wait: 0
 
-    # Gets website successfully with 3 second wait.
-    get_url_with_wait url: good_url, wait: 3
+      # Gets website successfully with 3 second wait.
+      get_url_with_wait url: good_url, wait: 3
 
-    # Successfully waits and errors on invalid website
-    set_max_page_wait 3
-    time  = bad_url.call
-    delay = time - max_page_wait_seconds
-    expect(delay).to be_between(0, 1) # allow up to 1 second variance
-    expect_equal max_page_wait_seconds, 3
+      # Successfully waits and errors on invalid website
+      set_max_page_wait 3
+      time  = bad_url.call
+      delay = time - max_page_wait_seconds
+      expect(delay).to be_between(0, 1) # allow up to 1 second variance
+      expect_equal max_page_wait_seconds, 3
 
-    # Successfully waits and errors on invalid website
-    get_url_with_wait url: bad_url, wait: 0
-
-    # restore for use by remaining tests
-    set_max_page_wait max_page_wait_seconds_default
-    expect_equal max_page_wait_seconds, max_page_wait_seconds_default
+      # Successfully waits and errors on invalid website
+      get_url_with_wait url: bad_url, wait: 0
+    ensure
+      # restore for use by remaining tests
+      set_max_page_wait max_page_wait_seconds_default
+      expect_equal max_page_wait_seconds, max_page_wait_seconds_default
+    end
   end
 
   describe 'element' do
