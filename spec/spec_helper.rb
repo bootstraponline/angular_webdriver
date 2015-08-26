@@ -73,4 +73,15 @@ RSpec.configure do |config|
     expect(driver.max_wait_seconds).to eq(max_wait_seconds_default)
     expect(driver.max_page_wait_seconds).to eq(max_page_wait_seconds_default)
   end
+
+  config.after(:each) do
+    example = RSpec.current_example
+    if example.exception
+      file_name = example.metadata[:location][2..-1].gsub('/', '-').gsub(':', '_') + '.png'
+      file_dir  = File.expand_path(File.join(__dir__, '..', 'results'))
+      Dir.mkdir file_dir unless Dir.exist? file_dir
+      file_path = File.join(file_dir, file_name)
+      driver.save_screenshot file_path
+    end
+  end
 end
