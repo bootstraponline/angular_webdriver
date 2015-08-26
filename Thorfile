@@ -20,9 +20,14 @@ class ::Default < Thor
     end
   end
 
-  desc 'spec', 'Run RSpec tests'
-  def spec
+  desc 'parallel_rspec', 'Run RSpec tests with parallel_tests'
+  def parallel_rspec
     run_commands 'parallel_rspec spec'
+  end
+
+  desc 'rspec_queue', 'Run RSpec tests with test-queue'
+  def rspec_queue
+    run_commands 'TEST_QUEUE_WORKERS=10 TEST_QUEUE_SPLIT_GROUPS=true rspec-queue spec'
   end
 
   desc 'gen', 'Generate client_side_scripts.rb'

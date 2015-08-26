@@ -36,7 +36,6 @@ def browser_name
   :firefox # must be a symbol
 end
 
-spec_helpers = SpecHelpers.instance
 
 RSpec.configure do |config|
   config.include ExpectHelpers
@@ -50,6 +49,15 @@ RSpec.configure do |config|
   osx_rvm_gems                        = exclude_pattern "/Users/#{user}/.rvm/gems/"
   linux_rvm_gems                      = exclude_pattern "/home/#{user}/.rvm/gems/"
   config.backtrace_exclusion_patterns = [osx_rvm_gems, linux_rvm_gems]
+
+  # http://www.rubydoc.info/github/rspec/rspec-core/RSpec/Core/Hooks
+  config.before(:suite) do
+    @spec_helpers = SpecHelpers.instance
+  end
+
+  config.after(:suite) do
+    @spec_helpers.driver_quit rescue nil
+  end
 
   config.before(:all) do # describes
     # sometimes elements just don't exist even though the page has loaded
@@ -66,5 +74,3 @@ RSpec.configure do |config|
     expect(driver.max_page_wait_seconds).to eq(max_page_wait_seconds_default)
   end
 end
-
-at_exit { spec_helpers.driver_quit rescue nil }
