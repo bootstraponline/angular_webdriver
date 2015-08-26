@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'appium_thor'
+require 'fileutils'
 
 Appium::Thor::Config.set do
   gem_name 'angular_webdriver'
@@ -18,15 +19,22 @@ class ::Default < Thor
       # bypass by joining the commands into one big command
       exec Array(commands).join ';'
     end
+
+    def remove_screenshots
+      target = 'results'
+      FileUtils.rm_rf target if Dir.exist? target
+    end
   end
 
   desc 'parallel_rspec', 'Run RSpec tests with parallel_tests'
   def parallel_rspec
+    remove_screenshots
     run_commands 'parallel_rspec spec'
   end
 
   desc 'rspec_queue', 'Run RSpec tests with test-queue'
   def rspec_queue
+    remove_screenshots
     run_commands 'TEST_QUEUE_WORKERS=10 TEST_QUEUE_SPLIT_GROUPS=true rspec-queue spec'
   end
 
