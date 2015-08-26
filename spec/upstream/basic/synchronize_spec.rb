@@ -91,6 +91,6 @@ describe 'synchronizing with slow pages' do
 
     button.click
 
-    expect(status.text).to eq('slow template contents')
+    wait { expect(status.text).to eq('slow template contents')  }
   end
 end
