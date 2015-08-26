@@ -51,11 +51,11 @@ RSpec.configure do |config|
   config.backtrace_exclusion_patterns = [osx_rvm_gems, linux_rvm_gems]
 
   # http://www.rubydoc.info/github/rspec/rspec-core/RSpec/Core/Hooks
-  config.before(:suite) do
+  config.before(:each) do
     @spec_helpers = SpecHelpers.instance
   end
 
-  config.after(:suite) do
+  config.after(:each) do
     @spec_helpers.driver_quit rescue nil
   end
 
