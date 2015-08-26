@@ -25,7 +25,10 @@ before_script:
 script:
   - bundle exec thor gen     # regenerate every time before testing
   - bundle exec thor compare # ensure ported protractor tests stay up to date
-  - bundle exec thor spec
+  # for benchmarking, run tests a few times.
+  - bundle exec thor parallel_rspec
+  - bundle exec thor rspec_queue
+  - bundle exec thor rspec_queue
 after_script:
   - bundle exec rake coveralls:push # publish coverage to coveralls.io
 notifications:
