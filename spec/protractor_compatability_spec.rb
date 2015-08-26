@@ -48,6 +48,20 @@ describe 'protractor_compatability' do
     expect_equal max_wait_seconds, max_wait_seconds_default
   end
 
+  # Gets URL with max page wait. Asserts expected fetch time
+  # is within 1 second of the expected time.
+  #
+  # @param [Hash] opts
+  # @option opts [lambda] :url lambda to invoke (wrapped by time_seconds)
+  # @options opts [Integer] :wait wait in seconds to set max_page_wait
+  def get_url_with_wait opts={}
+    wait_seconds = opts[:wait]
+    set_max_page_wait wait_seconds
+    time = opts[:url].call
+    expect(time).to be_between(0, 1) # may take 1 second even with 0 wait
+    expect_equal max_page_wait_seconds, wait_seconds
+  end
+
   it 'set_max_page_wait' do
     good_url = lambda { time_seconds { expect_no_error { protractor.get angular_website } } }
     bad_url  = lambda { time_seconds { expect_error { protractor.get 'http://doesnotexist' } } }
@@ -58,30 +72,21 @@ describe 'protractor_compatability' do
     # we need to sync for max_page_wait to be respected
     protractor.ignore_sync = false
 
-    # Gets website successfully with 0 wait.
-    set_max_page_wait 0
-    time = good_url.call
-    expect_equal time, 0
-    expect_equal max_page_wait_seconds, 0
+    # Gets website successfully with 0 second wait.
+    get_url_with_wait url: good_url, wait: 0
 
-    # Gets website successfully with 3 wait.
-    set_max_page_wait 0
-    time = good_url.call
-    expect_equal time, 0
-    expect_equal max_page_wait_seconds, 0
+    # Gets website successfully with 3 second wait.
+    get_url_with_wait url: good_url, wait: 3
 
     # Successfully waits and errors on invalid website
     set_max_page_wait 3
-    time = bad_url.call
+    time  = bad_url.call
     delay = time - max_page_wait_seconds
     expect(delay).to be_between(0, 1) # allow up to 1 second variance
     expect_equal max_page_wait_seconds, 3
 
     # Successfully waits and errors on invalid website
-    set_max_page_wait 0
-    time = bad_url.call
-    expect_equal time, 0
-    expect_equal max_page_wait_seconds, 0
+    get_url_with_wait url: bad_url, wait: 0
 
     # restore for use by remaining tests
     set_max_page_wait max_page_wait_seconds_default

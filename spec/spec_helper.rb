@@ -1,12 +1,16 @@
 require 'rubygems'
 
-# gems
-require 'simplecov'
-require 'coveralls'
 
-# Exclude spec directory from coverage reports.
-SimpleCov.start do
-  add_filter '/spec'
+# Only track coverage on Travis
+if ENV['TRAVIS']
+  # gems
+  require 'simplecov'
+  require 'coveralls'
+
+  # Exclude spec directory from coverage reports.
+  SimpleCov.start do
+    add_filter '/spec'
+  end
 end
 
 require 'page_object'
