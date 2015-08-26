@@ -58,7 +58,9 @@ describe 'protractor_compatability' do
     wait_seconds = opts[:wait]
     set_max_page_wait wait_seconds
     time = opts[:url].call
-    expect(time).to be_between(0, 1) # may take 1 second even with 0 wait
+    # travis has up to a 2 second delay even with 0 wait
+    # even though we're loading a website served on localhost
+    expect(time).to be_between(0, 2)
     expect_equal max_page_wait_seconds, wait_seconds
   end
 
@@ -76,8 +78,8 @@ describe 'protractor_compatability' do
       # Gets website successfully with 0 second wait.
       get_url_with_wait url: good_url, wait: 0
 
-      # Gets website successfully with 3 second wait.
-      get_url_with_wait url: good_url, wait: 3
+      # Gets website successfully with 6 second wait.
+      get_url_with_wait url: good_url, wait: 6
 
       # Successfully waits and errors on invalid website
       set_max_page_wait 3
