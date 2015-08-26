@@ -27,7 +27,7 @@ class ::Default < Thor
 
   desc 'rspec_queue', 'Run RSpec tests with test-queue'
   def rspec_queue
-    run_commands 'TEST_QUEUE_SPLIT_GROUPS=true rspec-queue spec'
+    run_commands 'TEST_QUEUE_WORKERS=10 TEST_QUEUE_SPLIT_GROUPS=true rspec-queue spec'
   end
 
   desc 'gen', 'Generate client_side_scripts.rb'
