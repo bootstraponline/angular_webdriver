@@ -74,12 +74,22 @@ RSpec.configure do |config|
 
   config.after(:each) do
     example = RSpec.current_example
+
+    file_name = example.metadata[:location][2..-1].gsub('/', '-').gsub(':', '_')
+    file_dir  = File.expand_path(File.join(__dir__, '..', 'results'))
+    Dir.mkdir file_dir unless Dir.exist? file_dir
+    file_path = File.join(file_dir, file_name)
+
+    driver.manage.logs.available_types.each do |type|
+      File.open(file_path + "_#{type}.txt", 'w') do |file|
+        logs = driver.manage.logs.get type
+        logs = logs.map(&:message).map(&:strip).join("\n")
+        file.write logs
+      end
+    end
+
     if example.exception
-      file_name = example.metadata[:location][2..-1].gsub('/', '-').gsub(':', '_') + '.png'
-      file_dir  = File.expand_path(File.join(__dir__, '..', 'results'))
-      Dir.mkdir file_dir unless Dir.exist? file_dir
-      file_path = File.join(file_dir, file_name)
-      driver.save_screenshot file_path
+      driver.save_screenshot file_path + '.png'
     end
   end
 end

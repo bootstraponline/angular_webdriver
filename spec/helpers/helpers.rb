@@ -19,7 +19,9 @@ class SpecHelpers
 
     # Remote driver is useful for debugging
     begin
-      @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser_name)
+      @browser = Watir::Browser.new :remote,
+                                    #url: 'http://127.0.0.1:4444/wd/hub',
+                                    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser_name)
     rescue # assume local browser if the remote doesn't connect
       # often the tests are running locally using a remote which fails on
       # travis since travis isn't setup for a remote browser.
