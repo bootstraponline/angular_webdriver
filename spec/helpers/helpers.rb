@@ -4,14 +4,22 @@ require_relative 'trace'
 require_relative 'utils'
 
 require 'singleton'
+require 'browsermob/proxy'
 
 class SpecHelpers
   include Singleton
-
-  attr_reader :browser, :protractor, :driver
+  attr_reader :browser, :protractor, :driver, :proxy
 
   def initialize
-    # @browser = Watir::Browser.new browser_name
+    browsermob_bin    = File.join(__dir__, 'browsermob-proxy-2.1.0-beta-2/bin/browsermob-proxy')
+    browsermob_server = BrowserMob::Proxy::Server.new(browsermob_bin)
+
+    browsermob_server.start
+    @proxy = proxy = browsermob_server.create_proxy
+
+    profile       = Selenium::WebDriver::Firefox::Profile.new
+    profile.proxy = proxy.selenium_proxy
+
 
     # Chrome is required for the shadow dom test
     # Selenium::WebDriver::Chrome.driver_path = File.expand_path File.join(__dir__, '..', 'chromedriver')
@@ -19,11 +27,11 @@ class SpecHelpers
 
     # Remote driver is useful for debugging
     begin
-      @browser = Watir::Browser.new :remote, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser_name)
+      @browser = Watir::Browser.new :remote, profile: profile, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.send(browser_name)
     rescue # assume local browser if the remote doesn't connect
       # often the tests are running locally using a remote which fails on
       # travis since travis isn't setup for a remote browser.
-      @browser = Watir::Browser.new browser_name
+      @browser = Watir::Browser.new browser_name, profile: profile
     end
 
     @driver = @browser.driver
@@ -78,6 +86,7 @@ class SpecHelpers
   end
 
   def driver_quit
+    @proxy.close rescue nil
     @browser.quit rescue nil
   end
 end

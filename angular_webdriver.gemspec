@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'page_object', '>= 1.1.3' # for page_object_spec
   s.add_development_dependency 'parallel_tests', '~> 1.6.1'
   s.add_development_dependency 'rake', '~> 10.4.2'
+  s.add_development_dependency 'browsermob-proxy', '~> 0.2.0'
 
   s.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(gen|test|spec|features|protractor)/})

@@ -59,29 +59,49 @@ RSpec.configure do |config|
     @spec_helpers.driver_quit rescue nil
   end
 
-  config.before(:all) do # describes
+  config.before(:each) do # its
     # sometimes elements just don't exist even though the page has loaded
     # and wait for angular has succeeded. in these situations, use client wait.
     #
     # implicit wait shouldn't ever be used. client wait is a reliable replacement.
     driver.set_max_wait max_wait_seconds_default # seconds
     driver.set_max_page_wait max_page_wait_seconds_default
-  end
 
-  config.before(:each) do # its
     # verify the waits are set to the expected value (10, 30)
     expect(driver.max_wait_seconds).to eq(max_wait_seconds_default)
     expect(driver.max_page_wait_seconds).to eq(max_page_wait_seconds_default)
+
+    file_name = RSpec.current_example.metadata[:location][2..-1].gsub('/', '-').gsub(':', '_')
+    SpecHelpers.instance.proxy.new_har(file_name, capture_headers: true, capture_content: true)
   end
 
   config.after(:each) do
     example = RSpec.current_example
+
+    file_name = example.metadata[:location][2..-1].gsub('/', '-').gsub(':', '_')
+    file_dir  = File.expand_path(File.join(__dir__, '..', 'results'))
+    Dir.mkdir file_dir unless Dir.exist? file_dir
+    file_path = File.join(file_dir, file_name)
+
+    driver.manage.logs.available_types.each do |type|
+      File.open(file_path + "_#{type}.txt", 'w') do |file|
+        logs = driver.manage.logs.get type
+        logs = logs.map(&:message).map(&:strip).join("\n")
+        file.write logs
+      end
+    end
+
+    begin
+      har_path =  file_path + '.har'
+      har = SpecHelpers.instance.proxy.har
+      File.open(har_path, 'w') { |f| f.write JSON.pretty_generate(har) }
+    rescue Exception => ex
+      puts "Error saving #{file_name} har. #{ex}"
+    end
+
     if example.exception
-      file_name = example.metadata[:location][2..-1].gsub('/', '-').gsub(':', '_') + '.png'
-      file_dir  = File.expand_path(File.join(__dir__, '..', 'results'))
-      Dir.mkdir file_dir unless Dir.exist? file_dir
-      file_path = File.join(file_dir, file_name)
-      driver.save_screenshot file_path
+      driver.save_screenshot file_path + '.png'
     end
   end
+
 end
