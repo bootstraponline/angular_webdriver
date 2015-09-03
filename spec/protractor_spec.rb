@@ -395,4 +395,16 @@ return (function (one, two, callback) {
     expected = %i(by element no_wait)
     expect_equal actual, expected
   end
+
+  it 'supports src and href attributes via shortcut' do
+    visit 'form'
+
+    actual_script_src   = element(by.tag_name('script')).src
+    expected_script_src = element(by.tag_name('script')).locate.attribute('src')
+    expect_equal actual_script_src, expected_script_src
+
+    actual_anchor_href   = element(by.tag_name('a')).href
+    expected_anchor_href = element(by.tag_name('a')).locate.attribute('href')
+    expect_equal actual_anchor_href, expected_anchor_href
+  end
 end

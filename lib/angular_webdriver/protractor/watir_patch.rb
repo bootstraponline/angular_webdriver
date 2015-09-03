@@ -72,6 +72,9 @@ module AngularWebdriver
     # Note the element class is different on master.
 
     ::Watir::Element.class_eval do
+      attribute String, :href, :href
+      attribute String, :src, :src
+
       # Always raise on stale element ref error. Prevents infinite retry loop.
       def element_call
         yield
