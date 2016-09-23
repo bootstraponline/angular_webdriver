@@ -245,6 +245,7 @@ describe 'by' do
       received_message?
       should
       should_not
+      deprecate_constant
     ]
 
     difference = Object.methods - method_whitelist
