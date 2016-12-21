@@ -7,6 +7,8 @@
 
 Angular enhancements to the Ruby webdriver bindings based on [protractor](https://github.com/angular/protractor).
 
+**Deprecated:** Use [angular/blocking-proxy](https://github.com/angular/blocking-proxy) instead.
+
 ## Docs
 
 See the [docs](docs/) folder for the documentation.
